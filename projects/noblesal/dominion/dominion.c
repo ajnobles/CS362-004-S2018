@@ -1,9 +1,13 @@
 #include "dominion.h"
 #include "dominion_helpers.h"
+
+#include "refactor.h"
+
 #include "rngs.h"
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+
 
 int compare(const void* a, const void* b) {
   if (*(int*)a > *(int*)b)
@@ -655,9 +659,9 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 
   int tributeRevealedCards[2] = {-1, -1};
   int temphand[MAX_HAND];// moved above the if statement
-  int drawntreasure=0;
-  int cardDrawn;
-  int z = 0;// this is the counter for the temp hand
+  //int drawntreasure=0;
+  //int cardDrawn;
+  //int z = 0;// this is the counter for the temp hand
   if (nextPlayer > (state->numPlayers - 1)){
     nextPlayer = 0;
   }
@@ -847,8 +851,11 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       //discard card from hand
       discardCard(handPos, currentPlayer, state, 0);
       return 0;
-		
+	      */
+	  return smithyRefactor(card, choice1, choice2, choice3, state, handPos, bonus);
+
     case village:
+    	/*
       //+1 Card
       drawCard(currentPlayer, state);
 			
@@ -859,7 +866,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       discardCard(handPos, currentPlayer, state, 0);
       return 0;
       */
-	  return smithyRefactor(card, choice1, choice2, choice3, state, handPos, bonus);
+	  return villageRefactor(card, choice1, choice2, choice3, state, handPos, bonus);
 		
     case baron:
       state->numBuys++;//Increase buys by 1!
