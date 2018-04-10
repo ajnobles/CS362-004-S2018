@@ -1,30 +1,100 @@
 #include "refactor.h"
 
-int adventurer(int card, int choice1, int choice2, int choice3,
+int adventurerRefactor(int card, int choice1, int choice2, int choice3,
 	       struct gameState *state, int handPos, int *bonus)
 {
-	return 0;
+	  int drawntreasure=0;
+	  int currentPlayer = whoseTurn(state);
+	  int cardDrawn;
+	  int temphand[MAX_HAND];// moved above the if statement
+	  int z = 0;// this is the counter for the temp hand
+
+    while(drawntreasure<2){
+	if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
+	  shuffle(currentPlayer, state);
+	}
+	drawCard(currentPlayer, state);
+	cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer]-1];//top card of hand is most recently drawn card.
+	if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
+	  drawntreasure++;
+	else{
+	  temphand[z]=cardDrawn;
+	  state->handCount[currentPlayer]--; //this should just remove the top card (the most recently drawn one).
+	  z++;
+	}
+    }
+    while(z-1>=0){
+		state->discard[currentPlayer][state->discardCount[currentPlayer]++]=temphand[z-1]; // discard all cards in play that have been drawn
+		z=z-1;
+    }
+    return 0;
 }
-int smithy(int card, int choice1, int choice2, int choice3,
+
+
+int smithyRefactor(int card, int choice1, int choice2, int choice3,
 	       struct gameState *state, int handPos, int *bonus)
 {
+	  int currentPlayer = whoseTurn(state);
+	  int i;
+
+    //+3 Cards
+    for (i = 0; i < 3; i++)
+	{
+	  drawCard(currentPlayer, state);
+	}
+
+    //discard card from hand
+    discardCard(handPos, currentPlayer, state, 0);
+    return 0;
+}
+
+int villageRefactor(int card, int choice1, int choice2, int choice3,
+	       struct gameState *state, int handPos, int *bonus)
+{
+	  int currentPlayer = whoseTurn(state);
+
+    //+1 Card
+    drawCard(currentPlayer, state);
+
+    //+2 Actions
+    state->numActions = state->numActions + 2;
+
+    //discard played card from hand
+    discardCard(handPos, currentPlayer, state, 0);
 	return 0;
 }
 
-int village(int card, int choice1, int choice2, int choice3,
-	       struct gameState *state, int handPos, int *bonus)
+int gardensRefactor()
 {
-	return 0;
+	return -1;
 }
 
-int garden(int card, int choice1, int choice2, int choice3,
+int council_roomRefactor(int card, int choice1, int choice2, int choice3,
 	       struct gameState *state, int handPos, int *bonus)
 {
-	return 0;
-}
+	  int currentPlayer = whoseTurn(state);
+	  int i;
 
-int council_room(int card, int choice1, int choice2, int choice3,
-	       struct gameState *state, int handPos, int *bonus)
-gi{
-	return 0;
+    //+4 Cards
+    for (i = 0; i < 4; i++)
+	{
+	  drawCard(currentPlayer, state);
+	}
+
+    //+1 Buy
+    state->numBuys++;
+
+    //Each other player draws a card
+    for (i = 0; i < state->numPlayers; i++)
+	{
+	  if ( i != currentPlayer )
+	    {
+	      drawCard(i, state);
+	    }
+	}
+
+    //put played card in played card pile
+    discardCard(handPos, currentPlayer, state, 0);
+
+    return 0;
 }

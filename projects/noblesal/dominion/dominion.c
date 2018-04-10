@@ -666,7 +666,9 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
   //uses switch to select card and perform actions
   switch( card ) 
     {
+
     case adventurer:
+    	/*
       while(drawntreasure<2){
 	if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
 	  shuffle(currentPlayer, state);
@@ -686,8 +688,11 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 	z=z-1;
       }
       return 0;
-			
+      */
+      return adventurerRefactor(card, choice1, choice2, choice3, state, handPos, bonus);
+
     case council_room:
+    	/*
       //+4 Cards
       for (i = 0; i < 4; i++)
 	{
@@ -710,6 +715,8 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       discardCard(handPos, currentPlayer, state, 0);
 			
       return 0;
+      */
+    	return council_roomRefactor(card, choice1, choice2, choice3, state, handPos, bonus);
 			
     case feast:
       //gain card with cost up to 5
@@ -765,7 +772,8 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       return 0;
 			
     case gardens:
-      return -1;
+      //return -1;
+        return gardensRefactor();
 			
     case mine:
       j = state->hand[currentPlayer][choice1];  //store card we will trash
@@ -829,6 +837,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       return 0;
 		
     case smithy:
+    	/*
       //+3 Cards
       for (i = 0; i < 3; i++)
 	{
@@ -849,6 +858,8 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       //discard played card from hand
       discardCard(handPos, currentPlayer, state, 0);
       return 0;
+      */
+	  return smithyRefactor(card, choice1, choice2, choice3, state, handPos, bonus);
 		
     case baron:
       state->numBuys++;//Increase buys by 1!
