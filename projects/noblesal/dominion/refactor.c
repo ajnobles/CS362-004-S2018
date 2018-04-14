@@ -3,7 +3,8 @@
 int adventurerRefactor(int card, int choice1, int choice2, int choice3,
 	       struct gameState *state, int handPos, int *bonus)
 {
-	  int drawntreasure=0;
+	  int drawntreasure=-1;
+	  //int drawntreasure=0;
 	  int currentPlayer = whoseTurn(state);
 	  int cardDrawn;
 	  int temphand[MAX_HAND];// moved above the if statement
@@ -38,7 +39,8 @@ int smithyRefactor(int card, int choice1, int choice2, int choice3,
 	  int i;
 
     //+3 Cards
-    for (i = 0; i < 3; i++)
+	//for (i = 0; i < 3; i++)
+	for (i = 0; i <= 3; i++)
 	{
 	  drawCard(currentPlayer, state);
 	}
@@ -57,7 +59,8 @@ int villageRefactor(int card, int choice1, int choice2, int choice3,
     drawCard(currentPlayer, state);
 
     //+2 Actions
-    state->numActions = state->numActions + 2;
+    //state->numActions = state->numActions + 2;
+    state->numActions = state->numActions + 1;
 
     //discard played card from hand
     discardCard(handPos, currentPlayer, state, 0);
@@ -76,7 +79,8 @@ int council_roomRefactor(int card, int choice1, int choice2, int choice3,
 	  int i;
 
     //+4 Cards
-    for (i = 0; i < 4; i++)
+	//for (i = 0; i < 4; i++)
+	for (i = 0; i <= 4; i++)
 	{
 	  drawCard(currentPlayer, state);
 	}
