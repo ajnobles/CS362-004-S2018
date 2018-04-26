@@ -33,6 +33,10 @@ int main (int argc, char *argv[])
     // TEST 1
     printf("TEST %i STARTED\n", testNumber);
     printf("Initial gameState Settings\n");
+    // G.supplyCount[province] = 0;
+    // G.supplyCount[adventurer] = 0;
+    // G.supplyCount[village] = 0;
+    // G.supplyCount[smithy] = 0;
 
     memcpy(&testG, &G, sizeof(struct gameState));
     testGameOver = isGameOver(&testG);
@@ -55,7 +59,9 @@ int main (int argc, char *argv[])
 
     printf("isGameOver: %i, expected: %i\n", testGameOver, gameOver);
     printf("supplyCount[province]: %i, expected: %i\n", testG.supplyCount[province], G.supplyCount[province]);
-    assert(gameOver == testGameOver);
+    printf("supplyCount[village]: %i, expected: %i\n", testG.supplyCount[village], G.supplyCount[village]);
+    printf("supplyCount[adventurer]: %i, expected: %i\n", testG.supplyCount[adventurer], G.supplyCount[adventurer]);
+    printf("supplyCount[smithy]: %i, expected: %i\n", testG.supplyCount[smithy], G.supplyCount[smithy]);    assert(gameOver == testGameOver);
     assert(G.supplyCount[province] == testG.supplyCount[province]);
     for (i = 0; i < 25; i++) {
         assert(G.supplyCount[i] == testG.supplyCount[i]);
@@ -63,11 +69,12 @@ int main (int argc, char *argv[])
     printf("TEST %i PASSED\n\n", testNumber++);
 
 
+    // TEST 2
     printf("TEST %i STARTED\n", testNumber);
-    G.supplyCount[adventurer] = 0;
-    G.supplyCount[smithy] = 0;
-    G.supplyCount[village] = 0;
     G.supplyCount[province] = 0;
+    // G.supplyCount[adventurer] = 0;
+    //G.supplyCount[village] = 0;
+    //G.supplyCount[smithy] = 0;
     gameOver = 0;
 
     memcpy(&testG, &G, sizeof(struct gameState));
@@ -91,7 +98,9 @@ int main (int argc, char *argv[])
 
     printf("isGameOver: %i, expected: %i\n", testGameOver, gameOver);
     printf("supplyCount[province]: %i, expected: %i\n", testG.supplyCount[province], G.supplyCount[province]);
-    assert(gameOver == testGameOver);
+    printf("supplyCount[village]: %i, expected: %i\n", testG.supplyCount[village], G.supplyCount[village]);
+    printf("supplyCount[adventurer]: %i, expected: %i\n", testG.supplyCount[adventurer], G.supplyCount[adventurer]);
+    printf("supplyCount[smithy]: %i, expected: %i\n", testG.supplyCount[smithy], G.supplyCount[smithy]);    assert(gameOver == testGameOver);
     assert(G.supplyCount[province] == testG.supplyCount[province]);
     for (i = 0; i < 25; i++) {
         assert(G.supplyCount[i] == testG.supplyCount[i]);
@@ -99,11 +108,12 @@ int main (int argc, char *argv[])
     printf("TEST %i PASSED\n\n", testNumber++);
 
 
+    // TEST 3
     printf("TEST %i STARTED\n", testNumber);
-    G.supplyCount[adventurer] = 0;
-    G.supplyCount[smithy] = 0;
-    G.supplyCount[village] = 0;
     G.supplyCount[province] = 4;
+    // G.supplyCount[adventurer] = 0;
+    // G.supplyCount[village] = 0;
+    //G.supplyCount[smithy] = 0;
     gameOver = 0;
 
     memcpy(&testG, &G, sizeof(struct gameState));
@@ -127,12 +137,256 @@ int main (int argc, char *argv[])
 
     printf("isGameOver: %i, expected: %i\n", testGameOver, gameOver);
     printf("supplyCount[province]: %i, expected: %i\n", testG.supplyCount[province], G.supplyCount[province]);
+    printf("supplyCount[village]: %i, expected: %i\n", testG.supplyCount[village], G.supplyCount[village]);
+    printf("supplyCount[adventurer]: %i, expected: %i\n", testG.supplyCount[adventurer], G.supplyCount[adventurer]);
+    printf("supplyCount[smithy]: %i, expected: %i\n", testG.supplyCount[smithy], G.supplyCount[smithy]);
     assert(gameOver == testGameOver);
     assert(G.supplyCount[province] == testG.supplyCount[province]);
     for (i = 0; i < 25; i++) {
         assert(G.supplyCount[i] == testG.supplyCount[i]);
     }
     printf("TEST %i PASSED\n\n", testNumber++);
+
+
+    // TEST 4
+    printf("TEST %i STARTED\n", testNumber);
+    // G.supplyCount[province] = 4;
+    G.supplyCount[adventurer] = 0;
+    G.supplyCount[village] = 0;
+    //G.supplyCount[smithy] = 0;
+    gameOver = 0;
+
+    memcpy(&testG, &G, sizeof(struct gameState));
+    testGameOver = isGameOver(&testG);
+
+    // Test isGameOver to G
+    if (G.supplyCount[province] == 0) {
+        gameOver = 1;
+    }
+
+    j = 0;
+    for (i = 0; i < 25; i++) {
+        if (G.supplyCount[i] == 0) {
+            j++;
+        }
+
+        if (j >= 3) {
+            gameOver = 1;
+        }
+    }
+
+    printf("isGameOver: %i, expected: %i\n", testGameOver, gameOver);
+    printf("supplyCount[province]: %i, expected: %i\n", testG.supplyCount[province], G.supplyCount[province]);
+    printf("supplyCount[village]: %i, expected: %i\n", testG.supplyCount[village], G.supplyCount[village]);
+    printf("supplyCount[adventurer]: %i, expected: %i\n", testG.supplyCount[adventurer], G.supplyCount[adventurer]);
+    printf("supplyCount[smithy]: %i, expected: %i\n", testG.supplyCount[smithy], G.supplyCount[smithy]);
+    assert(gameOver == testGameOver);
+    assert(G.supplyCount[province] == testG.supplyCount[province]);
+    for (i = 0; i < 25; i++) {
+        assert(G.supplyCount[i] == testG.supplyCount[i]);
+    }
+    printf("TEST %i PASSED\n\n", testNumber++);
+
+
+    // TEST 5
+    printf("TEST %i STARTED\n", testNumber);
+    G.supplyCount[province] = 0;
+    G.supplyCount[adventurer] = 0;
+    G.supplyCount[village] = 0;
+    //G.supplyCount[smithy] = 0;
+    gameOver = 0;
+
+    memcpy(&testG, &G, sizeof(struct gameState));
+    testGameOver = isGameOver(&testG);
+
+    // Test isGameOver to G
+    if (G.supplyCount[province] == 0) {
+        gameOver = 1;
+    }
+
+    j = 0;
+    for (i = 0; i < 25; i++) {
+        if (G.supplyCount[i] == 0) {
+            j++;
+        }
+
+        if (j >= 3) {
+            gameOver = 1;
+        }
+    }
+
+    printf("isGameOver: %i, expected: %i\n", testGameOver, gameOver);
+    printf("supplyCount[province]: %i, expected: %i\n", testG.supplyCount[province], G.supplyCount[province]);
+    printf("supplyCount[village]: %i, expected: %i\n", testG.supplyCount[village], G.supplyCount[village]);
+    printf("supplyCount[adventurer]: %i, expected: %i\n", testG.supplyCount[adventurer], G.supplyCount[adventurer]);
+    printf("supplyCount[smithy]: %i, expected: %i\n", testG.supplyCount[smithy], G.supplyCount[smithy]);
+    assert(gameOver == testGameOver);
+    assert(G.supplyCount[province] == testG.supplyCount[province]);
+    for (i = 0; i < 25; i++) {
+        assert(G.supplyCount[i] == testG.supplyCount[i]);
+    }
+    printf("TEST %i PASSED\n\n", testNumber++);
+
+
+    // TEST 6
+    printf("TEST %i STARTED\n", testNumber);
+    G.supplyCount[province] = 4;
+    G.supplyCount[adventurer] = 0;
+    G.supplyCount[village] = 0;
+    //G.supplyCount[smithy] = 0;
+    gameOver = 0;
+
+    memcpy(&testG, &G, sizeof(struct gameState));
+    testGameOver = isGameOver(&testG);
+
+    // Test isGameOver to G
+    if (G.supplyCount[province] == 0) {
+        gameOver = 1;
+    }
+
+    j = 0;
+    for (i = 0; i < 25; i++) {
+        if (G.supplyCount[i] == 0) {
+            j++;
+        }
+
+        if (j >= 3) {
+            gameOver = 1;
+        }
+    }
+
+    printf("isGameOver: %i, expected: %i\n", testGameOver, gameOver);
+    printf("supplyCount[province]: %i, expected: %i\n", testG.supplyCount[province], G.supplyCount[province]);
+    printf("supplyCount[village]: %i, expected: %i\n", testG.supplyCount[village], G.supplyCount[village]);
+    printf("supplyCount[adventurer]: %i, expected: %i\n", testG.supplyCount[adventurer], G.supplyCount[adventurer]);
+    printf("supplyCount[smithy]: %i, expected: %i\n", testG.supplyCount[smithy], G.supplyCount[smithy]);
+    assert(gameOver == testGameOver);
+    assert(G.supplyCount[province] == testG.supplyCount[province]);
+    for (i = 0; i < 25; i++) {
+        assert(G.supplyCount[i] == testG.supplyCount[i]);
+    }
+    printf("TEST %i PASSED\n\n", testNumber++);
+
+
+    // TEST 7
+    printf("TEST %i STARTED\n", testNumber);
+    // G.supplyCount[province] = 0;
+    G.supplyCount[adventurer] = 0;
+    G.supplyCount[village] = 0;
+    G.supplyCount[smithy] = 0;
+    gameOver = 0;
+
+    memcpy(&testG, &G, sizeof(struct gameState));
+    testGameOver = isGameOver(&testG);
+
+    // Test isGameOver to G
+    if (G.supplyCount[province] == 0) {
+        gameOver = 1;
+    }
+
+    j = 0;
+    for (i = 0; i < 25; i++) {
+        if (G.supplyCount[i] == 0) {
+            j++;
+        }
+
+        if (j >= 3) {
+            gameOver = 1;
+        }
+    }
+
+    printf("isGameOver: %i, expected: %i\n", testGameOver, gameOver);
+    printf("supplyCount[province]: %i, expected: %i\n", testG.supplyCount[province], G.supplyCount[province]);
+    printf("supplyCount[village]: %i, expected: %i\n", testG.supplyCount[village], G.supplyCount[village]);
+    printf("supplyCount[adventurer]: %i, expected: %i\n", testG.supplyCount[adventurer], G.supplyCount[adventurer]);
+    printf("supplyCount[smithy]: %i, expected: %i\n", testG.supplyCount[smithy], G.supplyCount[smithy]);
+    assert(gameOver == testGameOver);
+    assert(G.supplyCount[province] == testG.supplyCount[province]);
+    for (i = 0; i < 25; i++) {
+        assert(G.supplyCount[i] == testG.supplyCount[i]);
+    }
+    printf("TEST %i PASSED\n\n", testNumber++);
+
+
+    // TEST 8
+    printf("TEST %i STARTED\n", testNumber);
+    G.supplyCount[province] = 0;
+    G.supplyCount[adventurer] = 0;
+    G.supplyCount[village] = 0;
+    G.supplyCount[smithy] = 0;
+    gameOver = 0;
+
+    memcpy(&testG, &G, sizeof(struct gameState));
+    testGameOver = isGameOver(&testG);
+
+    // Test isGameOver to G
+    if (G.supplyCount[province] == 0) {
+        gameOver = 1;
+    }
+
+    j = 0;
+    for (i = 0; i < 25; i++) {
+        if (G.supplyCount[i] == 0) {
+            j++;
+        }
+
+        if (j >= 3) {
+            gameOver = 1;
+        }
+    }
+
+    printf("isGameOver: %i, expected: %i\n", testGameOver, gameOver);
+    printf("supplyCount[province]: %i, expected: %i\n", testG.supplyCount[province], G.supplyCount[province]);
+    printf("supplyCount[village]: %i, expected: %i\n", testG.supplyCount[village], G.supplyCount[village]);
+    printf("supplyCount[adventurer]: %i, expected: %i\n", testG.supplyCount[adventurer], G.supplyCount[adventurer]);
+    printf("supplyCount[smithy]: %i, expected: %i\n", testG.supplyCount[smithy], G.supplyCount[smithy]);
+    assert(gameOver == testGameOver);
+    assert(G.supplyCount[province] == testG.supplyCount[province]);
+    for (i = 0; i < 25; i++) {
+        assert(G.supplyCount[i] == testG.supplyCount[i]);
+    }
+    printf("TEST %i PASSED\n\n", testNumber++);
+
+
+    // TEST 9
+    printf("TEST %i STARTED\n", testNumber);
+    G.supplyCount[province] = 4;
+    G.supplyCount[adventurer] = 0;
+    G.supplyCount[village] = 0;
+    G.supplyCount[smithy] = 0;
+    gameOver = 0;
+
+    memcpy(&testG, &G, sizeof(struct gameState));
+    testGameOver = isGameOver(&testG);
+
+    // Test isGameOver to G
+    if (G.supplyCount[province] == 0) {
+        gameOver = 1;
+    }
+
+    j = 0;
+    for (i = 0; i < 25; i++) {
+        if (G.supplyCount[i] == 0) {
+            j++;
+        }
+
+        if (j >= 3) {
+            gameOver = 1;
+        }
+    }
+
+    printf("isGameOver: %i, expected: %i\n", testGameOver, gameOver);
+    printf("supplyCount[province]: %i, expected: %i\n", testG.supplyCount[province], G.supplyCount[province]);
+    printf("supplyCount[village]: %i, expected: %i\n", testG.supplyCount[village], G.supplyCount[village]);
+    printf("supplyCount[adventurer]: %i, expected: %i\n", testG.supplyCount[adventurer], G.supplyCount[adventurer]);
+    printf("supplyCount[smithy]: %i, expected: %i\n", testG.supplyCount[smithy], G.supplyCount[smithy]);
+    assert(gameOver == testGameOver);
+    assert(G.supplyCount[province] == testG.supplyCount[province]);
+    for (i = 0; i < 25; i++) {
+        assert(G.supplyCount[i] == testG.supplyCount[i]);
+    }
+    printf("TEST %i PASSED\n\n", testNumber++);
+
 
     return 0;
 }

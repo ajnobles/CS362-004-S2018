@@ -4,7 +4,7 @@ rngs.o: rngs.h rngs.c
 	gcc -c rngs.c -g  $(CFLAGS)
 
 dominion.o: dominion.h dominion.c refactor.h refactor.c rngs.o
-	gcc -c dominion.c refactor.c -g  $(CFLAGS)
+	gcc -c dominion.c refactor.c -g $(CFLAGS)
 
 playdom: dominion.o playdom.c
 	gcc -o playdom playdom.c -g dominion.o refactor.c rngs.o $(CFLAGS)
@@ -29,9 +29,18 @@ runtests: testDrawCard
 	gcov dominion.c >> unittestresult.out
 	cat dominion.c.gcov >> unittestresult.out
 
-unittestresult.out: dominion.o unittest1.c
-	gcc -o unittest1 unittest1.c dominion.o refactor.c rngs.o -g -coverage -fpic -lm $(CFLAGS)
+unittestresult.out: dominion.o unittest1.c unittest2.c
+	gcc -o unittest1 unittest1.c dominion.o refactor.c rngs.o -g -fpic -lm $(CFLAGS)
 	./unittest1
+	gcov unittest1.c > unittestresult.out
+	gcov dominion.c >> unittestresult.out
+
+	gcc -o unittest2 unittest2.c dominion.o refactor.c rngs.o -g -fpic -lm $(CFLAGS)
+	./unittest2
+	gcov unittest2.c >> unittestresult.out
+	gcov dominion.c >> unittestresult.out
+
+
 
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)
