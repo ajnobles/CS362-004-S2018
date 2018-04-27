@@ -1,4 +1,4 @@
-// fullDeckCount
+// playCard
 //
 #include "dominion.h"
 #include "dominion_helpers.h"
@@ -24,39 +24,125 @@ int main (int argc, char *argv[])
     struct gameState G, testG;
 
     int card,
+        coin_bonus,
+        handPos = 0,
+        choice1 = 0,
+        choice2 = 0,
+        choice3 = 0,
         player,
         i,
-        count,
-        countTest,
+        retVal,
+        retValTest,
         testNumber = 1;
 
     initializeGame(numPlayers, kingdomCards, seed, &G);
 
     // TEST 1
+    // RETURN -1 FROM PHASE
     printf("TEST %i STARTED\n", testNumber);
+    G.phase = 1;
+    G.numActions = 1;
+    retVal = 0;
     memcpy(&testG, &G, sizeof(struct gameState));
-    player = G.whoseTurn;
-    countTest = fullDeckCount(player, card, &testG);
 
-    count = 0;
-    for (i = 0; i < G.deckCount[player]; i++)
-      {
-        if (G.deck[player][i] == card) count++;
-      }
+    retValTest = playCard(handPos, choice1, choice2, choice3, &testG);
 
-    for (i = 0; i < G.handCount[player]; i++)
-      {
-        if (G.hand[player][i] == card) count++;
-      }
+    if (G.phase != 0) {
+        retVal = -1;
+    }
 
-    for (i = 0; i < G.discardCount[player]; i++)
-      {
-        if (G.discard[player][i] == card) count++;
-      }
+    printf("phase: %i, expected: %i\n", testG.phase, G.phase);
+    printf("return value: %i, expected: %i\n", retValTest, retVal);
 
-    printf("count: %i, expected: %i\n", countTest, count);
-    assert(count == countTest);
+    assert(testG.phase == G.phase);
+    assert(retValTest == retVal);
+    printf("TEST %i PASSED\n\n", testNumber++);
 
+
+    // TEST 2
+    // RETURN -1 FROM numActions
+    printf("TEST %i STARTED\n", testNumber);
+    G.phase = 0;
+    G.numActions = 0;
+    retVal = 0;
+    memcpy(&testG, &G, sizeof(struct gameState));
+
+    retValTest = playCard(handPos, choice1, choice2, choice3, &testG);
+
+    if (G.numActions < 1) {
+        retVal = -1;
+    }
+
+    printf("phase: %i, expected: %i\n", testG.phase, G.phase);
+    printf("numActions: %i, expected: %i\n", testG.numActions, G.numActions);
+    printf("return value: %i, expected: %i\n", retValTest, retVal);
+
+    assert(testG.phase == G.phase);
+    assert(testG.numActions == G.numActions);
+    assert(retValTest == retVal);
+    printf("TEST %i PASSED\n\n", testNumber++);
+
+
+    // TEST 3
+    // RETURN -1 FROM selected card
+    printf("TEST %i STARTED\n", testNumber);
+    G.phase = 0;
+    G.numActions = 1;
+    retVal = 0;
+    handPos = 0;
+    memcpy(&testG, &G, sizeof(struct gameState));
+
+    retValTest = playCard(handPos, choice1, choice2, choice3, &testG);
+
+    card = handCard(handPos, &G);
+
+    if (card < adventurer || card > treasure_map) {
+        retVal = -1;
+    }
+
+    printf("phase: %i, expected: %i\n", testG.phase, G.phase);
+    printf("numActions: %i, expected: %i\n", testG.numActions, G.numActions);
+    printf("return value: %i, expected: %i\n", retValTest, retVal);
+
+    assert(testG.phase == G.phase);
+    assert(testG.numActions == G.numActions);
+    assert(retValTest == retVal);
+    printf("TEST %i PASSED\n\n", testNumber++);
+
+
+    // TEST 4
+    // RETURN 0
+    printf("TEST %i STARTED\n", testNumber);
+    G.phase = 0;
+    G.numActions = 1;
+    choice1 = 1;
+    retVal = 0;
+
+    // FORCE ADVENTRURER CARD TO BE PLAYED
+    gainCard(adventurer, &G, 2, G.whoseTurn);
+    handPos = 5;
+
+    memcpy(&testG, &G, sizeof(struct gameState));
+
+    retValTest = playCard(handPos, choice1, choice2, choice3, &testG);
+
+    card = handCard(handPos, &G);
+
+    if (cardEffect(card, choice1, choice2, choice3, &G, handPos, &coin_bonus) < 0) {
+        retVal = -1;
+    }
+
+    G.numActions--;
+    updateCoins(G.whoseTurn, &G, coin_bonus);
+
+    printf("phase: %i, expected: %i\n", testG.phase, G.phase);
+    printf("numActions: %i, expected: %i\n", testG.numActions, G.numActions);
+    printf("coins: %i, expected: %i\n", testG.coins, G.coins);
+    printf("return value: %i, expected: %i\n", retValTest, retVal);
+
+    assert(testG.phase == G.phase);
+    assert(testG.numActions == G.numActions);
+    assert(retValTest == retVal);
     printf("TEST %i PASSED\n\n", testNumber++);
 
     return 0;

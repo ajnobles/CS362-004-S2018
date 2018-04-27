@@ -410,7 +410,7 @@ int isGameOver(struct gameState *state) {
     	  j++;
     	}
   }
-  
+
   if ( j >= 3)
     {
       return 1;
