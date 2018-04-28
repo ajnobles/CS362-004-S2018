@@ -3,8 +3,6 @@
 #include "dominion.h"
 #include "dominion_helpers.h"
 
-#include "refactor.h"
-
 #include "rngs.h"
 #include <assert.h>
 #include <stdio.h>

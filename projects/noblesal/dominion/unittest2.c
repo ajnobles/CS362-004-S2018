@@ -3,8 +3,6 @@
 #include "dominion.h"
 #include "dominion_helpers.h"
 
-#include "refactor.h"
-
 #include "rngs.h"
 #include <assert.h>
 #include <stdio.h>
@@ -29,8 +27,6 @@ int main (int argc, char *argv[])
         choice1 = 0,
         choice2 = 0,
         choice3 = 0,
-        player,
-        i,
         retVal,
         retValTest,
         testNumber = 1;
