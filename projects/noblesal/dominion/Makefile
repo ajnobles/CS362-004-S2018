@@ -29,49 +29,14 @@ runtests: testDrawCard
 	gcov dominion.c >> unittestresult.out
 	cat dominion.c.gcov >> unittestresult.out
 
-unittestresult.out: dominion.o unittest1.c unittest2.c unittest3.c unittest4.c cardtest1.c cardtest2.c cardtest3.c cardtest4.c
+unittestresult.out: dominion.o interface.o unittest1.c unittest2.c unittest3.c unittest4.c cardtest1.c cardtest2.c cardtest3.c cardtest4.c
 	rm -f unittestresult.out
-	# echo "unittest1.c:" > unittestresult.out
-	# gcc -o unittest1 unittest1.c dominion.o rngs.o -g $(CFLAGS)
-	# ./unittest1 >> unittestresult.out
-	# gcov -f dominion.c >> unittestresult.out
-	#
-	# echo "unittest2.c:" >> unittestresult.out
-	# gcc -o unittest2 unittest2.c dominion.o rngs.o -g $(CFLAGS)
-	# ./unittest2  >> unittestresult.out
-	# gcov -f dominion.c >> unittestresult.out
-	# cat unittestresult.out | more
-	#
-	# echo "unittest3.c:" >> unittestresult.out
-	# gcc -o unittest3 unittest3.c dominion.o rngs.o -g $(CFLAGS)
-	# ./unittest3  >> unittestresult.out
-	# gcov -f dominion.c >> unittestresult.out
-	#
-	# echo "unittest4.c:" >> unittestresult.out
-	# gcc -o unittest4 unittest4.c dominion.o rngs.o -g $(CFLAGS)
-	# ./unittest4  >> unittestresult.out
-	# gcov -f dominion.c >> unittestresult.out
 
 	echo "cardtest1.c:" > unittestresult.out
-	gcc -o cardtest1 cardtest1.c dominion.o rngs.o -g $(CFLAGS)
-	./cardtest1 >> unittestresult.out
+	gcc -o cardtest1 cardtest1.c dominion.o interface.o rngs.o -g $(CFLAGS)
+	./cardtest1
 	gcov -f dominion.c >> unittestresult.out
-	#
-	# echo "cardtest2.c:" >> unittestresult.out
-	# gcc -o cardtest2 cardtest2.c dominion.o rngs.o -g $(CFLAGS)
-	# ./cardtest2  >> unittestresult.out
-	# gcov -f dominion.c >> unittestresult.out
-	# cat unittestresult.out | more
-	#
-	# echo "cardtest3.c:" >> unittestresult.out
-	# gcc -o cardtest3 cardtest3.c dominion.o rngs.o -g $(CFLAGS)
-	# ./cardtest3  >> unittestresult.out
-	# gcov -f dominion.c >> unittestresult.out
-	#
-	# echo "cardtest4.c:" >> unittestresult.out
-	# gcc -o cardtest4 cardtest4.c dominion.o rngs.o -g $(CFLAGS)
-	# ./cardtest4  >> unittestresult.out
-	# gcov -f dominion.c >> unittestresult.out
+
 
 
 
@@ -81,4 +46,4 @@ player: player.c interface.o
 all: playdom player
 
 clean:
-	rm -f *.o playdom.exe playdom player player.exe  *.gcov *.gcda *.gcno *.so *.out testDrawCard testDrawCard.exe unittest1 unittest2 unittest3
+	rm -f *.o playdom.exe playdom player player.exe  *.gcov *.gcda *.gcno *.so *.out testDrawCard testDrawCard.exe unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4
