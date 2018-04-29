@@ -1,63 +1,151 @@
-// playCard
+// scoreFor
 //
+#include "assertTest.h"
 #include "dominion.h"
 #include "dominion_helpers.h"
-
+#include "interface.h"
 #include "rngs.h"
-#include <assert.h>
+
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
 
+// CARD SCORE VALUES
+#define CURSE_VAL -1
+#define ESTATE_VAL 1
+#define DUCHY_VAL 3
+#define PROVINCE_VAL 6
+#define GREAT_HALL_VAL 1
+// GARDENS DOES NOT HAVE A SET DEFINED VALUE
+int GARDENS_VAL(int player, struct gameState *state)
+{
+    return(fullDeckCount(player, 0, state) / 10);
+}
 
 
 int main (int argc, char *argv[])
 {
     // GAME SETUP
     int numPlayers = 2;
-    int kingdomCards[10] = {adventurer, smithy, gardens, village, council_room, minion, steward, great_hall, tribute, ambassador};
-    int seed = 1000;
+    int kingdomCards[10] = {adventurer, smithy, gardens, curse, great_hall, village, council_room, minion, steward, ambassador};
+    int seed = 1000,
+        passed;
 
-    struct gameState G, testG;
+    struct gameState BASE, G, testG;
 //
     int card,
         retVal,
         retValTest,
+        currentPlayer,
+        i,
+        handPos,
+        trashFlag,
         testNumber = 1;
 
-    initializeGame(numPlayers, kingdomCards, seed, &G);
+    initializeGame(numPlayers, kingdomCards, seed, &BASE);
 
     // TEST 1
-    printf("TEST %i STARTED\n", testNumber);
-    card = adventurer;
-
+    printf("\nTEST %i STARTED\n", testNumber++);
+    memcpy(&G, &BASE, sizeof(struct gameState));
     memcpy(&testG, &G, sizeof(struct gameState));
 
-    retValTest = supplyCount(card, &testG);
+    currentPlayer = whoseTurn(&G);
 
-    retVal = G.supplyCount[card];
+    retValTest = scoreFor(currentPlayer, &testG);
+    retVal = 0;
 
-    printf("card supply: %i, expected: %i\n", retValTest, retVal);
-    assert(retVal == retValTest);
+    // printHand(currentPlayer, &G);
+    // printDiscard(currentPlayer, &G);
+    // printDeck(currentPlayer, &G);
 
-    printf("TEST %i PASSED\n\n", testNumber++);
+    // STARTS GAME WITH 3 ESTATES
+    retVal += ESTATE_VAL;
+    retVal += ESTATE_VAL;
+    retVal += ESTATE_VAL;
+
+    printf("return value: %i, expected: %i...\t", retValTest, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\n");
 
     // TEST 2
-    printf("TEST %i STARTED\n", testNumber);
-    card = adventurer;
-    G.supplyCount[adventurer] = 5;
+    printf("\nTEST %i STARTED\n", testNumber++);
+    //memcpy(&G, &BASE, sizeof(struct gameState));
+
+    currentPlayer = whoseTurn(&G);
+
+    // GAIN Cards
+    //  ADD DUCHY TO HAND(2)
+    gainCard(duchy, &G, 2, currentPlayer);
+    retVal += DUCHY_VAL;
+
+    // DISCARD Cards
+
+    // TRASH CARDS
+
 
     memcpy(&testG, &G, sizeof(struct gameState));
+    retValTest = scoreFor(currentPlayer, &testG);
 
-    retValTest = supplyCount(card, &testG);
+    printf("return value: %i, expected: %i...\t", retValTest, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\n");
 
-    retVal = G.supplyCount[card];
+    // TEST 3
+    printf("\nTEST %i STARTED\n", testNumber++);
+    //memcpy(&G, &BASE, sizeof(struct gameState));
 
-    printf("card supply: %i, expected: %i\n", retValTest, retVal);
-    assert(retVal == retValTest);
+    currentPlayer = whoseTurn(&G);
 
-    printf("TEST %i PASSED\n\n", testNumber++);
+
+        // printHand(currentPlayer, &G);
+        // printDiscard(currentPlayer, &G);
+        // printDeck(currentPlayer, &G);
+
+    // GAIN Cards
+    gainCard(estate, &G, 2, currentPlayer);
+    retVal += ESTATE_VAL;
+
+    // DISCARD Cards
+    //    DISCARD ESTATE CARD
+    discardCard(1, currentPlayer, &G, 0);
+
+    // TRASH CARDS
+
+
+    memcpy(&testG, &G, sizeof(struct gameState));
+    retValTest = scoreFor(currentPlayer, &testG);
+
+    printf("return value: %i, expected: %i...\t", retValTest, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\n");
+
+    // TEST 3
+    printf("\nTEST %i STARTED\n", testNumber++);
+    //memcpy(&G, &BASE, sizeof(struct gameState));
+
+    currentPlayer = whoseTurn(&G);
+
+    // GAIN Cards
+
+    // DISCARD Cards
+    //    DISCARD ESTATE CARD
+    discardCard(2, currentPlayer, &G, 0);
+
+    // TRASH CARDS
+    //    TRASH DUCHY CARD
+
+
+    memcpy(&testG, &G, sizeof(struct gameState));
+    retValTest = scoreFor(currentPlayer, &testG);
+
+    printf("return value: %i, expected: %i...\t", retValTest, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\n");
 
     return 0;
 }

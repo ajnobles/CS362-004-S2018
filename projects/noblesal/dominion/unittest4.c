@@ -1,10 +1,10 @@
 // endTurn
 //
+#include "assertTest.h"
 #include "dominion.h"
 #include "dominion_helpers.h"
-
 #include "rngs.h"
-#include <assert.h>
+
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
@@ -20,7 +20,7 @@ int main (int argc, char *argv[])
     int seed = 1000;
 
     struct gameState G, testG;
-//
+
     int retVal,
         retValTest,
         i,

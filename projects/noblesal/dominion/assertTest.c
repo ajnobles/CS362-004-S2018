@@ -16,7 +16,7 @@ int assertIntArr(int *a, int *b)
     int bN = sizeof(b)/sizeof(b[0]);
 
     if (aN != bN) {
-        return 0;
+        return -1;
     }
 
     for (int i = 0; i < aN; i++) {
