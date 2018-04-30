@@ -445,9 +445,7 @@ int scoreFor (int player, struct gameState *state) {
     }
 
   //score from deck
-  // for (i = 0; i < state->discardCount[player]; i++)
-  for (i = 0; i < state->deckCount[player]; i++)
-  // for (i = 0; i < state->discardCount[player]; i++)
+  for (i = 0; i < state->discardCount[player]; i++)
     {
       if (state->deck[player][i] == curse) { score = score - 1; };
       if (state->deck[player][i] == estate) { score = score + 1; };
@@ -1329,10 +1327,10 @@ int smithyRefactor(int card, int choice1, int choice2, int choice3,
 		int currentPlayer = whoseTurn(state);
 		int i;
 
-		//+3 Cards
+		//+2 Cards
 
     // BUG ADDED
-		//for (i = 0; i < 3; i++)  // ORIGINAL IMPLEMENTATION
+		// for (i = 0; i < 3; i++)  // ORIGINAL IMPLEMENTATION
 		for (i = 0; i <= 3; i++)  // BUGGY IMPLEMENTATION
 		{
         drawCard(currentPlayer, state);
@@ -1353,7 +1351,7 @@ int villageRefactor(int card, int choice1, int choice2, int choice3,
 
     // BUG ADDED
     //+2 Actions
-    //state->numActions = state->numActions + 2;
+    // state->numActions = state->numActions + 2;
     state->numActions = state->numActions + 1;
 
     //discard played card from hand
@@ -1374,8 +1372,8 @@ int council_roomRefactor(int card, int choice1, int choice2, int choice3,
 
     // BUG ADDED
     //+4 Cards
-	//for (i = 0; i < 4; i++)
-	for (i = 0; i <= 4; i++)
+	for (i = 0; i < 4; i++)
+	// for (i = 0; i <= 4; i++)
 	{
 	  drawCard(currentPlayer, state);
 	}

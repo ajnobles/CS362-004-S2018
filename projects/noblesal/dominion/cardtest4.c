@@ -2,10 +2,10 @@
 #include "dominion.h"
 #include "dominion_helpers.h"
 #include "interface.h"
-
-//
 #include "rngs.h"
-#include <assert.h>
+
+#include "assertTest.h"
+
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
@@ -17,7 +17,8 @@ int main (int argc, char *argv[])
     int numPlayers = 2;
     int kingdomCards[10] = {adventurer, smithy, gardens, village, council_room, minion, steward, great_hall, tribute, ambassador};
     int seed = 1000,
-        printTestHand = 0;
+        passed = 0,
+        cardOffset;
 
     struct gameState BASE, G, testG;
     initializeGame(numPlayers, kingdomCards, seed, &BASE);
@@ -35,89 +36,46 @@ int main (int argc, char *argv[])
         bonus;
 
     // FUNCTION SPECIFIC
-    int i, currentPlayer;
+    int currentPlayer;
 
     // TEST 1
-    printf("TEST %i STARTED\n", testNumber);
+    printf("\nTEST %i STARTED\n", testNumber++);
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
     card = council_room;
 
     currentPlayer = whoseTurn(&G);
+    gainCard(card, &G, 2, currentPlayer);
+    handPos = G.handCount[currentPlayer]-1;
+    cardOffset = 4 - 1;
 
     // STAGE HAND/DECK
 
     memcpy(&testG, &G, sizeof(struct gameState));
     retValTest = council_roomRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
 
-    // FOR TESTING
-    if (printTestHand) {
-        printf("PRE-TEST HANDS\n");
-        printHand(currentPlayer, &G);
-        printDeck(currentPlayer, &G);
-        printPlayed(currentPlayer, &G);
-        printDiscard(currentPlayer, &G);
-    }
+    printf("return value: %i, expected: %i...\t\t\t", retValTest, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\treturn value: %i\n", retValTest);
 
-    currentPlayer = whoseTurn(&G);
+    printf("handCount: %i, expected: %i...\t\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+cardOffset);
+    passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+cardOffset);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
 
-    for (i = 0; i < 4; i++) {
-        drawCard(currentPlayer, &G);
-    }
+    printf("deckCount+discardCount: %i, expected: %i...\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-cardOffset);
+    passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-cardOffset);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tdeckCount + discardCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
 
-    G.numBuys++;
-
-    for(i = 0; i < G.numPlayers; i++) {
-        if (i != currentPlayer) {
-            drawCard(i, &G);
-        }
-    }
-
-    discardCard(handPos, currentPlayer, &G, 0);
-
-    // FOR TESTING
-    if (printTestHand) {
-        printf("POST-TEST HANDS\n");
-        printHand(currentPlayer, &G);
-        printDeck(currentPlayer, &G);
-        printPlayed(currentPlayer, &G);
-        printDiscard(currentPlayer, &G);
-    }
-
-    printf("return value: %i, expected: %i\n", retValTest, retVal);
-    assert(retVal == retValTest);
-
-    printf("handCount: %i, expected: %i\n", testG.handCount[currentPlayer], G.handCount[currentPlayer]);
-    // assert(G.handCount[currentPlayer] == testG.handCount[currentPlayer]);
-
-    printf("Testing Cards in Players Hand\n");
-    for (int i = 0; i < G.handCount[currentPlayer]; i++) {
-        // assert(G.hand[currentPlayer][i] == testG.hand[currentPlayer][i]);
-    }
-
-    printf("deckCount: %i, expected: %i\n", testG.deckCount[currentPlayer], G.deckCount[currentPlayer]);
-    // assert(G.deckCount[currentPlayer] == testG.deckCount[currentPlayer]);
-
-    printf("Testing Cards in Players Deck\n");
-    for (int i = 0; i < G.deckCount[currentPlayer]; i++) {
-        assert(G.deck[currentPlayer][i] == testG.deck[currentPlayer][i]);
-    }
-
-    printf("discardCount: %i, expected: %i\n", testG.discardCount[currentPlayer], G.discardCount[currentPlayer]);
-    assert(G.discardCount[currentPlayer] == testG.discardCount[currentPlayer]);
-
-    printf("Testing Cards in Players Discard Pile\n");
-    for (int i = 0; i < G.discardCount[currentPlayer]; i++) {
-        assert(G.discard[currentPlayer][i] == testG.discard[currentPlayer][i]);
-    }
-
-    printf("numBuys: %i, expected: %i\n", testG.numBuys, G.numBuys);
-    assert(G.numBuys == testG.numBuys);
-
-    printf("TEST %i PASSED\n\n", testNumber++);
+    printf("numBuys: %i, expected: %i...\t\t\t", G.numBuys, G.numBuys+1);
+    passed = assertInt(testG.numBuys, G.numBuys+1);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tnumBuys: %i\n", testG.numBuys);
 
     // TEST 2
-    printf("TEST %i STARTED\n", testNumber);
+    printf("\nTEST %i STARTED\n", testNumber++);
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
     card = council_room;
@@ -130,74 +88,29 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
     retValTest = council_roomRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
 
-    // FOR TESTING
-    if (printTestHand) {
-        printf("PRE-TEST HANDS\n");
-        printHand(currentPlayer, &G);
-        printDeck(currentPlayer, &G);
-        printPlayed(currentPlayer, &G);
-        printDiscard(currentPlayer, &G);
-    }
+    printf("return value: %i, expected: %i...\t\t\t", retValTest, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\treturn value: %i\n", retValTest);
 
-    currentPlayer = whoseTurn(&G);
+    printf("handCount: %i, expected: %i...\t\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+cardOffset);
+    passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+cardOffset);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
 
-    for (i = 0; i < 4; i++) {
-        drawCard(currentPlayer, &G);
-    }
+    printf("deckCount+discardCount: %i, expected: %i...\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-cardOffset);
+    passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-cardOffset);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tdeckCount + discardCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
 
-    G.numBuys++;
+    printf("numBuys: %i, expected: %i...\t\t\t", G.numBuys, G.numBuys+1);
+    passed = assertInt(testG.numBuys, G.numBuys+1);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tnumBuys: %i\n", testG.numBuys);
 
-    for(i = 0; i < G.numPlayers; i++) {
-        if (i != currentPlayer) {
-            drawCard(i, &G);
-        }
-    }
-
-    discardCard(handPos, currentPlayer, &G, 0);
-
-    // FOR TESTING
-    if (printTestHand) {
-        printf("POST-TEST HANDS\n");
-        printHand(currentPlayer, &G);
-        printDeck(currentPlayer, &G);
-        printPlayed(currentPlayer, &G);
-        printDiscard(currentPlayer, &G);
-    }
-
-    printf("return value: %i, expected: %i\n", retValTest, retVal);
-    assert(retVal == retValTest);
-
-    printf("handCount: %i, expected: %i\n", testG.handCount[currentPlayer], G.handCount[currentPlayer]);
-    // assert(G.handCount[currentPlayer] == testG.handCount[currentPlayer]);
-
-    printf("Testing Cards in Players Hand\n");
-    for (int i = 0; i < G.handCount[currentPlayer]; i++) {
-        // assert(G.hand[currentPlayer][i] == testG.hand[currentPlayer][i]);
-    }
-
-    printf("deckCount: %i, expected: %i\n", testG.deckCount[currentPlayer], G.deckCount[currentPlayer]);
-    // assert(G.deckCount[currentPlayer] == testG.deckCount[currentPlayer]);
-
-    printf("Testing Cards in Players Deck\n");
-    for (int i = 0; i < G.deckCount[currentPlayer]; i++) {
-        assert(G.deck[currentPlayer][i] == testG.deck[currentPlayer][i]);
-    }
-
-    printf("discardCount: %i, expected: %i\n", testG.discardCount[currentPlayer], G.discardCount[currentPlayer]);
-    assert(G.discardCount[currentPlayer] == testG.discardCount[currentPlayer]);
-
-    printf("Testing Cards in Players Discard Pile\n");
-    for (int i = 0; i < G.discardCount[currentPlayer]; i++) {
-        assert(G.discard[currentPlayer][i] == testG.discard[currentPlayer][i]);
-    }
-
-    printf("numBuys: %i, expected: %i\n", testG.numBuys, G.numBuys);
-    assert(G.numBuys == testG.numBuys);
-
-    printf("TEST %i PASSED\n\n", testNumber++);
 
     // TEST 3
-    printf("TEST %i STARTED\n", testNumber);
+    printf("\nTEST %i STARTED\n", testNumber++);
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
     card = council_room;
@@ -211,75 +124,29 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
     retValTest = council_roomRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
 
-    // FOR TESTING
-    if (printTestHand) {
-        printf("PRE-TEST HANDS\n");
-        printHand(currentPlayer, &G);
-        printDeck(currentPlayer, &G);
-        printPlayed(currentPlayer, &G);
-        printDiscard(currentPlayer, &G);
-    }
+    printf("return value: %i, expected: %i...\t\t\t", retValTest, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\treturn value: %i\n", retValTest);
 
-    currentPlayer = whoseTurn(&G);
+    printf("handCount: %i, expected: %i...\t\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+cardOffset);
+    passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+cardOffset);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
 
-    for (i = 0; i < 4; i++) {
-        drawCard(currentPlayer, &G);
-    }
+    printf("deckCount+discardCount: %i, expected: %i...\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-cardOffset);
+    passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-cardOffset);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tdeckCount + discardCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
 
-    G.numBuys++;
-
-    for(i = 0; i < G.numPlayers; i++) {
-        if (i != currentPlayer) {
-            drawCard(i, &G);
-        }
-    }
-
-    discardCard(handPos, currentPlayer, &G, 0);
-
-    // FOR TESTING
-    if (printTestHand) {
-        printf("POST-TEST HANDS\n");
-        printHand(currentPlayer, &G);
-        printDeck(currentPlayer, &G);
-        printPlayed(currentPlayer, &G);
-        printDiscard(currentPlayer, &G);
-    }
-
-    printf("return value: %i, expected: %i\n", retValTest, retVal);
-    assert(retVal == retValTest);
-
-    printf("handCount: %i, expected: %i\n", testG.handCount[currentPlayer], G.handCount[currentPlayer]);
-    // assert(G.handCount[currentPlayer] == testG.handCount[currentPlayer]);
-
-    printf("Testing Cards in Players Hand\n");
-    for (int i = 0; i < G.handCount[currentPlayer]; i++) {
-        // assert(G.hand[currentPlayer][i] == testG.hand[currentPlayer][i]);
-    }
-
-    printf("deckCount: %i, expected: %i\n", testG.deckCount[currentPlayer], G.deckCount[currentPlayer]);
-    // assert(G.deckCount[currentPlayer] == testG.deckCount[currentPlayer]);
-
-    printf("Testing Cards in Players Deck\n");
-    for (int i = 0; i < G.deckCount[currentPlayer]; i++) {
-        assert(G.deck[currentPlayer][i] == testG.deck[currentPlayer][i]);
-    }
-
-    printf("discardCount: %i, expected: %i\n", testG.discardCount[currentPlayer], G.discardCount[currentPlayer]);
-    assert(G.discardCount[currentPlayer] == testG.discardCount[currentPlayer]);
-
-    printf("Testing Cards in Players Discard Pile\n");
-    for (int i = 0; i < G.discardCount[currentPlayer]; i++) {
-        assert(G.discard[currentPlayer][i] == testG.discard[currentPlayer][i]);
-    }
-
-    printf("numBuys: %i, expected: %i\n", testG.numBuys, G.numBuys);
-    assert(G.numBuys == testG.numBuys);
-
-    printf("TEST %i PASSED\n\n", testNumber++);
+    printf("numBuys: %i, expected: %i...\t\t\t", G.numBuys, G.numBuys+1);
+    passed = assertInt(testG.numBuys, G.numBuys+1);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tnumBuys: %i\n", testG.numBuys);
 
 
     // TEST 4
-    printf("TEST %i STARTED\n", testNumber);
+    printf("\nTEST %i STARTED\n", testNumber++);
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
     card = council_room;
@@ -294,71 +161,25 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
     retValTest = council_roomRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
 
-    // FOR TESTING
-    if (printTestHand) {
-        printf("PRE-TEST HANDS\n");
-        printHand(currentPlayer, &G);
-        printDeck(currentPlayer, &G);
-        printPlayed(currentPlayer, &G);
-        printDiscard(currentPlayer, &G);
-    }
+    printf("return value: %i, expected: %i...\t\t\t", retValTest, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\treturn value: %i\n", retValTest);
 
-    currentPlayer = whoseTurn(&G);
+    printf("handCount: %i, expected: %i...\t\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+cardOffset);
+    passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+cardOffset);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
 
-    for (i = 0; i < 4; i++) {
-        drawCard(currentPlayer, &G);
-    }
+    printf("deckCount+discardCount: %i, expected: %i...\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-cardOffset);
+    passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-cardOffset);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tdeckCount + discardCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
 
-    G.numBuys++;
-
-    for(i = 0; i < G.numPlayers; i++) {
-        if (i != currentPlayer) {
-            drawCard(i, &G);
-        }
-    }
-
-    discardCard(handPos, currentPlayer, &G, 0);
-
-    // FOR TESTING
-    if (printTestHand) {
-        printf("POST-TEST HANDS\n");
-        printHand(currentPlayer, &G);
-        printDeck(currentPlayer, &G);
-        printPlayed(currentPlayer, &G);
-        printDiscard(currentPlayer, &G);
-    }
-
-    printf("return value: %i, expected: %i\n", retValTest, retVal);
-    assert(retVal == retValTest);
-
-    printf("handCount: %i, expected: %i\n", testG.handCount[currentPlayer], G.handCount[currentPlayer]);
-    // assert(G.handCount[currentPlayer] == testG.handCount[currentPlayer]);
-
-    printf("Testing Cards in Players Hand\n");
-    for (int i = 0; i < G.handCount[currentPlayer]; i++) {
-        // assert(G.hand[currentPlayer][i] == testG.hand[currentPlayer][i]);
-    }
-
-    printf("deckCount: %i, expected: %i\n", testG.deckCount[currentPlayer], G.deckCount[currentPlayer]);
-    // assert(G.deckCount[currentPlayer] == testG.deckCount[currentPlayer]);
-
-    printf("Testing Cards in Players Deck\n");
-    for (int i = 0; i < G.deckCount[currentPlayer]; i++) {
-        assert(G.deck[currentPlayer][i] == testG.deck[currentPlayer][i]);
-    }
-
-    printf("discardCount: %i, expected: %i\n", testG.discardCount[currentPlayer], G.discardCount[currentPlayer]);
-    assert(G.discardCount[currentPlayer] == testG.discardCount[currentPlayer]);
-
-    printf("Testing Cards in Players Discard Pile\n");
-    for (int i = 0; i < G.discardCount[currentPlayer]; i++) {
-        assert(G.discard[currentPlayer][i] == testG.discard[currentPlayer][i]);
-    }
-
-    printf("numBuys: %i, expected: %i\n", testG.numBuys, G.numBuys);
-    assert(G.numBuys == testG.numBuys);
-
-    printf("TEST %i PASSED\n\n", testNumber++);
+    printf("numBuys: %i, expected: %i...\t\t\t", G.numBuys, G.numBuys+1);
+    passed = assertInt(testG.numBuys, G.numBuys+1);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tnumBuys: %i\n", testG.numBuys);
 
     return 0;
 }

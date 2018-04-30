@@ -19,7 +19,7 @@ int main (int argc, char *argv[])
     int numPlayers = 2;
     int kingdomCards[10] = {adventurer, smithy, gardens, village, council_room, minion, steward, great_hall, tribute, ambassador};
     int seed = 1000,
-        printTestHand = 0;
+        passed = 0;
 
     struct gameState BASE, G, testG;
     initializeGame(numPlayers, kingdomCards, seed, &BASE);
@@ -36,16 +36,12 @@ int main (int argc, char *argv[])
         bonus;
 
     // FUNCTION SPECIFIC
-    int z,
-        temphand[MAX_HAND],
-        drawntreasure,
-        cardDrawn,
-        currentPlayer,
+    int currentPlayer,
         card;
 
 
     // TEST 1
-    printf("TEST %i STARTED\n", testNumber);
+    printf("\nTEST %i STARTED\n", testNumber++);
     memcpy(&G, &BASE, sizeof(struct gameState));
 
     retVal = 0;
@@ -56,25 +52,25 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
     retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
 
+    // printHand(G.whoseTurn, &G);
+    // printDeck(G.whoseTurn, &G);
+    // printDiscard(G.whoseTurn, &G);
 
-    printf("return value: %i, expected: %i\n", retValTest, retVal);
-    assert(retVal == retValTest);
 
-    printf("handCount: %i, expected: %i\n", testG.handCount[currentPlayer], G.handCount[currentPlayer]);
-    // assert(G.handCount[currentPlayer] == testG.handCount[currentPlayer]);
+    printf("return value: %i, expected: %i\t", retVal, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\treturn value: %i\n", retValTest);
 
-    printf("deckCount: %i, expected: %i\n", testG.deckCount[currentPlayer], G.deckCount[currentPlayer]);
-    // assert(G.deckCount[currentPlayer] == testG.deckCount[currentPlayer]);
+    printf("handCount: %i, expected: %i\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+2);
+    passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+2);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
 
-    printf("discardCount: %i, expected: %i\n", testG.discardCount[currentPlayer], G.discardCount[currentPlayer]);
-    // assert(G.discardCount[currentPlayer] == testG.discardCount[currentPlayer]);
-
-    printf("TEST %i PASSED\n\n", testNumber++);
 
     // TEST 2
-    printf("\nTEST %i STARTED\n", testNumber);
+    printf("\nTEST %i STARTED\n", testNumber++);
     memcpy(&G, &BASE, sizeof(struct gameState));
-    printf("G: %p\tBASE: %p\n", &G, &BASE);
 
     retVal = 0;
 
@@ -91,68 +87,25 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
     retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
 
-    if (printTestHand) {
-        printf("PRE-TEST HANDS\n");
-        printHand(currentPlayer, &G);
-        printDeck(currentPlayer, &G);
-        printPlayed(currentPlayer, &G);
-        printDiscard(currentPlayer, &G);
-    }
+    // printHand(G.whoseTurn, &G);
+    // printDeck(G.whoseTurn, &G);
+    // printDiscard(G.whoseTurn, &G);
 
-    z = 0;
-    drawntreasure = 0;
-    currentPlayer = whoseTurn(&G);
 
-    while (drawntreasure < 2) {
-        if (G.deckCount[currentPlayer] < 1) {
-            shuffle(currentPlayer, &G);
-        }
-        drawCard(currentPlayer, &G);
+    printf("return value: %i, expected: %i\t", retVal, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\treturn value: %i\n", retValTest);
 
-        cardDrawn = G.hand[currentPlayer][G.handCount[currentPlayer] - 1];
-
-        if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold) {
-            drawntreasure++;
-        }
-
-        else {
-            temphand[z] = cardDrawn;
-            G.handCount[currentPlayer]--;
-            z++;
-        }
-    }
-
-    while(z-1 >= 0) {
-        G.discard[currentPlayer][G.discardCount[currentPlayer]++]=temphand[z-1];
-        z = z-1;
-    }
-
-    if (printTestHand) {
-        printf("POST-TEST HANDS\n");
-        printHand(currentPlayer, &G);
-        printDeck(currentPlayer, &G);
-        printPlayed(currentPlayer, &G);
-        printDiscard(currentPlayer, &G);
-    }
-
-    printf("return value: %i, expected: %i\n", retValTest, retVal);
-    assert(retVal == retValTest);
-
-    printf("handCount: %i, expected: %i\n", testG.handCount[currentPlayer], G.handCount[currentPlayer]);
-    // assert(G.handCount[currentPlayer] == testG.handCount[currentPlayer]);
-
-    printf("deckCount: %i, expected: %i\n", testG.deckCount[currentPlayer], G.deckCount[currentPlayer]);
-    // assert(G.deckCount[currentPlayer] == testG.deckCount[currentPlayer]);
-
-    printf("discardCount: %i, expected: %i\n", testG.discardCount[currentPlayer], G.discardCount[currentPlayer]);
-    // assert(G.discardCount[currentPlayer] == testG.discardCount[currentPlayer]);
-
-    printf("TEST %i PASSED\n\n", testNumber++);
+    printf("handCount: %i, expected: %i\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+2);
+    passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+2);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
 
 
     // TEST 3
     // NO TREASURE IN DECK
-    printf("TEST %i STARTED\n", testNumber);
+    printf("\nTEST %i STARTED\n", testNumber++);
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
     card = adventurer;
@@ -169,67 +122,24 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
     retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
 
-    if (printTestHand) {
-        printf("PRE-TEST HANDS\n");
-        printHand(currentPlayer, &G);
-        printDeck(currentPlayer, &G);
-        printPlayed(currentPlayer, &G);
-        printDiscard(currentPlayer, &G);
-    }
+    // printHand(G.whoseTurn, &G);
+    // printDeck(G.whoseTurn, &G);
+    // printDiscard(G.whoseTurn, &G);
 
-    z = 0;
-    drawntreasure = 0;
-    currentPlayer = whoseTurn(&G);
 
-    while (drawntreasure < 2) {
-        if (G.deckCount[currentPlayer] < 1) {
-            shuffle(currentPlayer, &G);
-        }
-        drawCard(currentPlayer, &G);
+    printf("return value: %i, expected: %i\t", retVal, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\treturn value: %i\n", retValTest);
 
-        cardDrawn = G.hand[currentPlayer][G.handCount[currentPlayer] - 1];
-
-        if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold) {
-            drawntreasure++;
-        }
-
-        else {
-            temphand[z] = cardDrawn;
-            G.handCount[currentPlayer]--;
-            z++;
-        }
-    }
-
-    while(z-1 >= 0) {
-        G.discard[currentPlayer][G.discardCount[currentPlayer]++]=temphand[z-1];
-        z = z-1;
-    }
-
-    if (printTestHand) {
-        printf("POST-TEST HANDS\n");
-        printHand(currentPlayer, &G);
-        printDeck(currentPlayer, &G);
-        printPlayed(currentPlayer, &G);
-        printDiscard(currentPlayer, &G);
-    }
-
-    printf("return value: %i, expected: %i\n", retValTest, retVal);
-    assert(retVal == retValTest);
-
-    printf("handCount: %i, expected: %i\n", testG.handCount[currentPlayer], G.handCount[currentPlayer]);
-    // assert(G.handCount[currentPlayer] == testG.handCount[currentPlayer]);
-
-    printf("deckCount: %i, expected: %i\n", testG.deckCount[currentPlayer], G.deckCount[currentPlayer]);
-    // assert(G.deckCount[currentPlayer] == testG.deckCount[currentPlayer]);
-
-    printf("discardCount: %i, expected: %i\n", testG.discardCount[currentPlayer], G.discardCount[currentPlayer]);
-    // assert(G.discardCount[currentPlayer] == testG.discardCount[currentPlayer]);
-
-    printf("TEST %i PASSED\n\n", testNumber++);
+    printf("handCount: %i, expected: %i\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+2);
+    passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+2);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
 
     // TEST 4
     // TEST EMPTY DECK
-    printf("TEST %i STARTED\n", testNumber);
+    printf("\nTEST %i STARTED\n", testNumber++);
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
     card = adventurer;
@@ -242,69 +152,24 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
     retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
 
-    // FOR TESTING
-    if (printTestHand) {
-        printf("PRE-TEST HANDS\n");
-        printHand(currentPlayer, &G);
-        printDeck(currentPlayer, &G);
-        printPlayed(currentPlayer, &G);
-        printDiscard(currentPlayer, &G);
-    }
+    // printHand(G.whoseTurn, &G);
+    // printDeck(G.whoseTurn, &G);
+    // printDiscard(G.whoseTurn, &G);
 
-    z = 0;
-    drawntreasure = 0;
-    currentPlayer = whoseTurn(&G);
 
-    while (drawntreasure < 2) {
-        if (G.deckCount[currentPlayer] < 1) {
-            shuffle(currentPlayer, &G);
-        }
-        drawCard(currentPlayer, &G);
+    printf("return value: %i, expected: %i\t", retVal, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\treturn value: %i\n", retValTest);
 
-        cardDrawn = G.hand[currentPlayer][G.handCount[currentPlayer] - 1];
-
-        if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold) {
-            drawntreasure++;
-        }
-
-        else {
-            temphand[z] = cardDrawn;
-            G.handCount[currentPlayer]--;
-            z++;
-        }
-    }
-
-    while(z-1 >= 0) {
-        G.discard[currentPlayer][G.discardCount[currentPlayer]++]=temphand[z-1];
-        z = z-1;
-    }
-
-    // FOR TESTING
-    if (printTestHand) {
-        printf("POST-TEST HANDS\n");
-        printHand(currentPlayer, &G);
-        printDeck(currentPlayer, &G);
-        printPlayed(currentPlayer, &G);
-        printDiscard(currentPlayer, &G);
-    }
-
-    printf("return value: %i, expected: %i\n", retValTest, retVal);
-    assert(retVal == retValTest);
-
-    printf("handCount: %i, expected: %i\n", testG.handCount[currentPlayer], G.handCount[currentPlayer]);
-    // assert(G.handCount[currentPlayer] == testG.handCount[currentPlayer]);
-
-    printf("deckCount: %i, expected: %i\n", testG.deckCount[currentPlayer], G.deckCount[currentPlayer]);
-    // assert(G.deckCount[currentPlayer] == testG.deckCount[currentPlayer]);
-
-    printf("discardCount: %i, expected: %i\n", testG.discardCount[currentPlayer], G.discardCount[currentPlayer]);
-    // assert(G.discardCount[currentPlayer] == testG.discardCount[currentPlayer]);
-
-    printf("TEST %i PASSED\n\n", testNumber++);
+    printf("handCount: %i, expected: %i\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+2);
+    passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+2);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
 
     // TEST 5
     // TEST EMPTY DECK
-    printf("TEST %i STARTED\n", testNumber);
+    printf("\nTEST %i STARTED\n", testNumber++);
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
     card = adventurer;
@@ -318,69 +183,24 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
     retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
 
-    // FOR TESTING
-    if (printTestHand) {
-        printf("PRE-TEST HANDS\n");
-        printHand(currentPlayer, &G);
-        printDeck(currentPlayer, &G);
-        printPlayed(currentPlayer, &G);
-        printDiscard(currentPlayer, &G);
-    }
+    // printHand(G.whoseTurn, &G);
+    // printDeck(G.whoseTurn, &G);
+    // printDiscard(G.whoseTurn, &G);
 
-    z = 0;
-    drawntreasure = 0;
-    currentPlayer = whoseTurn(&G);
 
-    while (drawntreasure < 2) {
-        if (G.deckCount[currentPlayer] < 1) {
-            shuffle(currentPlayer, &G);
-        }
-        drawCard(currentPlayer, &G);
+    printf("return value: %i, expected: %i\t", retVal, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\treturn value: %i\n", retValTest);
 
-        cardDrawn = G.hand[currentPlayer][G.handCount[currentPlayer] - 1];
-
-        if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold) {
-            drawntreasure++;
-        }
-
-        else {
-            temphand[z] = cardDrawn;
-            G.handCount[currentPlayer]--;
-            z++;
-        }
-    }
-
-    while(z-1 >= 0) {
-        G.discard[currentPlayer][G.discardCount[currentPlayer]++]=temphand[z-1];
-        z = z-1;
-    }
-
-    // FOR TESTING
-    if (printTestHand) {
-        printf("POST-TEST HANDS\n");
-        printHand(currentPlayer, &G);
-        printDeck(currentPlayer, &G);
-        printPlayed(currentPlayer, &G);
-        printDiscard(currentPlayer, &G);
-    }
-
-    printf("return value: %i, expected: %i\n", retValTest, retVal);
-    assert(retVal == retValTest);
-
-    printf("handCount: %i, expected: %i\n", testG.handCount[currentPlayer], G.handCount[currentPlayer]);
-    // assert(G.handCount[currentPlayer] == testG.handCount[currentPlayer]);
-
-    printf("deckCount: %i, expected: %i\n", testG.deckCount[currentPlayer], G.deckCount[currentPlayer]);
-    // assert(G.deckCount[currentPlayer] == testG.deckCount[currentPlayer]);
-
-    printf("discardCount: %i, expected: %i\n", testG.discardCount[currentPlayer], G.discardCount[currentPlayer]);
-    // assert(G.discardCount[currentPlayer] == testG.discardCount[currentPlayer]);
-
-    printf("TEST %i PASSED\n\n", testNumber++);
+    printf("handCount: %i, expected: %i\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+2);
+    passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+2);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
 
     // TEST 6
     // TEST EMPTY DECK
-    printf("TEST %i STARTED\n", testNumber);
+    printf("\nTEST %i STARTED\n", testNumber++);
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
     card = adventurer;
@@ -395,65 +215,20 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
     retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
 
-    // FOR TESTING
-    if (printTestHand) {
-        printf("PRE-TEST HANDS\n");
-        printHand(currentPlayer, &G);
-        printDeck(currentPlayer, &G);
-        printPlayed(currentPlayer, &G);
-        printDiscard(currentPlayer, &G);
-    }
+    // printHand(G.whoseTurn, &G);
+    // printDeck(G.whoseTurn, &G);
+    // printDiscard(G.whoseTurn, &G);
 
-    z = 0;
-    drawntreasure = 0;
-    currentPlayer = whoseTurn(&G);
 
-    while (drawntreasure < 2) {
-        if (G.deckCount[currentPlayer] < 1) {
-            shuffle(currentPlayer, &G);
-        }
-        drawCard(currentPlayer, &G);
+    printf("return value: %i, expected: %i\t", retVal, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\treturn value: %i\n", retValTest);
 
-        cardDrawn = G.hand[currentPlayer][G.handCount[currentPlayer] - 1];
-
-        if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold) {
-            drawntreasure++;
-        }
-
-        else {
-            temphand[z] = cardDrawn;
-            G.handCount[currentPlayer]--;
-            z++;
-        }
-    }
-
-    while(z-1 >= 0) {
-        G.discard[currentPlayer][G.discardCount[currentPlayer]++]=temphand[z-1];
-        z = z-1;
-    }
-
-    // FOR TESTING
-    if (printTestHand) {
-        printf("POST-TEST HANDS\n");
-        printHand(currentPlayer, &G);
-        printDeck(currentPlayer, &G);
-        printPlayed(currentPlayer, &G);
-        printDiscard(currentPlayer, &G);
-    }
-
-    printf("return value: %i, expected: %i\n", retValTest, retVal);
-    assert(retVal == retValTest);
-
-    printf("handCount: %i, expected: %i\n", testG.handCount[currentPlayer], G.handCount[currentPlayer]);
-    // assert(G.handCount[currentPlayer] == testG.handCount[currentPlayer]);
-
-    printf("deckCount: %i, expected: %i\n", testG.deckCount[currentPlayer], G.deckCount[currentPlayer]);
-    // assert(G.deckCount[currentPlayer] == testG.deckCount[currentPlayer]);
-
-    printf("discardCount: %i, expected: %i\n", testG.discardCount[currentPlayer], G.discardCount[currentPlayer]);
-    // assert(G.discardCount[currentPlayer] == testG.discardCount[currentPlayer]);
-
-    printf("TEST %i PASSED\n\n", testNumber++);
+    printf("handCount: %i, expected: %i\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+2);
+    passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+2);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
 
     return 0;
 }

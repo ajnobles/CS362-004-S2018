@@ -49,21 +49,21 @@ unittestresult.out: dominion.o interface.o unitTestResultsCompile
 	rm -f $(RESULTS)
 	echo > $(RESULTS)
 
-	# # echo "unittest1.c: " >> $(RESULTS)
-	# # ./unittest1 >> $(RESULTS)
-	# #
-	# # echo >> $(RESULTS)
-	# # echo "unittest2.c: " >> $(RESULTS)
-	# # ./unittest2 >> $(RESULTS)
-	# #
-	# # echo >> $(RESULTS)
-	# # echo "unittest3.c: " >> $(RESULTS)
-	# # ./unittest3 >> $(RESULTS)
-	#
-	# echo >> $(RESULTS)
-	# echo "unittest4.c: " >> $(RESULTS)
-	# ./unittest4 >> $(RESULTS)
-	#
+	echo "unittest1.c: " >> $(RESULTS)
+	./unittest1 >> $(RESULTS)
+
+	echo >> $(RESULTS)
+	echo "unittest2.c: " >> $(RESULTS)
+	./unittest2 >> $(RESULTS)
+
+	echo >> $(RESULTS)
+	echo "unittest3.c: " >> $(RESULTS)
+	./unittest3 >> $(RESULTS)
+
+	echo >> $(RESULTS)
+	echo "unittest4.c: " >> $(RESULTS)
+	./unittest4 >> $(RESULTS)
+
 	echo >> $(RESULTS)
 	echo "cardtest1.c: " >> $(RESULTS)
 	./cardtest1 >> $(RESULTS)

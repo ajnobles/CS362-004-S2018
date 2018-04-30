@@ -25,11 +25,8 @@ int main (int argc, char *argv[])
 
     int retVal,
         retValTest,
-        i,
-        k,
         currentPlayer,
         handCount,
-        discardCount,
         passed = 0,
         testNumber = 1;
 
@@ -42,7 +39,6 @@ int main (int argc, char *argv[])
     // GET CURRENT VALUES
     currentPlayer = whoseTurn(&G);
     handCount = G.handCount[currentPlayer];
-    discardCount = G.discardCount[currentPlayer];
 
     memcpy(&testG, &G, sizeof(struct gameState));
 
@@ -91,7 +87,6 @@ int main (int argc, char *argv[])
     // GET CURRENT VALUES
     currentPlayer = whoseTurn(&G);
     handCount = G.handCount[currentPlayer];
-    discardCount = G.discardCount[currentPlayer];
 
     memcpy(&testG, &G, sizeof(struct gameState));
 
