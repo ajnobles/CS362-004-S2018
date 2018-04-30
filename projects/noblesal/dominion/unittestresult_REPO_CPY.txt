@@ -351,7 +351,7 @@ handCount: 5, expected: 5...	PASSED
 cardtest1.c: 
 
 
-TEST 1 STARTED
+CARD EFFECT: TEST 1 STARTED
 Test Initial Game Implementation
 
 return value: 0, expected: 0		PASSED
@@ -359,7 +359,7 @@ handCount: 5, expected: 7		FAILED	handCount: 8
 deckCount+discardCount: 5, expected: 3	FAILED	handCount: 2
 
 
-TEST 2 STARTED
+CARD EFFECT: TEST 2 STARTED
 Stage Deck From 0 - 5: gold, gold, estate, copper, estate
 
 return value: 0, expected: 0		PASSED
@@ -367,7 +367,7 @@ handCount: 5, expected: 7		FAILED	handCount: 8
 deckCount+discardCount: 5, expected: 3	FAILED	handCount: 2
 
 
-TEST 3 STARTED
+CARD EFFECT: TEST 3 STARTED
 Stage Deck From 0 - 5: estate, estate, estate, estate, estate
 
 return value: 0, expected: 0		PASSED
@@ -375,7 +375,7 @@ handCount: 5, expected: 7		FAILED	handCount: 5
 deckCount+discardCount: 5, expected: 3	FAILED	handCount: 5
 
 
-TEST 4 STARTED
+CARD EFFECT: TEST 4 STARTED
 Stage Empty Deck
 
 return value: 0, expected: 0		PASSED
@@ -383,7 +383,7 @@ handCount: 5, expected: 7		FAILED	handCount: 5
 deckCount+discardCount: 0, expected: -2	FAILED	handCount: 0
 
 
-TEST 5 STARTED
+CARD EFFECT: TEST 5 STARTED
 Stage empty Deck and Discard piles
 
 return value: 0, expected: 0		PASSED
@@ -391,7 +391,55 @@ handCount: 5, expected: 7		FAILED	handCount: 5
 deckCount+discardCount: 0, expected: -2	FAILED	handCount: 0
 
 
-TEST 6 STARTED
+CARD EFFECT: TEST 6 STARTED
+Stage empty Hand, Deck and Discard piles
+
+return value: 0, expected: 0		PASSED
+handCount: 0, expected: 2		FAILED	handCount: -1
+deckCount+discardCount: 0, expected: -2	FAILED	handCount: 1
+
+
+FUNCTION: TEST 1 STARTED
+Test Initial Game Implementation
+
+return value: 0, expected: 0		PASSED
+handCount: 5, expected: 7		FAILED	handCount: 8
+deckCount+discardCount: 5, expected: 3	FAILED	handCount: 2
+
+
+FUNCTION: TEST 2 STARTED
+Stage Deck From 0 - 5: gold, gold, estate, copper, estate
+
+return value: 0, expected: 0		PASSED
+handCount: 5, expected: 7		FAILED	handCount: 8
+deckCount+discardCount: 5, expected: 3	FAILED	handCount: 2
+
+
+FUNCTION: TEST 3 STARTED
+Stage Deck From 0 - 5: estate, estate, estate, estate, estate
+
+return value: 0, expected: 0		PASSED
+handCount: 5, expected: 7		FAILED	handCount: 5
+deckCount+discardCount: 5, expected: 3	FAILED	handCount: 5
+
+
+FUNCTION: TEST 4 STARTED
+Stage Empty Deck
+
+return value: 0, expected: 0		PASSED
+handCount: 5, expected: 7		FAILED	handCount: 5
+deckCount+discardCount: 0, expected: -2	FAILED	handCount: 0
+
+
+FUNCTION: TEST 5 STARTED
+Stage empty Deck and Discard piles
+
+return value: 0, expected: 0		PASSED
+handCount: 5, expected: 7		FAILED	handCount: 5
+deckCount+discardCount: 0, expected: -2	FAILED	handCount: 0
+
+
+FUNCTION: TEST 6 STARTED
 Stage empty Hand, Deck and Discard piles
 
 return value: 0, expected: 0		PASSED
@@ -401,7 +449,7 @@ deckCount+discardCount: 0, expected: -2	FAILED	handCount: 1
 cardtest2.c: 
 
 
-TEST 1 STARTED
+CARD EFFECT: TEST 1 STARTED
 Test Initial Game Implementation
 
 return value: 0, expected: 0		PASSED
@@ -409,7 +457,7 @@ handCount: 6, expected: 8		FAILED	handCount: 9
 deckCount+discardCount: 5, expected: 2	FAILED	handCount: 1
 
 
-TEST 2 STARTED
+CARD EFFECT: TEST 2 STARTED
 Set deckCount to 0
 
 return value: 0, expected: 0		PASSED
@@ -417,7 +465,7 @@ handCount: 6, expected: 8		FAILED	handCount: 5
 deckCount+discardCount: 0, expected: -3	FAILED	handCount: 0
 
 
-TEST 3 STARTED
+CARD EFFECT: TEST 3 STARTED
 Set deckCount and discardCount to 0
 
 return value: 0, expected: 0		PASSED
@@ -425,7 +473,39 @@ handCount: 6, expected: 8		FAILED	handCount: 5
 deckCount+discardCount: 0, expected: -3	FAILED	handCount: 0
 
 
-TEST 4 STARTED
+CARD EFFECT: TEST 4 STARTED
+Set handCount, deckCount and discardCount to 0, then add Smithy to Hand
+
+return value: 0, expected: 0		PASSED
+handCount: 1, expected: 3		FAILED	handCount: 0
+deckCount+discardCount: 0, expected: -3	FAILED	handCount: 0
+
+
+FUNCTION: TEST 1 STARTED
+Test Initial Game Implementation
+
+return value: 0, expected: 0		PASSED
+handCount: 6, expected: 8		FAILED	handCount: 9
+deckCount+discardCount: 5, expected: 2	FAILED	handCount: 1
+
+
+FUNCTION: TEST 2 STARTED
+Set deckCount to 0
+
+return value: 0, expected: 0		PASSED
+handCount: 6, expected: 8		FAILED	handCount: 5
+deckCount+discardCount: 0, expected: -3	FAILED	handCount: 0
+
+
+FUNCTION: TEST 3 STARTED
+Set deckCount and discardCount to 0
+
+return value: 0, expected: 0		PASSED
+handCount: 6, expected: 8		FAILED	handCount: 5
+deckCount+discardCount: 0, expected: -3	FAILED	handCount: 0
+
+
+FUNCTION: TEST 4 STARTED
 Set handCount, deckCount and discardCount to 0, then add Smithy to Hand
 
 return value: 0, expected: 0		PASSED
@@ -435,7 +515,7 @@ deckCount+discardCount: 0, expected: -3	FAILED	handCount: 0
 cardtest3.c: 
 
 
-TEST 1 STARTED
+CARD EFFECT: TEST 1 STARTED
 Test Initial Game Implementation
 
 return value: 0, expected: 0		PASSED
@@ -444,7 +524,7 @@ deckCount+discardCount: 5, expected: 5	FAILED	handCount: 4
 numActions: 1, expected: 3		FAILED	numActions: 2
 
 
-TEST 2 STARTED
+CARD EFFECT: TEST 2 STARTED
 Set deckCount to 0
 
 return value: 0, expected: 0		PASSED
@@ -453,7 +533,7 @@ deckCount+discardCount: 0, expected: 0	PASSED
 numActions: 1, expected: 3		FAILED	numActions: 2
 
 
-TEST 3 STARTED
+CARD EFFECT: TEST 3 STARTED
 Set deckCount and discardCount to 0
 
 return value: 0, expected: 0		PASSED
@@ -462,7 +542,7 @@ deckCount+discardCount: 0, expected: 0	PASSED
 numActions: 1, expected: 3		FAILED	numActions: 2
 
 
-TEST 4 STARTED
+CARD EFFECT: TEST 4 STARTED
 Set handCount, discardCount, and deckCount to 0 then add Village card to Hand
 
 return value: 0, expected: 0		PASSED
@@ -471,7 +551,52 @@ deckCount+discardCount: 0, expected: 0	PASSED
 numActions: 1, expected: 3		FAILED	numActions: 2
 
 
-TEST 5 STARTED
+CARD EFFECT: TEST 5 STARTED
+Set handCount, discardCount, and deckCount to 0 then add Village card to Hand
+
+return value: 0, expected: 0		PASSED
+handCount: 1, expected: 1		FAILED	handCount: 0
+deckCount+discardCount: 0, expected: 0	PASSED
+numActions: 1, expected: 3		FAILED	numActions: 2
+
+
+FUNCTION: TEST 6 STARTED
+Test Initial Game Implementation
+
+return value: 0, expected: 0		PASSED
+handCount: 6, expected: 6		PASSED
+deckCount+discardCount: 5, expected: 5	FAILED	handCount: 4
+numActions: 1, expected: 3		FAILED	numActions: 2
+
+
+FUNCTION: TEST 7 STARTED
+Set deckCount to 0
+
+return value: 0, expected: 0		PASSED
+handCount: 6, expected: 6		FAILED	handCount: 5
+deckCount+discardCount: 0, expected: 0	PASSED
+numActions: 1, expected: 3		FAILED	numActions: 2
+
+
+FUNCTION: TEST 8 STARTED
+Set deckCount and discardCount to 0
+
+return value: 0, expected: 0		PASSED
+handCount: 6, expected: 6		FAILED	handCount: 5
+deckCount+discardCount: 0, expected: 0	PASSED
+numActions: 1, expected: 3		FAILED	numActions: 2
+
+
+FUNCTION: TEST 9 STARTED
+Set handCount, discardCount, and deckCount to 0 then add Village card to Hand
+
+return value: 0, expected: 0		PASSED
+handCount: 1, expected: 1		FAILED	handCount: 0
+deckCount+discardCount: 0, expected: 0	PASSED
+numActions: 1, expected: 3		FAILED	numActions: 2
+
+
+FUNCTION: TEST 10 STARTED
 Set handCount, discardCount, and deckCount to 0 then add Village card to Hand
 
 return value: 0, expected: 0		PASSED
@@ -482,7 +607,7 @@ numActions: 1, expected: 3		FAILED	numActions: 2
 cardtest4.c: 
 
 
-TEST 1 STARTED
+CARD EFFECT: TEST 1 STARTED
 Test Initial Game Implementation
 
 return value: 0, expected: 0...			PASSED
@@ -491,7 +616,7 @@ deckCount+discardCount: 5, expected: 2...	FAILED	deckCount + discardCount: 0
 numBuys: 1, expected: 2...			PASSED
 
 
-TEST 2 STARTED
+CARD EFFECT: TEST 2 STARTED
 Set deckCount to 0
 
 return value: 0, expected: 0...			PASSED
@@ -500,7 +625,7 @@ deckCount+discardCount: 0, expected: -3...	FAILED	deckCount + discardCount: 0
 numBuys: 1, expected: 2...			PASSED
 
 
-TEST 3 STARTED
+CARD EFFECT: TEST 3 STARTED
 Set deckCount and discardCount to 0
 
 return value: 0, expected: 0...			PASSED
@@ -509,7 +634,43 @@ deckCount+discardCount: 0, expected: -3...	FAILED	deckCount + discardCount: 0
 numBuys: 1, expected: 2...			PASSED
 
 
-TEST 4 STARTED
+CARD EFFECT: TEST 4 STARTED
+Set handCount, discardCount, and deckCount to 0
+
+return value: 0, expected: 0...			PASSED
+handCount: 0, expected: 3...			FAILED	handCount: -1
+deckCount+discardCount: 0, expected: -3...	FAILED	deckCount + discardCount: 0
+numBuys: 1, expected: 2...			FAILED	numBuys: -1
+
+
+FUNCTION: TEST 1 STARTED
+Test Initial Game Implementation
+
+return value: 0, expected: 0...			PASSED
+handCount: 6, expected: 9...			FAILED	handCount: 10
+deckCount+discardCount: 5, expected: 2...	FAILED	deckCount + discardCount: 0
+numBuys: 1, expected: 2...			PASSED
+
+
+FUNCTION: TEST 2 STARTED
+Set deckCount to 0
+
+return value: 0, expected: 0...			PASSED
+handCount: 5, expected: 8...			FAILED	handCount: 4
+deckCount+discardCount: 0, expected: -3...	FAILED	deckCount + discardCount: 0
+numBuys: 1, expected: 2...			PASSED
+
+
+FUNCTION: TEST 3 STARTED
+Set deckCount and discardCount to 0
+
+return value: 0, expected: 0...			PASSED
+handCount: 5, expected: 8...			FAILED	handCount: 4
+deckCount+discardCount: 0, expected: -3...	FAILED	deckCount + discardCount: 0
+numBuys: 1, expected: 2...			PASSED
+
+
+FUNCTION: TEST 4 STARTED
 Set handCount, discardCount, and deckCount to 0
 
 return value: 0, expected: 0...			PASSED
@@ -518,6 +679,6 @@ deckCount+discardCount: 0, expected: -3...	FAILED	deckCount + discardCount: 0
 numBuys: 1, expected: 2...			FAILED	numBuys: -1
 
 File 'dominion.c'
-Lines executed:44.99% of 609
+Lines executed:45.98% of 609
 Creating 'dominion.c.gcov'
 

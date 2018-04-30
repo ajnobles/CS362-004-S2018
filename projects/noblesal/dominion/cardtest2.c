@@ -38,141 +38,279 @@ int main (int argc, char *argv[])
     int currentPlayer;
 
 
-    // TEST 1
-    printf("\n\nTEST %i STARTED\n", testNumber++);
-    printf("Test Initial Game Implementation\n\n");
-    memcpy(&G, &BASE, sizeof(struct gameState));
-    retVal = 0;
-    card = smithy;
+        // TEST 1
+        printf("\n\nCARD EFFECT: TEST %i STARTED\n", testNumber++);
+        printf("Test Initial Game Implementation\n\n");
+        memcpy(&G, &BASE, sizeof(struct gameState));
+        retVal = 0;
+        card = smithy;
 
-    currentPlayer = whoseTurn(&G);
-    gainCard(card, &G, 2, currentPlayer);
-    handPos = G.handCount[currentPlayer]-1;
-    // STAGE HAND/DECK
+        currentPlayer = whoseTurn(&G);
+        gainCard(card, &G, 2, currentPlayer);
+        handPos = G.handCount[currentPlayer]-1;
+        // STAGE HAND/DECK
 
-    memcpy(&testG, &G, sizeof(struct gameState));
-    retValTest = smithyRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+        memcpy(&testG, &G, sizeof(struct gameState));
+        retValTest = cardEffect(card, choice1, choice2, choice3, &testG, handPos, &bonus);
 
-    printf("return value: %i, expected: %i\t\t", retVal, retVal);
-    passed = assertInt(retVal, retValTest);
-    if (passed) printf("PASSED\n");
-    else printf("FAILED\treturn value: %i\n", retValTest);
+        printf("return value: %i, expected: %i\t\t", retVal, retVal);
+        passed = assertInt(retVal, retValTest);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\treturn value: %i\n", retValTest);
 
-    printf("handCount: %i, expected: %i\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
-    passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
-    if (passed) printf("PASSED\n");
-    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
+        printf("handCount: %i, expected: %i\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
+        passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
 
-    printf("deckCount+discardCount: %i, expected: %i\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
-    passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
-    if (passed) printf("PASSED\n");
-    else printf("FAILED\thandCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
-
-
-    // TEST 2
-    printf("\n\nTEST %i STARTED\n", testNumber++);
-    printf("Set deckCount to 0\n\n");
-    memcpy(&G, &BASE, sizeof(struct gameState));
-    retVal = 0;
-    card = smithy;
-
-    currentPlayer = whoseTurn(&G);
-    gainCard(card, &G, 2, currentPlayer);
-    handPos = G.handCount[currentPlayer]-1;
-
-    // STAGE HAND/DECK
-    G.deckCount[currentPlayer] = 0;
-
-    memcpy(&testG, &G, sizeof(struct gameState));
-    // printHand(testG.whoseTurn, &testG);
-    retValTest = smithyRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
-    // printHand(testG.whoseTurn, &testG);
-
-    printf("return value: %i, expected: %i\t\t", retVal, retVal);
-    passed = assertInt(retVal, retValTest);
-    if (passed) printf("PASSED\n");
-    else printf("FAILED\treturn value: %i\n", retValTest);
-
-    printf("handCount: %i, expected: %i\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
-    passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
-    if (passed) printf("PASSED\n");
-    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
-
-    printf("deckCount+discardCount: %i, expected: %i\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
-    passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
-    if (passed) printf("PASSED\n");
-    else printf("FAILED\thandCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
+        printf("deckCount+discardCount: %i, expected: %i\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
+        passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\thandCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
 
 
+        // TEST 2
+        printf("\n\nCARD EFFECT: TEST %i STARTED\n", testNumber++);
+        printf("Set deckCount to 0\n\n");
+        memcpy(&G, &BASE, sizeof(struct gameState));
+        retVal = 0;
+        card = smithy;
 
-    // TEST 3
-    printf("\n\nTEST %i STARTED\n", testNumber++);
-    printf("Set deckCount and discardCount to 0\n\n");
-    memcpy(&G, &BASE, sizeof(struct gameState));
-    retVal = 0;
-    card = smithy;
+        currentPlayer = whoseTurn(&G);
+        gainCard(card, &G, 2, currentPlayer);
+        handPos = G.handCount[currentPlayer]-1;
 
-    currentPlayer = whoseTurn(&G);
+        // STAGE HAND/DECK
+        G.deckCount[currentPlayer] = 0;
 
-    // STAGE HAND/DECK
-    G.deckCount[currentPlayer] = 0;
-    G.discardCount[currentPlayer] = 0;
-    gainCard(card, &G, 2, currentPlayer);
-    handPos = G.handCount[currentPlayer]-1;
+        memcpy(&testG, &G, sizeof(struct gameState));
+        // printHand(testG.whoseTurn, &testG);
+        retValTest = cardEffect(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+        // printHand(testG.whoseTurn, &testG);
 
-    memcpy(&testG, &G, sizeof(struct gameState));
-    retValTest = smithyRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+        printf("return value: %i, expected: %i\t\t", retVal, retVal);
+        passed = assertInt(retVal, retValTest);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\treturn value: %i\n", retValTest);
 
-    printf("return value: %i, expected: %i\t\t", retVal, retVal);
-    passed = assertInt(retVal, retValTest);
-    if (passed) printf("PASSED\n");
-    else printf("FAILED\treturn value: %i\n", retValTest);
+        printf("handCount: %i, expected: %i\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
+        passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
 
-    printf("handCount: %i, expected: %i\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
-    passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
-    if (passed) printf("PASSED\n");
-    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
-
-    printf("deckCount+discardCount: %i, expected: %i\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
-    passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
-    if (passed) printf("PASSED\n");
-    else printf("FAILED\thandCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
+        printf("deckCount+discardCount: %i, expected: %i\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
+        passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\thandCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
 
 
 
-    // TEST 4
-    printf("\n\nTEST %i STARTED\n", testNumber++);
-    printf("Set handCount, deckCount and discardCount to 0, then add Smithy to Hand\n\n");
-    memcpy(&G, &BASE, sizeof(struct gameState));
-    retVal = 0;
-    card = smithy;
+        // TEST 3
+        printf("\n\nCARD EFFECT: TEST %i STARTED\n", testNumber++);
+        printf("Set deckCount and discardCount to 0\n\n");
+        memcpy(&G, &BASE, sizeof(struct gameState));
+        retVal = 0;
+        card = smithy;
 
-    currentPlayer = whoseTurn(&G);
+        currentPlayer = whoseTurn(&G);
 
-    // STAGE HAND/DECK
-    G.deckCount[currentPlayer] = 0;
-    G.discardCount[currentPlayer] = 0;
-    G.handCount[currentPlayer] = 0;
-    gainCard(card, &G, 2, currentPlayer);
-    handPos = G.handCount[currentPlayer]-1;
+        // STAGE HAND/DECK
+        G.deckCount[currentPlayer] = 0;
+        G.discardCount[currentPlayer] = 0;
+        gainCard(card, &G, 2, currentPlayer);
+        handPos = G.handCount[currentPlayer]-1;
 
-    memcpy(&testG, &G, sizeof(struct gameState));
-    retValTest = smithyRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+        memcpy(&testG, &G, sizeof(struct gameState));
+        retValTest = cardEffect(card, choice1, choice2, choice3, &testG, handPos, &bonus);
 
-    printf("return value: %i, expected: %i\t\t", retVal, retVal);
-    passed = assertInt(retVal, retValTest);
-    if (passed) printf("PASSED\n");
-    else printf("FAILED\treturn value: %i\n", retValTest);
+        printf("return value: %i, expected: %i\t\t", retVal, retVal);
+        passed = assertInt(retVal, retValTest);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\treturn value: %i\n", retValTest);
 
-    printf("handCount: %i, expected: %i\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
-    passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
-    if (passed) printf("PASSED\n");
-    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
+        printf("handCount: %i, expected: %i\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
+        passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
 
-    printf("deckCount+discardCount: %i, expected: %i\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
-    passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
-    if (passed) printf("PASSED\n");
-    else printf("FAILED\thandCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
+        printf("deckCount+discardCount: %i, expected: %i\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
+        passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\thandCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
+
+
+
+        // TEST 4
+        printf("\n\nCARD EFFECT: TEST %i STARTED\n", testNumber++);
+        printf("Set handCount, deckCount and discardCount to 0, then add Smithy to Hand\n\n");
+        memcpy(&G, &BASE, sizeof(struct gameState));
+        retVal = 0;
+        card = smithy;
+
+        currentPlayer = whoseTurn(&G);
+
+        // STAGE HAND/DECK
+        G.deckCount[currentPlayer] = 0;
+        G.discardCount[currentPlayer] = 0;
+        G.handCount[currentPlayer] = 0;
+        gainCard(card, &G, 2, currentPlayer);
+        handPos = G.handCount[currentPlayer]-1;
+
+        memcpy(&testG, &G, sizeof(struct gameState));
+        retValTest = cardEffect(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+
+        printf("return value: %i, expected: %i\t\t", retVal, retVal);
+        passed = assertInt(retVal, retValTest);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\treturn value: %i\n", retValTest);
+
+        printf("handCount: %i, expected: %i\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
+        passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
+
+        printf("deckCount+discardCount: %i, expected: %i\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
+        passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\thandCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
+
+
+        testNumber = 1;
+        // TEST 1
+        printf("\n\nFUNCTION: TEST %i STARTED\n", testNumber++);
+        printf("Test Initial Game Implementation\n\n");
+        memcpy(&G, &BASE, sizeof(struct gameState));
+        retVal = 0;
+        card = smithy;
+
+        currentPlayer = whoseTurn(&G);
+        gainCard(card, &G, 2, currentPlayer);
+        handPos = G.handCount[currentPlayer]-1;
+        // STAGE HAND/DECK
+
+        memcpy(&testG, &G, sizeof(struct gameState));
+        retValTest = smithyRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+
+        printf("return value: %i, expected: %i\t\t", retVal, retVal);
+        passed = assertInt(retVal, retValTest);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\treturn value: %i\n", retValTest);
+
+        printf("handCount: %i, expected: %i\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
+        passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
+
+        printf("deckCount+discardCount: %i, expected: %i\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
+        passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\thandCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
+
+
+        // TEST 2
+        printf("\n\nFUNCTION: TEST %i STARTED\n", testNumber++);
+        printf("Set deckCount to 0\n\n");
+        memcpy(&G, &BASE, sizeof(struct gameState));
+        retVal = 0;
+        card = smithy;
+
+        currentPlayer = whoseTurn(&G);
+        gainCard(card, &G, 2, currentPlayer);
+        handPos = G.handCount[currentPlayer]-1;
+
+        // STAGE HAND/DECK
+        G.deckCount[currentPlayer] = 0;
+
+        memcpy(&testG, &G, sizeof(struct gameState));
+        // printHand(testG.whoseTurn, &testG);
+        retValTest = smithyRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+        // printHand(testG.whoseTurn, &testG);
+
+        printf("return value: %i, expected: %i\t\t", retVal, retVal);
+        passed = assertInt(retVal, retValTest);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\treturn value: %i\n", retValTest);
+
+        printf("handCount: %i, expected: %i\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
+        passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
+
+        printf("deckCount+discardCount: %i, expected: %i\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
+        passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\thandCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
+
+
+
+        // TEST 3
+        printf("\n\nFUNCTION: TEST %i STARTED\n", testNumber++);
+        printf("Set deckCount and discardCount to 0\n\n");
+        memcpy(&G, &BASE, sizeof(struct gameState));
+        retVal = 0;
+        card = smithy;
+
+        currentPlayer = whoseTurn(&G);
+
+        // STAGE HAND/DECK
+        G.deckCount[currentPlayer] = 0;
+        G.discardCount[currentPlayer] = 0;
+        gainCard(card, &G, 2, currentPlayer);
+        handPos = G.handCount[currentPlayer]-1;
+
+        memcpy(&testG, &G, sizeof(struct gameState));
+        retValTest = smithyRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+
+        printf("return value: %i, expected: %i\t\t", retVal, retVal);
+        passed = assertInt(retVal, retValTest);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\treturn value: %i\n", retValTest);
+
+        printf("handCount: %i, expected: %i\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
+        passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
+
+        printf("deckCount+discardCount: %i, expected: %i\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
+        passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\thandCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
+
+
+
+        // TEST 4
+        printf("\n\nFUNCTION: TEST %i STARTED\n", testNumber++);
+        printf("Set handCount, deckCount and discardCount to 0, then add Smithy to Hand\n\n");
+        memcpy(&G, &BASE, sizeof(struct gameState));
+        retVal = 0;
+        card = smithy;
+
+        currentPlayer = whoseTurn(&G);
+
+        // STAGE HAND/DECK
+        G.deckCount[currentPlayer] = 0;
+        G.discardCount[currentPlayer] = 0;
+        G.handCount[currentPlayer] = 0;
+        gainCard(card, &G, 2, currentPlayer);
+        handPos = G.handCount[currentPlayer]-1;
+
+        memcpy(&testG, &G, sizeof(struct gameState));
+        retValTest = smithyRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+
+        printf("return value: %i, expected: %i\t\t", retVal, retVal);
+        passed = assertInt(retVal, retValTest);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\treturn value: %i\n", retValTest);
+
+        printf("handCount: %i, expected: %i\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
+        passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+3-1);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
+
+        printf("deckCount+discardCount: %i, expected: %i\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
+        passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-3);
+        if (passed) printf("PASSED\n");
+        else printf("FAILED\thandCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
 
 
     return 0;

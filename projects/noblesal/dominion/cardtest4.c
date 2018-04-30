@@ -39,7 +39,155 @@ int main (int argc, char *argv[])
     int currentPlayer;
 
     // TEST 1
-    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nCARD EFFECT: TEST %i STARTED\n", testNumber++);
+    printf("Test Initial Game Implementation\n\n");
+    memcpy(&G, &BASE, sizeof(struct gameState));
+    retVal = 0;
+    card = council_room;
+
+    currentPlayer = whoseTurn(&G);
+    gainCard(card, &G, 2, currentPlayer);
+    handPos = G.handCount[currentPlayer]-1;
+    cardOffset = 4 - 1;
+
+    // STAGE HAND/DECK
+
+    memcpy(&testG, &G, sizeof(struct gameState));
+    retValTest = cardEffect(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+
+    printf("return value: %i, expected: %i...\t\t\t", retValTest, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\treturn value: %i\n", retValTest);
+
+    printf("handCount: %i, expected: %i...\t\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+cardOffset);
+    passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+cardOffset);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
+
+    printf("deckCount+discardCount: %i, expected: %i...\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-cardOffset);
+    passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-cardOffset);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tdeckCount + discardCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
+
+    printf("numBuys: %i, expected: %i...\t\t\t", G.numBuys, G.numBuys+1);
+    passed = assertInt(testG.numBuys, G.numBuys+1);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tnumBuys: %i\n", testG.numBuys);
+
+    // TEST 2
+    printf("\n\nCARD EFFECT: TEST %i STARTED\n", testNumber++);
+    printf("Set deckCount to 0\n\n");
+    memcpy(&G, &BASE, sizeof(struct gameState));
+    retVal = 0;
+    card = council_room;
+
+    currentPlayer = whoseTurn(&G);
+
+    // STAGE HAND/DECK
+    G.deckCount[currentPlayer] = 0;
+
+    memcpy(&testG, &G, sizeof(struct gameState));
+    retValTest = cardEffect(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+
+    printf("return value: %i, expected: %i...\t\t\t", retValTest, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\treturn value: %i\n", retValTest);
+
+    printf("handCount: %i, expected: %i...\t\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+cardOffset);
+    passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+cardOffset);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
+
+    printf("deckCount+discardCount: %i, expected: %i...\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-cardOffset);
+    passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-cardOffset);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tdeckCount + discardCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
+
+    printf("numBuys: %i, expected: %i...\t\t\t", G.numBuys, G.numBuys+1);
+    passed = assertInt(testG.numBuys, G.numBuys+1);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tnumBuys: %i\n", testG.numBuys);
+
+
+    // TEST 3
+    printf("\n\nCARD EFFECT: TEST %i STARTED\n", testNumber++);
+    printf("Set deckCount and discardCount to 0\n\n");
+    memcpy(&G, &BASE, sizeof(struct gameState));
+    retVal = 0;
+    card = council_room;
+
+    currentPlayer = whoseTurn(&G);
+
+    // STAGE HAND/DECK
+    G.deckCount[currentPlayer] = 0;
+    G.discardCount[currentPlayer] = 0;
+
+    memcpy(&testG, &G, sizeof(struct gameState));
+    retValTest = cardEffect(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+
+    printf("return value: %i, expected: %i...\t\t\t", retValTest, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\treturn value: %i\n", retValTest);
+
+    printf("handCount: %i, expected: %i...\t\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+cardOffset);
+    passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+cardOffset);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
+
+    printf("deckCount+discardCount: %i, expected: %i...\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-cardOffset);
+    passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-cardOffset);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tdeckCount + discardCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
+
+    printf("numBuys: %i, expected: %i...\t\t\t", G.numBuys, G.numBuys+1);
+    passed = assertInt(testG.numBuys, G.numBuys+1);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tnumBuys: %i\n", testG.numBuys);
+
+
+    // TEST 4
+    printf("\n\nCARD EFFECT: TEST %i STARTED\n", testNumber++);
+    printf("Set handCount, discardCount, and deckCount to 0\n\n");
+    memcpy(&G, &BASE, sizeof(struct gameState));
+    retVal = 0;
+    card = council_room;
+
+    currentPlayer = whoseTurn(&G);
+
+    // STAGE HAND/DECK
+    G.deckCount[currentPlayer] = 0;
+    G.discardCount[currentPlayer] = 0;
+    G.handCount[currentPlayer] = 0;
+
+    memcpy(&testG, &G, sizeof(struct gameState));
+    retValTest = cardEffect(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+
+    printf("return value: %i, expected: %i...\t\t\t", retValTest, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\treturn value: %i\n", retValTest);
+
+    printf("handCount: %i, expected: %i...\t\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+cardOffset);
+    passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+cardOffset);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
+
+    printf("deckCount+discardCount: %i, expected: %i...\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-cardOffset);
+    passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-cardOffset);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tdeckCount + discardCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
+
+    printf("numBuys: %i, expected: %i...\t\t\t", G.numBuys, G.numBuys+1);
+    passed = assertInt(testG.numBuys, G.numBuys+1);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tnumBuys: %i\n", testG.numBuys);
+
+    testNumber = 1;
+    // TEST 1
+    printf("\n\nFUNCTION: TEST %i STARTED\n", testNumber++);
     printf("Test Initial Game Implementation\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
@@ -76,7 +224,7 @@ int main (int argc, char *argv[])
     else printf("FAILED\tnumBuys: %i\n", testG.numBuys);
 
     // TEST 2
-    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nFUNCTION: TEST %i STARTED\n", testNumber++);
     printf("Set deckCount to 0\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
@@ -112,7 +260,7 @@ int main (int argc, char *argv[])
 
 
     // TEST 3
-    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nFUNCTION: TEST %i STARTED\n", testNumber++);
     printf("Set deckCount and discardCount to 0\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
@@ -149,7 +297,7 @@ int main (int argc, char *argv[])
 
 
     // TEST 4
-    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nFUNCTION: TEST %i STARTED\n", testNumber++);
     printf("Set handCount, discardCount, and deckCount to 0\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
