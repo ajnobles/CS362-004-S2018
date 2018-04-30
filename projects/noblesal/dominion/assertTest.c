@@ -18,8 +18,9 @@ int assertIntArr(int *a, int *b)
     if (aN != bN) {
         return -1;
     }
-
-    for (int i = 0; i < aN; i++) {
+    
+    int i;
+    for (i = 0; i < aN; i++) {
         if (a[i] != b[i]) {
             return 0;
         }
