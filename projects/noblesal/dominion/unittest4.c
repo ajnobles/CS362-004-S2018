@@ -1,4 +1,4 @@
-// endTurn
+// endTurn 353
 //
 #include "assertTest.h"
 #include "dominion.h"
@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define HAND_COUNT_START 5
+
 
 
 int main (int argc, char *argv[])
@@ -19,62 +21,116 @@ int main (int argc, char *argv[])
     int kingdomCards[10] = {adventurer, smithy, gardens, village, council_room, minion, steward, great_hall, tribute, ambassador};
     int seed = 1000;
 
-    struct gameState G, testG;
+    struct gameState BASE, G, testG;
 
     int retVal,
         retValTest,
         i,
         k,
         currentPlayer,
+        handCount,
+        discardCount,
+        passed = 0,
         testNumber = 1;
 
-    initializeGame(numPlayers, kingdomCards, seed, &G);
+    initializeGame(numPlayers, kingdomCards, seed, &BASE);
 
     // TEST 1
-    printf("TEST %i STARTED\n", testNumber);
+    printf("\nTEST %i STARTED\n", testNumber++);
+    memcpy(&G, &BASE, sizeof(struct gameState));
+
+    // GET CURRENT VALUES
+    currentPlayer = whoseTurn(&G);
+    handCount = G.handCount[currentPlayer];
+    discardCount = G.discardCount[currentPlayer];
+
     memcpy(&testG, &G, sizeof(struct gameState));
 
     retVal = 0;
     retValTest = endTurn(&testG);
 
+    printf("return value: %i, expected: %i...\t", retVal, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tretVal: %i\n", retValTest);
+
+    printf("whoseTurn: %i, expected: %i...\t", currentPlayer, (currentPlayer+1) % numPlayers);
+    passed = assertInt(testG.whoseTurn, (currentPlayer+1) % numPlayers);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\twhoseTurn: %i\n", testG.whoseTurn);
+
+    printf("handCount: %i, expected: %i...\t", G.handCount[currentPlayer], 0);
+    passed = assertInt(testG.handCount[currentPlayer], 0);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
+
+    printf("discardCount: %i, expected: %i...\t", G.discardCount[currentPlayer], G.discardCount[currentPlayer]+handCount);
+    passed = assertInt(testG.discardCount[currentPlayer], G.discardCount[currentPlayer]+handCount);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tdiscardCount: %i\n", testG.discardCount[currentPlayer]);
+
+    printf("deckCount: %i, expected: %i...\t", G.deckCount[currentPlayer], G.deckCount[currentPlayer]);
+    passed = assertInt(testG.deckCount[currentPlayer], G.deckCount[currentPlayer]);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tdiscardCount: %i\n", testG.deckCount[currentPlayer]);
+
+    printf("\tNext Player Values\n");
+    currentPlayer = (currentPlayer + 1) % numPlayers;
+
+    printf("handCount: %i, expected: %i...\t", HAND_COUNT_START, HAND_COUNT_START);
+    passed = assertInt(testG.handCount[currentPlayer], HAND_COUNT_START);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
+
+
+    // TEST 2
+    printf("\nTEST %i STARTED\n", testNumber++);
+
+    memcpy(&G, &testG, sizeof(struct gameState));
+
+    // GET CURRENT VALUES
     currentPlayer = whoseTurn(&G);
+    handCount = G.handCount[currentPlayer];
+    discardCount = G.discardCount[currentPlayer];
 
-    //Discard hand
-    for (i = 0; i < G.handCount[currentPlayer]; i++){
-      G.discard[currentPlayer][G.discardCount[currentPlayer]++] = G.hand[currentPlayer][i];//Discard
-      G.hand[currentPlayer][i] = -1;//Set card to -1
-    }
-    G.handCount[currentPlayer] = 0;//Reset hand count
+    memcpy(&testG, &G, sizeof(struct gameState));
 
-    //Code for determining the player
-    if (currentPlayer < (G.numPlayers - 1)){
-      G.whoseTurn = currentPlayer + 1;//Still safe to increment
-    }
-    else{
-      G.whoseTurn = 0;//Max player has been reached, loop back around to player 1
-    }
+    retVal = 0;
+    retValTest = endTurn(&testG);
 
-    G.outpostPlayed = 0;
-    G.phase = 0;
-    G.numActions = 1;
-    G.coins = 0;
-    G.numBuys = 1;
-    G.playedCardCount = 0;
-    G.handCount[G.whoseTurn] = 0;
+    printf("return value: %i, expected: %i...\t", retVal, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tretVal: %i\n", retValTest);
 
-    //int k; move to top
-    //Next player draws hand
-    for (k = 0; k < 5; k++){
-      drawCard(G.whoseTurn, &G);//Draw a card
-    }
+    printf("whoseTurn: %i, expected: %i...\t", currentPlayer, (currentPlayer+1) % numPlayers);
+    passed = assertInt(testG.whoseTurn, (currentPlayer+1) % numPlayers);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\twhoseTurn: %i\n", testG.whoseTurn);
 
-    //Update money
-    updateCoins(G.whoseTurn, &G , 0);
+    printf("handCount: %i, expected: %i...\t", G.handCount[currentPlayer], 0);
+    passed = assertInt(testG.handCount[currentPlayer], 0);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
 
-    printf("return value: %i, expected: %i\n", retValTest, retVal);
-    assert(retVal == retValTest);
+    printf("discardCount: %i, expected: %i...\t", G.discardCount[currentPlayer], G.discardCount[currentPlayer]+handCount);
+    passed = assertInt(testG.discardCount[currentPlayer], G.discardCount[currentPlayer]+handCount);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tdiscardCount: %i\n", testG.discardCount[currentPlayer]);
 
-    printf("TEST %i PASSED\n\n", testNumber++);
+    printf("deckCount: %i, expected: %i...\t", G.deckCount[currentPlayer], G.deckCount[currentPlayer]);
+    passed = assertInt(testG.deckCount[currentPlayer], G.deckCount[currentPlayer]);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tdiscardCount: %i\n", testG.deckCount[currentPlayer]);
+
+    printf("\tNext Player Values\n");
+    currentPlayer = (currentPlayer + 1) % numPlayers;
+
+    printf("handCount: %i, expected: %i...\t", HAND_COUNT_START, HAND_COUNT_START);
+    passed = assertInt(testG.handCount[currentPlayer], HAND_COUNT_START);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
+
 
     return 0;
 }

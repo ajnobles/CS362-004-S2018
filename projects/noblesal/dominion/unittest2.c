@@ -1,4 +1,4 @@
-// playCard
+// playCard  234
 //
 #include "assertTest.h"
 #include "dominion.h"
@@ -24,7 +24,6 @@ int main (int argc, char *argv[])
     struct gameState BASE, G, testG;
 
     int card,
-        coin_bonus,
         handPos = 0,
         choice1 = 0,
         choice2 = 0,
@@ -185,10 +184,10 @@ int main (int argc, char *argv[])
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("numActions: %i, expected: %i...\t\t", G.numActions, G.numActions);
-    passed = assertInt(testG.numActions, G.numActions);
+    printf("numActions: %i, expected: %i...\t\t", G.numActions, G.numActions-1);
+    passed = assertInt(testG.numActions, G.numActions-1);
     if (passed) printf("PASSED\n");
-    else printf("FAILED\n");
+    else printf("FAILED\tnumActions: %i\n", testG.numActions);
 
     printf("coins: %i, expected: %i...\t\t", testG.coins, G.coins);
     passed = assertInt(testG.coins, G.coins);

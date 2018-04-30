@@ -1,13 +1,13 @@
-// ADVENTURER
+// ADVENTURER  1290
 // REVEAL CARDS FROM YOUR DECK UNTIL YOU REVEAL 2 TREASURE CARDS.
 //      PUT THOSE THREASURE CARDS INTO YOUR HAND AND DISCARD THE OTHER REVEALED CARDS.
 #include "dominion.h"
 #include "dominion_helpers.h"
 #include "interface.h"
-
-//
 #include "rngs.h"
-#include <assert.h>
+
+#include "assertTest.h"
+
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
@@ -56,49 +56,6 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
     retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
 
-    if (printTestHand) {
-        printf("PRE-TEST HANDS\n");
-        printHand(currentPlayer, &G);
-        printDeck(currentPlayer, &G);
-        printPlayed(currentPlayer, &G);
-        printDiscard(currentPlayer, &G);
-    }
-
-    z = 0;
-    drawntreasure = 0;
-    currentPlayer = whoseTurn(&G);
-
-    while (drawntreasure < 2) {
-        if (G.deckCount[currentPlayer] < 1) {
-            shuffle(currentPlayer, &G);
-        }
-        drawCard(currentPlayer, &G);
-
-        cardDrawn = G.hand[currentPlayer][G.handCount[currentPlayer] - 1];
-
-        if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold) {
-            drawntreasure++;
-        }
-
-        else {
-            temphand[z] = cardDrawn;
-            G.handCount[currentPlayer]--;
-            z++;
-        }
-    }
-
-    while(z-1 >= 0) {
-        G.discard[currentPlayer][G.discardCount[currentPlayer]++]=temphand[z-1];
-        z = z-1;
-    }
-
-    if (printTestHand) {
-        printf("POST-TEST HANDS\n");
-        printHand(currentPlayer, &G);
-        printDeck(currentPlayer, &G);
-        printPlayed(currentPlayer, &G);
-        printDiscard(currentPlayer, &G);
-    }
 
     printf("return value: %i, expected: %i\n", retValTest, retVal);
     assert(retVal == retValTest);

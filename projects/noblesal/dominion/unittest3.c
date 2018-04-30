@@ -35,13 +35,9 @@ int main (int argc, char *argv[])
 
     struct gameState BASE, G, testG;
 //
-    int card,
-        retVal,
+    int retVal,
         retValTest,
         currentPlayer,
-        i,
-        handPos,
-        trashFlag,
         testNumber = 1;
 
     initializeGame(numPlayers, kingdomCards, seed, &BASE);
