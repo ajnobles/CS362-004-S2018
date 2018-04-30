@@ -447,6 +447,7 @@ int scoreFor (int player, struct gameState *state) {
   //score from deck
   // for (i = 0; i < state->discardCount[player]; i++)
   for (i = 0; i < state->deckCount[player]; i++)
+  // for (i = 0; i < state->discardCount[player]; i++)
     {
       if (state->deck[player][i] == curse) { score = score - 1; };
       if (state->deck[player][i] == estate) { score = score + 1; };
@@ -1295,7 +1296,7 @@ int adventurerRefactor(int card, int choice1, int choice2, int choice3, struct g
     int currentPlayer = whoseTurn(state);
 
     // BUG ADDED
-      //while(drawntreasure<2){  // ORIGINAL IMPLEMENTATION
+      // while(drawntreasure<2){  // ORIGINAL IMPLEMENTATION
       while(drawntreasure <= 2){ // BUG IMPLEMENTATION
 
         if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck

@@ -42,26 +42,22 @@ int main (int argc, char *argv[])
     memcpy(&G, &BASE, sizeof(struct gameState));
     G.phase = 1;
     G.numActions = 1;
-    retVal = 0;
     memcpy(&testG, &G, sizeof(struct gameState));
 
     retValTest = playCard(handPos, choice1, choice2, choice3, &testG);
+    retVal = 0;
 
-    if (G.phase != 0) {
-        retVal = -1;
-    }
-
-    printf("return value: %i, expected: %i...\t", retValTest, retVal);
-    passed = assertInt(retValTest, retVal);
+    printf("return value: %i, expected: %i...\t", retVal, retVal-1);
+    passed = assertInt(retValTest, retVal-1);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("phase: %i, expected: %i...\t\t", testG.phase, G.phase);
+    printf("phase: %i, expected: %i...\t\t", G.phase, G.phase);
     passed = assertInt(testG.phase, G.phase);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("numActions: %i, expected: %i...\t\t", testG.numActions, G.numActions);
+    printf("numActions: %i, expected: %i...\t\t", G.numActions, G.numActions);
     passed = assertInt(testG.numActions, G.numActions);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
@@ -74,30 +70,22 @@ int main (int argc, char *argv[])
 
     G.phase = 0;
     G.numActions = 0;
-    retVal = 0;
     memcpy(&testG, &G, sizeof(struct gameState));
 
     retValTest = playCard(handPos, choice1, choice2, choice3, &testG);
+    retVal = 0;
 
-    if (G.phase != 0) {
-        retVal = -1;
-    }
-
-    if (G.numActions < 1) {
-        retVal = -1;
-    }
-
-    printf("return value: %i, expected: %i...\t", retValTest, retVal);
-    passed = assertInt(retValTest, retVal);
+    printf("return value: %i, expected: %i...\t", retValTest, retVal-1);
+    passed = assertInt(retValTest, retVal-1);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("phase: %i, expected: %i...\t\t", testG.phase, G.phase);
+    printf("phase: %i, expected: %i...\t\t", G.phase, G.phase);
     passed = assertInt(testG.phase, G.phase);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("numActions: %i, expected: %i...\t\t", testG.numActions, G.numActions);
+    printf("numActions: %i, expected: %i...\t\t", G.numActions, G.numActions);
     passed = assertInt(testG.numActions, G.numActions);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
@@ -110,38 +98,23 @@ int main (int argc, char *argv[])
 
     G.phase = 0;
     G.numActions = 1;
-    retVal = 0;
     handPos = 0;
     memcpy(&testG, &G, sizeof(struct gameState));
 
     retValTest = playCard(handPos, choice1, choice2, choice3, &testG);
+    retVal = 0;
 
-    card = handCard(handPos, &G);
-
-    if (G.phase != 0) {
-        retVal = -1;
-    }
-
-    if (G.numActions < 1) {
-        retVal = -1;
-    }
-
-    if (card < adventurer || card > treasure_map) {
-        retVal = -1;
-    }
-
-
-    printf("return value: %i, expected: %i...\t", retValTest, retVal);
-    passed = assertInt(retValTest, retVal);
+    printf("return value: %i, expected: %i...\t", retValTest, retVal-1);
+    passed = assertInt(retValTest, retVal-1);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("phase: %i, expected: %i...\t\t", testG.phase, G.phase);
+    printf("phase: %i, expected: %i...\t\t", G.phase, G.phase);
     passed = assertInt(testG.phase, G.phase);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("numActions: %i, expected: %i...\t\t", testG.numActions, G.numActions);
+    printf("numActions: %i, expected: %i...\t\t", G.numActions, G.numActions);
     passed = assertInt(testG.numActions, G.numActions);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
@@ -158,41 +131,31 @@ int main (int argc, char *argv[])
 
     // FORCE ADVENTRURER CARD TO BE PLAYED
     gainCard(adventurer, &G, 2, G.whoseTurn);
-    handPos = 0;
+    handPos = G.handCount[G.whoseTurn]-1;
 
     memcpy(&testG, &G, sizeof(struct gameState));
 
     retValTest = playCard(handPos, choice1, choice2, choice3, &testG);
 
-    card = handCard(handPos, &G);
-
-    if (cardEffect(card, choice1, choice2, choice3, &G, handPos, &coin_bonus) < 0) {
-        retVal = -1;
-    }
-
-    G.numActions--;
-    updateCoins(G.whoseTurn, &G, coin_bonus);
-
-
-    printf("return value: %i, expected: %i...\t", retValTest, retVal);
+    printf("return value: %i, expected: %i...\t", retVal, retVal);
     passed = assertInt(retValTest, retVal);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("phase: %i, expected: %i...\t\t", testG.phase, G.phase);
+    printf("phase: %i, expected: %i...\t\t", G.phase, G.phase);
     passed = assertInt(testG.phase, G.phase);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("numActions: %i, expected: %i...\t\t", testG.numActions, G.numActions);
-    passed = assertInt(testG.numActions, G.numActions);
+    printf("numActions: %i, expected: %i...\t\t", G.numActions, G.numActions-1);
+    passed = assertInt(testG.numActions, G.numActions-1);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("coins: %i, expected: %i...\t\t", testG.coins, G.coins);
-    passed = assertInt(testG.coins, G.coins);
+    printf("coins: %i, expected: %i...\t\t", G.coins, G.coins+2);
+    passed = assertInt(testG.coins, G.coins+2);
     if (passed) printf("PASSED\n");
-    else printf("FAILED\n");
+    else printf("FAILED\tcoins: %i\n", testG.coins);
 
 
     // TEST 5
@@ -210,30 +173,19 @@ int main (int argc, char *argv[])
     handPos = G.handCount[currentPlayer] - 1;
 
     memcpy(&testG, &G, sizeof(struct gameState));
-
     retValTest = playCard(handPos, choice1, choice2, choice3, &testG);
 
-    card = handCard(handPos, &G);
-
-    if (cardEffect(card, choice1, choice2, choice3, &G, handPos, &coin_bonus) < 0) {
-        retVal = -1;
-    }
-
-    G.numActions--;
-    updateCoins(currentPlayer, &G, coin_bonus);
-
-
-    printf("return value: %i, expected: %i...\t\t", retValTest, retVal);
+    printf("return value: %i, expected: %i...\t\t", retVal, retVal);
     passed = assertInt(retValTest, retVal);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("phase: %i, expected: %i...\t\t", testG.phase, G.phase);
+    printf("phase: %i, expected: %i...\t\t", G.phase, G.phase);
     passed = assertInt(testG.phase, G.phase);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("numActions: %i, expected: %i...\t\t", testG.numActions, G.numActions);
+    printf("numActions: %i, expected: %i...\t\t", G.numActions, G.numActions);
     passed = assertInt(testG.numActions, G.numActions);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
@@ -243,10 +195,10 @@ int main (int argc, char *argv[])
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("outpostPlayed: %i, expected: %i...\t", testG.outpostPlayed, G.outpostPlayed);
-    passed = assertInt(testG.outpostPlayed, G.outpostPlayed);
+    printf("outpostPlayed: %i, expected: %i...\t", G.outpostPlayed, G.outpostPlayed+1);
+    passed = assertInt(testG.outpostPlayed, G.outpostPlayed+1);
     if (passed) printf("PASSED\n");
-    else printf("FAILED\n");
+    else printf("FAILED\toutpostPlayed: %i\n",testG.outpostPlayed);
 
     return 0;
 }

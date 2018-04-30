@@ -12,6 +12,7 @@
 #include <string.h>
 
 // CARD SCORE VALUES
+#define RET_VAL_START 3
 #define CURSE_VAL -1
 #define ESTATE_VAL 1
 #define DUCHY_VAL 3
@@ -51,23 +52,15 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
 
     currentPlayer = whoseTurn(&G);
+    retVal = RET_VAL_START;
 
     retValTest = scoreFor(currentPlayer, &testG);
-    retVal = 0;
 
-    // printHand(currentPlayer, &G);
-    // printDiscard(currentPlayer, &G);
-    // printDeck(currentPlayer, &G);
-
-    // STARTS GAME WITH 3 ESTATES
-    retVal += ESTATE_VAL;
-    retVal += ESTATE_VAL;
-    retVal += ESTATE_VAL;
-
-    printf("return value: %i, expected: %i...\t", retValTest, retVal);
+    printf("score: %i, expected: %i...\t", RET_VAL_START, retVal);
     passed = assertInt(retVal, retValTest);
     if (passed) printf("PASSED\n");
-    else printf("FAILED\n");
+    else printf("FAILED\tretVal: %i\n", retValTest);
+
 
     // TEST 2
     printf("\nTEST %i STARTED\n", testNumber++);
@@ -88,25 +81,20 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
     retValTest = scoreFor(currentPlayer, &testG);
 
-    printf("return value: %i, expected: %i...\t", retValTest, retVal);
+    printf("score: %i, expected: %i...\t", RET_VAL_START, retVal);
     passed = assertInt(retVal, retValTest);
     if (passed) printf("PASSED\n");
-    else printf("FAILED\n");
+    else printf("FAILED\tretVal: %i\n", retValTest);
+
 
     // TEST 3
     printf("\nTEST %i STARTED\n", testNumber++);
     //memcpy(&G, &BASE, sizeof(struct gameState));
 
     currentPlayer = whoseTurn(&G);
-
-
-        // printHand(currentPlayer, &G);
-        // printDiscard(currentPlayer, &G);
-        // printDeck(currentPlayer, &G);
+    //retVal = RET_VAL_START;
 
     // GAIN Cards
-    gainCard(estate, &G, 2, currentPlayer);
-    retVal += ESTATE_VAL;
 
     // DISCARD Cards
     //    DISCARD ESTATE CARD
@@ -114,30 +102,32 @@ int main (int argc, char *argv[])
 
     // TRASH CARDS
 
-
     memcpy(&testG, &G, sizeof(struct gameState));
     retValTest = scoreFor(currentPlayer, &testG);
 
-    printf("return value: %i, expected: %i...\t", retValTest, retVal);
+    printf("score: %i, expected: %i...\t", RET_VAL_START, retVal);
     passed = assertInt(retVal, retValTest);
     if (passed) printf("PASSED\n");
-    else printf("FAILED\n");
+    else printf("FAILED\tretVal: %i\n", retValTest);
 
-    // TEST 3
+
+    // TEST 4
     printf("\nTEST %i STARTED\n", testNumber++);
     //memcpy(&G, &BASE, sizeof(struct gameState));
 
     currentPlayer = whoseTurn(&G);
+    // printHand(currentPlayer,&G);
+    // printDeck(currentPlayer,&G);
+    // printDiscard(currentPlayer,&G);
 
     // GAIN Cards
 
     // DISCARD Cards
-    //    DISCARD ESTATE CARD
-    discardCard(2, currentPlayer, &G, 0);
 
     // TRASH CARDS
-    //    TRASH DUCHY CARD
-
+    //    TRASH ESTATE CARD
+    discardCard(2, currentPlayer, &G, 1);
+    retVal -= ESTATE_VAL;
 
     memcpy(&testG, &G, sizeof(struct gameState));
     retValTest = scoreFor(currentPlayer, &testG);
@@ -145,7 +135,33 @@ int main (int argc, char *argv[])
     printf("return value: %i, expected: %i...\t", retValTest, retVal);
     passed = assertInt(retVal, retValTest);
     if (passed) printf("PASSED\n");
-    else printf("FAILED\n");
+    else printf("FAILED\tretVal: %i\n", retValTest);
+
+
+    // TEST 5
+    printf("\nTEST %i STARTED\n", testNumber++);
+    //memcpy(&G, &BASE, sizeof(struct gameState));
+
+    currentPlayer = whoseTurn(&G);
+    // printHand(currentPlayer,&G);
+    // printDeck(currentPlayer,&G);
+    // printDiscard(currentPlayer,&G);
+
+    // GAIN Cards
+    gainCard(gardens, &G, 2, currentPlayer);
+    retVal += GARDENS_VAL(currentPlayer, &G);
+
+    // DISCARD Cards
+
+    // TRASH CARDS
+
+    memcpy(&testG, &G, sizeof(struct gameState));
+    retValTest = scoreFor(currentPlayer, &testG);
+
+    printf("return value: %i, expected: %i...\t", retValTest, retVal);
+    passed = assertInt(retVal, retValTest);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\tretVal: %i\n", retValTest);
 
     return 0;
 }

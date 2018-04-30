@@ -21,9 +21,7 @@ int main (int argc, char *argv[])
 
     struct gameState BASE, G, testG;
 
-    int i,
-        j,
-        testGameOver,
+    int testGameOver,
         gameOver,
         testNumber = 1;
 
@@ -34,31 +32,11 @@ int main (int argc, char *argv[])
     memcpy(&G, &BASE, sizeof(struct gameState));
 
     gameOver = 0;
-    // G.supplyCount[province] = 0;
-    // G.supplyCount[adventurer] = 0;
-    // G.supplyCount[village] = 0;
-    // G.supplyCount[smithy] = 0;
 
     memcpy(&testG, &G, sizeof(struct gameState));
     testGameOver = isGameOver(&testG);
 
-    // Test isGameOver to G
-    if (G.supplyCount[province] == 0) {
-        gameOver = 1;
-    }
-
-    j = 0;
-    for (i = 0; i < 25; i++) {
-        if (G.supplyCount[i] == 0) {
-            j++;
-        }
-
-        if (j >= 3) {
-            gameOver = 1;
-        }
-    }
-
-    printf("isGameOver: %i, expected: %i...\t\t\t", testGameOver, gameOver);
+    printf("gameOver: %i, expected: %i...\t\t\t", gameOver, gameOver);
     passed = assertInt(testGameOver, gameOver);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
@@ -78,7 +56,7 @@ int main (int argc, char *argv[])
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("supplyCount[smithy]: %i, expected: %i...\t", testG.supplyCount[smithy], G.supplyCount[smithy]);    assert(gameOver == testGameOver);
+    printf("supplyCount[smithy]: %i, expected: %i...\t", testG.supplyCount[smithy], G.supplyCount[smithy]);
     passed = assertInt(testG.supplyCount[smithy], G.supplyCount[smithy]);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
@@ -98,30 +76,14 @@ int main (int argc, char *argv[])
     // G.supplyCount[adventurer] = 0;
     //G.supplyCount[village] = 0;
     //G.supplyCount[smithy] = 0;
-    gameOver = 0;
 
     memcpy(&testG, &G, sizeof(struct gameState));
     testGameOver = isGameOver(&testG);
 
-    // Test isGameOver to G
-    if (G.supplyCount[province] == 0) {
-        gameOver = 1;
-    }
+    gameOver = 0;
 
-    j = 0;
-    for (i = 0; i < 25; i++) {
-        if (G.supplyCount[i] == 0) {
-            j++;
-        }
-
-        if (j >= 3) {
-            gameOver = 1;
-        }
-    }
-
-
-    printf("isGameOver: %i, expected: %i...\t\t\t", testGameOver, gameOver);
-    passed = assertInt(testGameOver, gameOver);
+    printf("gameOver: %i, expected: %i...\t\t\t", gameOver, gameOver+1);
+    passed = assertInt(testGameOver, gameOver+1);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
@@ -140,7 +102,7 @@ int main (int argc, char *argv[])
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("supplyCount[smithy]: %i, expected: %i...\t", testG.supplyCount[smithy], G.supplyCount[smithy]);    assert(gameOver == testGameOver);
+    printf("supplyCount[smithy]: %i, expected: %i...\t", testG.supplyCount[smithy], G.supplyCount[smithy]);
     passed = assertInt(testG.supplyCount[smithy], G.supplyCount[smithy]);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
@@ -165,23 +127,9 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
     testGameOver = isGameOver(&testG);
 
-    // Test isGameOver to G
-    if (G.supplyCount[province] == 0) {
-        gameOver = 1;
-    }
+    gameOver = 0;
 
-    j = 0;
-    for (i = 0; i < 25; i++) {
-        if (G.supplyCount[i] == 0) {
-            j++;
-        }
-
-        if (j >= 3) {
-            gameOver = 1;
-        }
-    }
-
-    printf("isGameOver: %i, expected: %i...\t\t\t", testGameOver, gameOver);
+    printf("gameOver: %i, expected: %i...\t\t\t", gameOver, gameOver);
     passed = assertInt(testGameOver, gameOver);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
@@ -201,7 +149,7 @@ int main (int argc, char *argv[])
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("supplyCount[smithy]: %i, expected: %i...\t", testG.supplyCount[smithy], G.supplyCount[smithy]);    assert(gameOver == testGameOver);
+    printf("supplyCount[smithy]: %i, expected: %i...\t", testG.supplyCount[smithy], G.supplyCount[smithy]);
     passed = assertInt(testG.supplyCount[smithy], G.supplyCount[smithy]);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
@@ -221,29 +169,13 @@ int main (int argc, char *argv[])
     G.supplyCount[adventurer] = 0;
     G.supplyCount[village] = 0;
     //G.supplyCount[smithy] = 0;
-    gameOver = 0;
 
     memcpy(&testG, &G, sizeof(struct gameState));
     testGameOver = isGameOver(&testG);
 
-    // Test isGameOver to G
-    if (G.supplyCount[province] == 0) {
-        gameOver = 1;
-    }
+    gameOver = 0;
 
-    j = 0;
-    for (i = 0; i < 25; i++) {
-        if (G.supplyCount[i] == 0) {
-            j++;
-        }
-
-        if (j >= 3) {
-            gameOver = 1;
-        }
-    }
-
-
-    printf("isGameOver: %i, expected: %i...\t\t\t", testGameOver, gameOver);
+    printf("gameOver: %i, expected: %i...\t\t\t", gameOver, gameOver);
     passed = assertInt(testGameOver, gameOver);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
@@ -263,7 +195,7 @@ int main (int argc, char *argv[])
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("supplyCount[smithy]: %i, expected: %i...\t", testG.supplyCount[smithy], G.supplyCount[smithy]);    assert(gameOver == testGameOver);
+    printf("supplyCount[smithy]: %i, expected: %i...\t", testG.supplyCount[smithy], G.supplyCount[smithy]);
     passed = assertInt(testG.supplyCount[smithy], G.supplyCount[smithy]);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
@@ -288,24 +220,10 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
     testGameOver = isGameOver(&testG);
 
-    // Test isGameOver to G
-    if (G.supplyCount[province] == 0) {
-        gameOver = 1;
-    }
+    gameOver = 0;
 
-    j = 0;
-    for (i = 0; i < 25; i++) {
-        if (G.supplyCount[i] == 0) {
-            j++;
-        }
-
-        if (j >= 3) {
-            gameOver = 1;
-        }
-    }
-
-    printf("isGameOver: %i, expected: %i...\t\t\t", testGameOver, gameOver);
-    passed = assertInt(testGameOver, gameOver);
+    printf("gameOver: %i, expected: %i...\t\t\t", gameOver, gameOver+1);
+    passed = assertInt(testGameOver, gameOver+1);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
@@ -324,7 +242,7 @@ int main (int argc, char *argv[])
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("supplyCount[smithy]: %i, expected: %i...\t", testG.supplyCount[smithy], G.supplyCount[smithy]);    assert(gameOver == testGameOver);
+    printf("supplyCount[smithy]: %i, expected: %i...\t", testG.supplyCount[smithy], G.supplyCount[smithy]);
     passed = assertInt(testG.supplyCount[smithy], G.supplyCount[smithy]);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
@@ -349,23 +267,9 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
     testGameOver = isGameOver(&testG);
 
-    // Test isGameOver to G
-    if (G.supplyCount[province] == 0) {
-        gameOver = 1;
-    }
+    gameOver = 0;
 
-    j = 0;
-    for (i = 0; i < 25; i++) {
-        if (G.supplyCount[i] == 0) {
-            j++;
-        }
-
-        if (j >= 3) {
-            gameOver = 1;
-        }
-    }
-
-    printf("isGameOver: %i, expected: %i...\t\t\t", testGameOver, gameOver);
+    printf("gameOver: %i, expected: %i...\t\t\t", gameOver, gameOver);
     passed = assertInt(testGameOver, gameOver);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
@@ -385,7 +289,7 @@ int main (int argc, char *argv[])
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("supplyCount[smithy]: %i, expected: %i...\t", testG.supplyCount[smithy], G.supplyCount[smithy]);    assert(gameOver == testGameOver);
+    printf("supplyCount[smithy]: %i, expected: %i...\t", testG.supplyCount[smithy], G.supplyCount[smithy]);
     passed = assertInt(testG.supplyCount[smithy], G.supplyCount[smithy]);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
@@ -410,24 +314,10 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
     testGameOver = isGameOver(&testG);
 
-    // Test isGameOver to G
-    if (G.supplyCount[province] == 0) {
-        gameOver = 1;
-    }
+    gameOver = 0;
 
-    j = 0;
-    for (i = 0; i < 25; i++) {
-        if (G.supplyCount[i] == 0) {
-            j++;
-        }
-
-        if (j >= 3) {
-            gameOver = 1;
-        }
-    }
-
-    printf("isGameOver: %i, expected: %i...\t\t\t", testGameOver, gameOver);
-    passed = assertInt(testGameOver, gameOver);
+    printf("gameOver: %i, expected: %i...\t\t\t", gameOver, gameOver+1);
+    passed = assertInt(testGameOver, gameOver+1);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
@@ -446,7 +336,7 @@ int main (int argc, char *argv[])
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("supplyCount[smithy]: %i, expected: %i...\t\t", testG.supplyCount[smithy], G.supplyCount[smithy]);    assert(gameOver == testGameOver);
+    printf("supplyCount[smithy]: %i, expected: %i...\t\t", testG.supplyCount[smithy], G.supplyCount[smithy]);
     passed = assertInt(testG.supplyCount[smithy], G.supplyCount[smithy]);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
@@ -470,24 +360,10 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
     testGameOver = isGameOver(&testG);
 
-    // Test isGameOver to G
-    if (G.supplyCount[province] == 0) {
-        gameOver = 1;
-    }
+    gameOver = 0;
 
-    j = 0;
-    for (i = 0; i < 25; i++) {
-        if (G.supplyCount[i] == 0) {
-            j++;
-        }
-
-        if (j >= 3) {
-            gameOver = 1;
-        }
-    }
-
-    printf("isGameOver: %i, expected: %i...\t\t\t", testGameOver, gameOver);
-    passed = assertInt(testGameOver, gameOver);
+    printf("gameOver: %i, expected: %i...\t\t\t", gameOver, gameOver+1);
+    passed = assertInt(testGameOver, gameOver+1);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
@@ -506,7 +382,7 @@ int main (int argc, char *argv[])
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("supplyCount[smithy]: %i, expected: %i...\t\t", testG.supplyCount[smithy], G.supplyCount[smithy]);    assert(gameOver == testGameOver);
+    printf("supplyCount[smithy]: %i, expected: %i...\t\t", testG.supplyCount[smithy], G.supplyCount[smithy]);
     passed = assertInt(testG.supplyCount[smithy], G.supplyCount[smithy]);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
@@ -531,28 +407,12 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
     testGameOver = isGameOver(&testG);
 
-    // Test isGameOver to G
-    if (G.supplyCount[province] == 0) {
-        gameOver = 1;
-    }
+    gameOver = 0;
 
-    j = 0;
-    for (i = 0; i < 25; i++) {
-        if (G.supplyCount[i] == 0) {
-            j++;
-        }
-
-        if (j >= 3) {
-            gameOver = 1;
-        }
-    }
-
-
-    printf("isGameOver: %i, expected: %i...\t\t\t", testGameOver, gameOver);
-    passed = assertInt(testGameOver, gameOver);
+    printf("gameOver: %i, expected: %i...\t\t\t", gameOver, gameOver+1);
+    passed = assertInt(testGameOver, gameOver+1);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
-
     printf("supplyCount[province]: %i, expected: %i...\t", testG.supplyCount[province], G.supplyCount[province]);
     passed = assertInt(testG.supplyCount[province], G.supplyCount[province]);
     if (passed) printf("PASSED\n");
@@ -568,7 +428,7 @@ int main (int argc, char *argv[])
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
 
-    printf("supplyCount[smithy]: %i, expected: %i...\t\t", testG.supplyCount[smithy], G.supplyCount[smithy]);    assert(gameOver == testGameOver);
+    printf("supplyCount[smithy]: %i, expected: %i...\t\t", testG.supplyCount[smithy], G.supplyCount[smithy]);
     passed = assertInt(testG.supplyCount[smithy], G.supplyCount[smithy]);
     if (passed) printf("PASSED\n");
     else printf("FAILED\n");
