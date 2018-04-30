@@ -1,5 +1,4 @@
 CFLAGS = -Wall -fpic -coverage -lm
-GCOVFLAGS =
 
 testFiles= cardtest1
 testFilesDep= cardtest1.c
@@ -81,7 +80,7 @@ unittestresult.out: dominion.o interface.o unitTestResultsCompile
 	./cardtest4 >> $(RESULTS)
 
 	echo >> $(RESULTS)
-	gcov $(GCOVFLAGS) dominion.c >> unittestresult.out
+	gcov dominion.c >> unittestresult.out
 	gcov dominion.c
 
 

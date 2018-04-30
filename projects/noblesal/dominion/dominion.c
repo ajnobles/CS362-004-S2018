@@ -1372,8 +1372,8 @@ int council_roomRefactor(int card, int choice1, int choice2, int choice3,
 
     // BUG ADDED
     //+4 Cards
-	for (i = 0; i < 4; i++)
-	// for (i = 0; i <= 4; i++)
+	// for (i = 0; i < 4; i++)
+	for (i = 0; i <= 4; i++)
 	{
 	  drawCard(currentPlayer, state);
 	}

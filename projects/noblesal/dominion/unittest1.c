@@ -1,4 +1,4 @@
-// isGameOver
+// isGameOver  393
 #include "assertTest.h"
 #include "dominion.h"
 #include "dominion_helpers.h"
@@ -29,6 +29,7 @@ int main (int argc, char *argv[])
 
     // TEST 1
     printf("TEST %i STARTED\n", testNumber++);
+    printf("Testing initial game initialization\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
 
     gameOver = 0;
@@ -69,13 +70,11 @@ int main (int argc, char *argv[])
 
 
     // TEST 2
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("supplyCount[province] = 0\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
 
     G.supplyCount[province] = 0;
-    // G.supplyCount[adventurer] = 0;
-    //G.supplyCount[village] = 0;
-    //G.supplyCount[smithy] = 0;
 
     memcpy(&testG, &G, sizeof(struct gameState));
     testGameOver = isGameOver(&testG);
@@ -115,13 +114,11 @@ int main (int argc, char *argv[])
 
 
     // TEST 3
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("supplyCount[province] = 4\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
 
     G.supplyCount[province] = 4;
-    // G.supplyCount[adventurer] = 0;
-    // G.supplyCount[village] = 0;
-    //G.supplyCount[smithy] = 0;
     gameOver = 0;
 
     memcpy(&testG, &G, sizeof(struct gameState));
@@ -162,13 +159,12 @@ int main (int argc, char *argv[])
 
 
     // TEST 4
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("supplyCount[adventurer] = 0\tsupplyCount[village] = 0\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
 
-    // G.supplyCount[province] = 4;
     G.supplyCount[adventurer] = 0;
     G.supplyCount[village] = 0;
-    //G.supplyCount[smithy] = 0;
 
     memcpy(&testG, &G, sizeof(struct gameState));
     testGameOver = isGameOver(&testG);
@@ -208,13 +204,13 @@ int main (int argc, char *argv[])
 
 
     // TEST 5
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("supplyCount[adventurer] = 0\tsupplyCount[village] = 0\tsupplyCount[province] = 0\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
 
     G.supplyCount[province] = 0;
     G.supplyCount[adventurer] = 0;
     G.supplyCount[village] = 0;
-    //G.supplyCount[smithy] = 0;
     gameOver = 0;
 
     memcpy(&testG, &G, sizeof(struct gameState));
@@ -255,13 +251,13 @@ int main (int argc, char *argv[])
 
 
     // TEST 6
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("supplyCount[adventurer] = 0\tsupplyCount[village] = 0\tsupplyCount[province] = 4\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
 
     G.supplyCount[province] = 4;
     G.supplyCount[adventurer] = 0;
     G.supplyCount[village] = 0;
-    //G.supplyCount[smithy] = 0;
     gameOver = 0;
 
     memcpy(&testG, &G, sizeof(struct gameState));
@@ -302,10 +298,10 @@ int main (int argc, char *argv[])
 
 
     // TEST 7
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("supplyCount[adventurer] = 0\tsupplyCount[village] = 0\tsupplyCount[smithy] = 0\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
 
-    // G.supplyCount[province] = 0;
     G.supplyCount[adventurer] = 0;
     G.supplyCount[village] = 0;
     G.supplyCount[smithy] = 0;
@@ -348,7 +344,8 @@ int main (int argc, char *argv[])
 
 
     // TEST 8
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("supplyCount[province] = 0\tsupplyCount[adventurer] = 0\tsupplyCount[village] = 0\tsupplyCount[smithy] = 0\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
 
     G.supplyCount[province] = 0;
@@ -395,7 +392,8 @@ int main (int argc, char *argv[])
 
 
     // TEST 9
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("supplyCount[province] = 4\tsupplyCount[adventurer] = 0\tsupplyCount[village] = 0\tsupplyCount[smithy] = 0\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
 
     G.supplyCount[province] = 4;

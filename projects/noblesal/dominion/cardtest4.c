@@ -39,7 +39,8 @@ int main (int argc, char *argv[])
     int currentPlayer;
 
     // TEST 1
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("Test Initial Game Implementation\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
     card = council_room;
@@ -75,7 +76,8 @@ int main (int argc, char *argv[])
     else printf("FAILED\tnumBuys: %i\n", testG.numBuys);
 
     // TEST 2
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("Set deckCount to 0\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
     card = council_room;
@@ -110,7 +112,8 @@ int main (int argc, char *argv[])
 
 
     // TEST 3
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("Set deckCount and discardCount to 0\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
     card = council_room;
@@ -146,7 +149,8 @@ int main (int argc, char *argv[])
 
 
     // TEST 4
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("Set handCount, discardCount, and deckCount to 0\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
     card = council_room;

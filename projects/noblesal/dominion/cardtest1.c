@@ -41,7 +41,8 @@ int main (int argc, char *argv[])
 
 
     // TEST 1
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("Test Initial Game Implementation\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
 
     retVal = 0;
@@ -52,24 +53,26 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
     retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
 
-    // printHand(G.whoseTurn, &G);
-    // printDeck(G.whoseTurn, &G);
-    // printDiscard(G.whoseTurn, &G);
 
-
-    printf("return value: %i, expected: %i\t", retVal, retVal);
+    printf("return value: %i, expected: %i\t\t", retVal, retVal);
     passed = assertInt(retVal, retValTest);
     if (passed) printf("PASSED\n");
     else printf("FAILED\treturn value: %i\n", retValTest);
 
-    printf("handCount: %i, expected: %i\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+2);
+    printf("handCount: %i, expected: %i\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+2);
     passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+2);
     if (passed) printf("PASSED\n");
     else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
 
+    printf("deckCount+discardCount: %i, expected: %i\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-2);
+    passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-2);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
+
 
     // TEST 2
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("Stage Deck From 0 - 5: gold, gold, estate, copper, estate\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
 
     retVal = 0;
@@ -92,20 +95,26 @@ int main (int argc, char *argv[])
     // printDiscard(G.whoseTurn, &G);
 
 
-    printf("return value: %i, expected: %i\t", retVal, retVal);
+    printf("return value: %i, expected: %i\t\t", retVal, retVal);
     passed = assertInt(retVal, retValTest);
     if (passed) printf("PASSED\n");
     else printf("FAILED\treturn value: %i\n", retValTest);
 
-    printf("handCount: %i, expected: %i\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+2);
+    printf("handCount: %i, expected: %i\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+2);
     passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+2);
     if (passed) printf("PASSED\n");
     else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
 
+    printf("deckCount+discardCount: %i, expected: %i\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-2);
+    passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-2);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
+
 
     // TEST 3
     // NO TREASURE IN DECK
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("Stage Deck From 0 - 5: estate, estate, estate, estate, estate\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
     card = adventurer;
@@ -122,25 +131,25 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
     retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
 
-    // printHand(G.whoseTurn, &G);
-    // printDeck(G.whoseTurn, &G);
-    // printDiscard(G.whoseTurn, &G);
 
-
-    printf("return value: %i, expected: %i\t", retVal, retVal);
+    printf("return value: %i, expected: %i\t\t", retVal, retVal);
     passed = assertInt(retVal, retValTest);
     if (passed) printf("PASSED\n");
     else printf("FAILED\treturn value: %i\n", retValTest);
 
-    printf("handCount: %i, expected: %i\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+2);
+    printf("handCount: %i, expected: %i\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+2);
     passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+2);
     if (passed) printf("PASSED\n");
     else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
 
+    printf("deckCount+discardCount: %i, expected: %i\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-2);
+    passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-2);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
+
     // TEST 4
-    // TEST EMPTY DECK
-    printf("\nTEST %i STARTED\n", testNumber++);
-    memcpy(&G, &BASE, sizeof(struct gameState));
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("Stage Empty Deck\n\n");
     retVal = 0;
     card = adventurer;
 
@@ -152,24 +161,24 @@ int main (int argc, char *argv[])
     memcpy(&testG, &G, sizeof(struct gameState));
     retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
 
-    // printHand(G.whoseTurn, &G);
-    // printDeck(G.whoseTurn, &G);
-    // printDiscard(G.whoseTurn, &G);
-
-
-    printf("return value: %i, expected: %i\t", retVal, retVal);
+    printf("return value: %i, expected: %i\t\t", retVal, retVal);
     passed = assertInt(retVal, retValTest);
     if (passed) printf("PASSED\n");
     else printf("FAILED\treturn value: %i\n", retValTest);
 
-    printf("handCount: %i, expected: %i\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+2);
+    printf("handCount: %i, expected: %i\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+2);
     passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+2);
     if (passed) printf("PASSED\n");
     else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
 
+    printf("deckCount+discardCount: %i, expected: %i\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-2);
+    passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-2);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
+
     // TEST 5
-    // TEST EMPTY DECK
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("Stage empty Deck and Discard piles\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
     card = adventurer;
@@ -188,19 +197,25 @@ int main (int argc, char *argv[])
     // printDiscard(G.whoseTurn, &G);
 
 
-    printf("return value: %i, expected: %i\t", retVal, retVal);
+    printf("return value: %i, expected: %i\t\t", retVal, retVal);
     passed = assertInt(retVal, retValTest);
     if (passed) printf("PASSED\n");
     else printf("FAILED\treturn value: %i\n", retValTest);
 
-    printf("handCount: %i, expected: %i\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+2);
+    printf("handCount: %i, expected: %i\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+2);
     passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+2);
     if (passed) printf("PASSED\n");
     else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
 
+    printf("deckCount+discardCount: %i, expected: %i\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-2);
+    passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-2);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
+
+
     // TEST 6
-    // TEST EMPTY DECK
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("Stage empty Hand, Deck and Discard piles\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
     card = adventurer;
@@ -220,15 +235,21 @@ int main (int argc, char *argv[])
     // printDiscard(G.whoseTurn, &G);
 
 
-    printf("return value: %i, expected: %i\t", retVal, retVal);
+    printf("return value: %i, expected: %i\t\t", retVal, retVal);
     passed = assertInt(retVal, retValTest);
     if (passed) printf("PASSED\n");
     else printf("FAILED\treturn value: %i\n", retValTest);
 
-    printf("handCount: %i, expected: %i\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+2);
+    printf("handCount: %i, expected: %i\t\t", G.handCount[currentPlayer], G.handCount[currentPlayer]+2);
     passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+2);
     if (passed) printf("PASSED\n");
     else printf("FAILED\thandCount: %i\n", testG.handCount[currentPlayer]);
+
+    printf("deckCount+discardCount: %i, expected: %i\t", G.deckCount[currentPlayer]+G.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-2);
+    passed = assertInt(testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer], G.deckCount[currentPlayer]+G.discardCount[currentPlayer]-2);
+    if (passed) printf("PASSED\n");
+    else printf("FAILED\thandCount: %i\n", testG.deckCount[currentPlayer]+testG.discardCount[currentPlayer]);
+
 
     return 0;
 }

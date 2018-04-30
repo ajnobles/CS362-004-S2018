@@ -1,4 +1,4 @@
-// VILLAGE
+// VILLAGE 1344
 #include "dominion.h"
 #include "dominion_helpers.h"
 #include "interface.h"
@@ -38,7 +38,8 @@ int main (int argc, char *argv[])
     int currentPlayer;
 
     // TEST 1
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("Test Initial Game Implementation\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
     card = village;
@@ -76,7 +77,8 @@ int main (int argc, char *argv[])
 
 
     // TEST 2
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("Set deckCount to 0\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
     card = village;
@@ -113,7 +115,8 @@ int main (int argc, char *argv[])
 
 
     // TEST 3
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("Set deckCount and discardCount to 0\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
     card = village;
@@ -151,7 +154,8 @@ int main (int argc, char *argv[])
 
 
     // TEST 4
-    printf("\nTEST %i STARTED\n", testNumber++);
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("Set handCount, discardCount, and deckCount to 0 then add Village card to Hand\n\n");
     memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
     card = village;
@@ -190,8 +194,8 @@ int main (int argc, char *argv[])
 
 
     // TEST 5
-    printf("\nTEST %i STARTED\n", testNumber++);
-    memcpy(&G, &BASE, sizeof(struct gameState));
+    printf("\n\nTEST %i STARTED\n", testNumber++);
+    printf("Set handCount, discardCount, and deckCount to 0 then add Village card to Hand\n\n");    memcpy(&G, &BASE, sizeof(struct gameState));
     retVal = 0;
     card = village;
 
@@ -201,7 +205,7 @@ int main (int argc, char *argv[])
     G.deckCount[currentPlayer] = 0;
     G.discardCount[currentPlayer] = 0;
     G.handCount[currentPlayer] = 0;
-    G.numActions = 15;
+
     gainCard(card, &G, 2, currentPlayer);
     handPos = G.handCount[currentPlayer]-1;
 
