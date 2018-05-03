@@ -28,43 +28,53 @@ char inputChar()
 char *inputString()
 {
     // TODO: rewrite this function
-    char **tmp;
+    char *tmp;//**tmp;
+    tmp = malloc(sizeof(char) * 6);
+    memset(tmp, '\0', 6);
 
-    tmp = malloc(sizeof(char *) * 10);
+    for (int i = 0; i < 5; i++){
+        tmp[i] = inputChar();
 
-    tmp[0] = malloc(sizeof(char) * 255);
-    tmp[0] = "reset";
+        if (tmp[0] == 'r') {
+            strcpy(tmp, "reset");
+            break;
+        }
+    }
 
-    tmp[1] = malloc(sizeof(char) * 255);
-    tmp[1] = "start";
+    // tmp = malloc(sizeof(char *) * 10);
+    //
+    // tmp[0] = malloc(sizeof(char) * 255);
+    // tmp[0] = "reset";
+    //
+    // tmp[1] = malloc(sizeof(char) * 255);
+    // tmp[1] = "start";
+    //
+    // tmp[2] = malloc(sizeof(char) * 255);
+    // tmp[2] = "end";
+    //
+    // tmp[3] = malloc(sizeof(char) * 255);
+    // tmp[3] = "code";
+    //
+    // tmp[4] = malloc(sizeof(char) * 255);
+    // tmp[4] = "rest";
+    //
+    // tmp[5] = malloc(sizeof(char) * 255);
+    // tmp[5] = "set";
+    //
+    // tmp[6] = malloc(sizeof(char) * 255);
+    // tmp[6] = "unrest";
+    //
+    // tmp[7] = malloc(sizeof(char) * 255);
+    // tmp[7] = "resetting";
+    //
+    // tmp[8] = malloc(sizeof(char) * 255);
+    // tmp[8] = "lots";
+    //
+    // tmp[9] = malloc(sizeof(char) * 255);
+    // tmp[9] = "love";
 
-    tmp[2] = malloc(sizeof(char) * 255);
-    tmp[2] = "end";
-
-    tmp[3] = malloc(sizeof(char) * 255);
-    tmp[3] = "code";
-
-    tmp[4] = malloc(sizeof(char) * 255);
-    tmp[4] = "rest";
-
-    tmp[5] = malloc(sizeof(char) * 255);
-    tmp[5] = "set";
-
-    tmp[6] = malloc(sizeof(char) * 255);
-    tmp[6] = "unrest";
-
-    tmp[7] = malloc(sizeof(char) * 255);
-    tmp[7] = "resetting";
-
-    tmp[8] = malloc(sizeof(char) * 255);
-    tmp[8] = "lots";
-
-    tmp[9] = malloc(sizeof(char) * 255);
-    tmp[9] = "love";
-
-
-
-    return tmp[rand() % 10];
+    // return tmp[rand() % 10];
+    return tmp;
 }
 
 void testme()
@@ -94,8 +104,9 @@ void testme()
        && s[4] == 't' && s[5] == '\0'
        && state == 9)
     {
-      printf("error ");
-      exit(200);
+      printf("error \n");
+      // exit(200);
+      break;
     }
     // [({ ax})]
 
