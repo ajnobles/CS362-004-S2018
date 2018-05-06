@@ -3,6 +3,12 @@
 #include<stdlib.h>
 #include<time.h>
 
+#define TEST_STRINGS "testStrings.txt"
+#define MAX_WORDS 100
+
+
+size_t MAX_WORD_SIZE = 25;
+
 char inputChar()
 {
     // TODO: rewrite this function
@@ -28,43 +34,40 @@ char inputChar()
 char *inputString()
 {
     // TODO: rewrite this function
-    char **tmp;
 
-    tmp = malloc(sizeof(char *) * 10);
+    char *tmp[MAX_WORDS];
+    memset(tmp, '\0', MAX_WORDS);
 
-    tmp[0] = malloc(sizeof(char) * 255);
-    tmp[0] = "reset";
+    int i;
+    for (i = 0; i < MAX_WORDS; i++) {
+        tmp[i] = malloc(sizeof(char) * MAX_WORD_SIZE);
+        memset(tmp[i], '\0', MAX_WORD_SIZE);
+    }
 
-    tmp[1] = malloc(sizeof(char) * 255);
-    tmp[1] = "start";
+    char *r = malloc(sizeof(char) * MAX_WORD_SIZE);
+    memset(r, '\0', MAX_WORD_SIZE);
 
-    tmp[2] = malloc(sizeof(char) * 255);
-    tmp[2] = "end";
+    FILE *input = fopen(TEST_STRINGS, "r");
 
-    tmp[3] = malloc(sizeof(char) * 255);
-    tmp[3] = "code";
+    i = 0;
+    while(getline(&tmp[i], &MAX_WORD_SIZE, input) > 0){
+        int len = strlen(tmp[i]);
 
-    tmp[4] = malloc(sizeof(char) * 255);
-    tmp[4] = "rest";
+        if (tmp[i][len-1] == '\n')
+        {
+            tmp[i][len-1] = '\0';
+        }
 
-    tmp[5] = malloc(sizeof(char) * 255);
-    tmp[5] = "set";
+        // FOR TESTING
+        // printf("i: %i\tword: %s\n", i, tmp[i]);
+        i++;
+    }
 
-    tmp[6] = malloc(sizeof(char) * 255);
-    tmp[6] = "unrest";
+    fclose(input);
 
-    tmp[7] = malloc(sizeof(char) * 255);
-    tmp[7] = "resetting";
+    strcpy(r, tmp[rand() % i]);
 
-    tmp[8] = malloc(sizeof(char) * 255);
-    tmp[8] = "lots";
-
-    tmp[9] = malloc(sizeof(char) * 255);
-    tmp[9] = "love";
-
-
-
-    return tmp[rand() % 10];
+    return r;
 }
 
 void testme()
@@ -73,7 +76,12 @@ void testme()
   char *s;
   char c;
   int state = 0;
-  while (1)
+
+  // TIMING VARIABLES
+  time_t startTime = clock() / CLOCKS_PER_SEC,
+         elapsedTime = clock() / CLOCKS_PER_SEC;
+
+  while (elapsedTime < (60 * 5))
   {
     tcCount++;
     c = inputChar();
@@ -98,6 +106,9 @@ void testme()
       exit(200);
     }
     // [({ ax})]
+
+    elapsedTime = (clock() / CLOCKS_PER_SEC) - startTime;
+    // printf("elapsedTime: %lu\n", elapsedTime);
 
   }
 }
