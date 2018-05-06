@@ -3,6 +3,12 @@
 #include<stdlib.h>
 #include<time.h>
 
+#define TEST_STRINGS "testStrings.txt"
+#define MAX_WORDS 100
+
+
+size_t MAX_WORD_SIZE = 25;
+
 char inputChar()
 {
     // TODO: rewrite this function
@@ -28,6 +34,7 @@ char inputChar()
 char *inputString()
 {
     // TODO: rewrite this function
+<<<<<<< HEAD
     char *tmp;//**tmp;
     tmp = malloc(sizeof(char) * 6);
     memset(tmp, '\0', 6);
@@ -75,6 +82,42 @@ char *inputString()
 
     // return tmp[rand() % 10];
     return tmp;
+=======
+
+    char *tmp[MAX_WORDS];
+    memset(tmp, '\0', MAX_WORDS);
+
+    int i;
+    for (i = 0; i < MAX_WORDS; i++) {
+        tmp[i] = malloc(sizeof(char) * MAX_WORD_SIZE);
+        memset(tmp[i], '\0', MAX_WORD_SIZE);
+    }
+
+    char *r = malloc(sizeof(char) * MAX_WORD_SIZE);
+    memset(r, '\0', MAX_WORD_SIZE);
+
+    FILE *input = fopen(TEST_STRINGS, "r");
+
+    i = 0;
+    while(getline(&tmp[i], &MAX_WORD_SIZE, input) > 0){
+        int len = strlen(tmp[i]);
+
+        if (tmp[i][len-1] == '\n')
+        {
+            tmp[i][len-1] = '\0';
+        }
+
+        // FOR TESTING
+        // printf("i: %i\tword: %s\n", i, tmp[i]);
+        i++;
+    }
+
+    fclose(input);
+
+    strcpy(r, tmp[rand() % i]);
+
+    return r;
+>>>>>>> master
 }
 
 void testme()
@@ -83,7 +126,12 @@ void testme()
   char *s;
   char c;
   int state = 0;
-  while (1)
+
+  // TIMING VARIABLES
+  time_t startTime = clock() / CLOCKS_PER_SEC,
+         elapsedTime = clock() / CLOCKS_PER_SEC;
+
+  while (elapsedTime < (60 * 5))
   {
     tcCount++;
     c = inputChar();
@@ -109,6 +157,9 @@ void testme()
       break;
     }
     // [({ ax})]
+
+    elapsedTime = (clock() / CLOCKS_PER_SEC) - startTime;
+    // printf("elapsedTime: %lu\n", elapsedTime);
 
   }
 }
