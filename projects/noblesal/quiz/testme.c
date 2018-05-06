@@ -5,6 +5,7 @@
 
 #define TEST_STRINGS "testStrings.txt"
 #define MAX_WORDS 100
+#define NUM_ASCII_CHARS 128
 
 
 size_t MAX_WORD_SIZE = 25;
@@ -12,21 +13,21 @@ size_t MAX_WORD_SIZE = 25;
 char inputChar()
 {
     // TODO: rewrite this function
-    int numChars = 26 + 3 + 3 + 1;
+    // int numChars = 26 + 3 + 3 + 1;
 
-    char tmp = rand() % numChars;
+    char tmp = rand() % NUM_ASCII_CHARS;
 
-    if (tmp < 26) tmp += 'a';
-
-    else if (tmp == 26) tmp = '[';
-    else if (tmp == 27) tmp = ']';
-
-    else if (tmp == 28) tmp = '(';
-    else if (tmp == 29) tmp = ')';
-
-    else if (tmp == 30) tmp = '{';
-    else if (tmp == 31) tmp = '}';
-    else if (tmp == 31) tmp = ' ';
+    // if (tmp < 26) tmp += 'a';
+    //
+    // else if (tmp == 26) tmp = '[';
+    // else if (tmp == 27) tmp = ']';
+    //
+    // else if (tmp == 28) tmp = '(';
+    // else if (tmp == 29) tmp = ')';
+    //
+    // else if (tmp == 30) tmp = '{';
+    // else if (tmp == 31) tmp = '}';
+    // else if (tmp == 31) tmp = ' ';
 
     return tmp;
 }
