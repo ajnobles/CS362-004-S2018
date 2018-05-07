@@ -6,13 +6,37 @@
 #define TEST_STRINGS "testStrings.txt"
 #define MAX_WORDS 100
 #define NUM_ASCII_CHARS 128
+<<<<<<< 2f0295710e424d139b3e1fe02240f9f03776b65d
+=======
+
+>>>>>>> inputChar revised to include all standard ASCII chars
 
 size_t MAX_WORD_SIZE = 25;
 
 char inputChar()
 {
     // TODO: rewrite this function
+<<<<<<< 2f0295710e424d139b3e1fe02240f9f03776b65d
     return rand() % NUM_ASCII_CHARS;
+=======
+    // int numChars = 26 + 3 + 3 + 1;
+
+    char tmp = rand() % NUM_ASCII_CHARS;
+
+    // if (tmp < 26) tmp += 'a';
+    //
+    // else if (tmp == 26) tmp = '[';
+    // else if (tmp == 27) tmp = ']';
+    //
+    // else if (tmp == 28) tmp = '(';
+    // else if (tmp == 29) tmp = ')';
+    //
+    // else if (tmp == 30) tmp = '{';
+    // else if (tmp == 31) tmp = '}';
+    // else if (tmp == 31) tmp = ' ';
+
+    return tmp;
+>>>>>>> inputChar revised to include all standard ASCII chars
 }
 
 char *inputString()
