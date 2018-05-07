@@ -5,44 +5,35 @@
 
 #define TEST_STRINGS "testStrings.txt"
 #define MAX_WORDS 100
-#define NUM_ASCII_CHARS 128
-<<<<<<< 2f0295710e424d139b3e1fe02240f9f03776b65d
-=======
 
->>>>>>> inputChar revised to include all standard ASCII chars
 
 size_t MAX_WORD_SIZE = 25;
 
 char inputChar()
 {
     // TODO: rewrite this function
-<<<<<<< 2f0295710e424d139b3e1fe02240f9f03776b65d
-    return rand() % NUM_ASCII_CHARS;
-=======
-    // int numChars = 26 + 3 + 3 + 1;
+    int numChars = 26 + 3 + 3 + 1;
 
-    char tmp = rand() % NUM_ASCII_CHARS;
+    char tmp = rand() % numChars;
 
-    // if (tmp < 26) tmp += 'a';
-    //
-    // else if (tmp == 26) tmp = '[';
-    // else if (tmp == 27) tmp = ']';
-    //
-    // else if (tmp == 28) tmp = '(';
-    // else if (tmp == 29) tmp = ')';
-    //
-    // else if (tmp == 30) tmp = '{';
-    // else if (tmp == 31) tmp = '}';
-    // else if (tmp == 31) tmp = ' ';
+    if (tmp < 26) tmp += 'a';
+
+    else if (tmp == 26) tmp = '[';
+    else if (tmp == 27) tmp = ']';
+
+    else if (tmp == 28) tmp = '(';
+    else if (tmp == 29) tmp = ')';
+
+    else if (tmp == 30) tmp = '{';
+    else if (tmp == 31) tmp = '}';
+    else if (tmp == 31) tmp = ' ';
 
     return tmp;
->>>>>>> inputChar revised to include all standard ASCII chars
 }
 
 char *inputString()
 {
     // TODO: rewrite this function
-<<<<<<< a71ccd9f485a16d263830add82b97de195af1eff
 
     char *tmp[MAX_WORDS];
     memset(tmp, '\0', MAX_WORDS);
@@ -59,7 +50,7 @@ char *inputString()
     FILE *input = fopen(TEST_STRINGS, "r");
 
     i = 0;
-    while(getline(&tmp[i], &MAX_WORD_SIZE, input) > 0 && i < MAX_WORDS){
+    while(getline(&tmp[i], &MAX_WORD_SIZE, input) > 0){
         int len = strlen(tmp[i]);
 
         if (tmp[i][len-1] == '\n')
@@ -77,55 +68,6 @@ char *inputString()
     strcpy(r, tmp[rand() % i]);
 
     return r;
-=======
-    char *tmp;//**tmp;
-    tmp = malloc(sizeof(char) * 6);
-    memset(tmp, '\0', 6);
-
-    for (int i = 0; i < 5; i++){
-        tmp[i] = inputChar();
-
-        if (tmp[0] == 'r') {
-            strcpy(tmp, "reset");
-            break;
-        }
-    }
-
-    // tmp = malloc(sizeof(char *) * 10);
-    //
-    // tmp[0] = malloc(sizeof(char) * 255);
-    // tmp[0] = "reset";
-    //
-    // tmp[1] = malloc(sizeof(char) * 255);
-    // tmp[1] = "start";
-    //
-    // tmp[2] = malloc(sizeof(char) * 255);
-    // tmp[2] = "end";
-    //
-    // tmp[3] = malloc(sizeof(char) * 255);
-    // tmp[3] = "code";
-    //
-    // tmp[4] = malloc(sizeof(char) * 255);
-    // tmp[4] = "rest";
-    //
-    // tmp[5] = malloc(sizeof(char) * 255);
-    // tmp[5] = "set";
-    //
-    // tmp[6] = malloc(sizeof(char) * 255);
-    // tmp[6] = "unrest";
-    //
-    // tmp[7] = malloc(sizeof(char) * 255);
-    // tmp[7] = "resetting";
-    //
-    // tmp[8] = malloc(sizeof(char) * 255);
-    // tmp[8] = "lots";
-    //
-    // tmp[9] = malloc(sizeof(char) * 255);
-    // tmp[9] = "love";
-
-    // return tmp[rand() % 10];
-    return tmp;
->>>>>>> Quiz; Testing gcov
 }
 
 void testme()
@@ -160,9 +102,8 @@ void testme()
        && s[4] == 't' && s[5] == '\0'
        && state == 9)
     {
-      printf("error \n");
-      // exit(200);
-      break;
+      printf("error ");
+      exit(200);
     }
     // [({ ax})]
 
