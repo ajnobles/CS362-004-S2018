@@ -5,7 +5,7 @@
 
 #define TEST_STRINGS "testStrings.txt"
 #define MAX_WORDS 100
-
+#define NUM_ASCII_CHARS 128
 
 size_t MAX_WORD_SIZE = 25;
 
