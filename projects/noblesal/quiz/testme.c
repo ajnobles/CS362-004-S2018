@@ -12,23 +12,7 @@ size_t MAX_WORD_SIZE = 25;
 char inputChar()
 {
     // TODO: rewrite this function
-    int numChars = 26 + 3 + 3 + 1;
-
-    char tmp = rand() % numChars;
-
-    if (tmp < 26) tmp += 'a';
-
-    else if (tmp == 26) tmp = '[';
-    else if (tmp == 27) tmp = ']';
-
-    else if (tmp == 28) tmp = '(';
-    else if (tmp == 29) tmp = ')';
-
-    else if (tmp == 30) tmp = '{';
-    else if (tmp == 31) tmp = '}';
-    else if (tmp == 31) tmp = ' ';
-
-    return tmp;
+    return rand() % NUM_ASCII_CHARS;
 }
 
 char *inputString()
@@ -50,7 +34,7 @@ char *inputString()
     FILE *input = fopen(TEST_STRINGS, "r");
 
     i = 0;
-    while(getline(&tmp[i], &MAX_WORD_SIZE, input) > 0){
+    while(getline(&tmp[i], &MAX_WORD_SIZE, input) > 0 && i < MAX_WORDS){
         int len = strlen(tmp[i]);
 
         if (tmp[i][len-1] == '\n')
