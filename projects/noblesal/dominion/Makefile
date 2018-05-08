@@ -83,6 +83,18 @@ unittestresult.out: dominion.o interface.o unitTestResultsCompile
 	gcov dominion.c >> unittestresult.out
 	gcov dominion.c
 
+randomTestResultsCompile: randomtest*.c assertTest.c assertTest.h
+		gcc -o randomtestcard1 randomtestcard1.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
+		gcc -o randomtestcard2 randomtestcard2.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
+		gcc -o randomtestcardadventurer randomtestcardadventurer.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
+
+randomtestresults: dominion.o interface.o randomTestResultsCompile
+	rm -f randomtestcard1.out randomtestcard2.out randomtestcardadventurer.out
+
+	./randomtestcard1 > randomtestcard1.out
+	./randomtestcard2 > randomtestcard2.out
+	./randomtestcardadventurer > randomtestcardadventurer.out
+
 
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)
@@ -90,4 +102,4 @@ player: player.c interface.o
 all: playdom player
 
 clean:
-	rm -f *.o playdom.exe playdom player player.exe  *.gcov *.gcda *.gcno *.so *.out testDrawCard testDrawCard.exe unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4
+	rm -f *.o playdom.exe playdom player player.exe  *.gcov *.gcda *.gcno *.so *.out testDrawCard testDrawCard.exe unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4 randomtestcard1 randomtestcard2 randomtestcardadventurer
