@@ -94,6 +94,7 @@ randomtestresults: dominion.o interface.o randomTestResultsCompile
 	./randomtestcard1 > randomtestcard1.out
 	./randomtestcard2 > randomtestcard2.out
 	./randomtestcardadventurer > randomtestcardadventurer.out
+	gcov -f dominion.c >> randomtestcardadventurer.out
 
 
 player: player.c interface.o
