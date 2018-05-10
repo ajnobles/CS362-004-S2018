@@ -50,138 +50,16 @@ int main (int argc, char *argv[])
 
 
         if (i % SET_DECK_TO_ZERO == 0) {
-            testG.deckCount[currentPlayer] = 0;
+            // testG.deckCount[currentPlayer] = 0;
         }
 
         if (i % SET_HAND_TO_ZERO == 0) {
-            testG.handCount[currentPlayer] = 0;
+            // testG.handCount[currentPlayer] = 0;
         }
 
         retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
 
         passed = assertInt(retVal, retValTest);
-
-	if (i % SET_DECK_TO_ZERO == 0 && i % SET_HAND_TO_ZERO == 0) {
-	    
-	}
-
-	else if (i % SET_DECK_TO_ZERO == 0) {
-
-	}
-
-	else if (i % SET_HAND_TO_ZERO == 0) {
-
-	    if (passed) {
-                passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer] + 2);
-	    }
-
-	    if (passed) {
-                testCardCount = testG.handCount[currentPlayer];
-                testCardCount += testG.deckCount[currentPlayer];
-                testCardCount += testG.discardCount[currentPlayer];
-
-                cardCount = G.handCount[currentPlayer];
-                cardCount += G.deckCount[currentPlayer];
-                cardCount += G.discardCount[currentPlayer];
-
-                passed = assertInt(cardCount, testCardCount);
-	    }
-
-	    if (passed) {
-                testCardCount += testG.deckCount[currentPlayer];
-                testCardCount += testG.discardCount[currentPlayer];
-        
-                cardCount += G.deckCount[currentPlayer];
-                cardCount += G.discardCount[currentPlayer];
-        
-                passed = assertInt(cardCount - 2, testCardCount);
-	    }
-
-	} 
-
-	else {
-
-	    if (passed) {
-                passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer] + 2);
-	    }
-
-	    if (passed) {
-                testCardCount = testG.handCount[currentPlayer];
-                testCardCount += testG.deckCount[currentPlayer];
-                testCardCount += testG.discardCount[currentPlayer];
-
-                cardCount = G.handCount[currentPlayer];
-                cardCount += G.deckCount[currentPlayer];
-                cardCount += G.discardCount[currentPlayer];
-
-                passed = assertInt(cardCount, testCardCount);
-	    }
-
-	    if (passed) {
-                testCardCount += testG.deckCount[currentPlayer];
-                testCardCount += testG.discardCount[currentPlayer];
-        
-                cardCount += G.deckCount[currentPlayer];
-                cardCount += G.discardCount[currentPlayer];
-        
-                passed = assertInt(cardCount - 2, testCardCount);
-	    }
-
-	}
-
-
-        /*
-        if (passed) {
-
-            if (i % SET_HAND_TO_ZERO == 0) {
-                passed = assertInt(testG.handCount[currentPlayer], 2);
-            }
-
-            else if (i % SET_DECK_TO_ZERO == 0) {
-                passed = assertInt(testG.handCount[currentPlayer], 2);
-            }
-
-            else {
-                passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer] + 2);
-            }
-        }
-
-        if (passed) {
-
-            if (i % SET_HAND_TO_ZERO == 0) {
-                testCardCount = testG.handCount[currentPlayer];
-                testCardCount += testG.deckCount[currentPlayer];
-                testCardCount += testG.discardCount[currentPlayer];
-
-                cardCount = G.handCount[currentPlayer];
-                cardCount += G.deckCount[currentPlayer];
-                cardCount += G.discardCount[currentPlayer];
-
-                passed = assertInt(cardCount, testCardCount);
-            }
-
-            else {
-                testCardCount = testG.handCount[currentPlayer];
-                testCardCount += testG.deckCount[currentPlayer];
-                testCardCount += testG.discardCount[currentPlayer];
-
-                cardCount = G.handCount[currentPlayer];
-                cardCount += G.deckCount[currentPlayer];
-                cardCount += G.discardCount[currentPlayer];
-
-                passed = assertInt(cardCount, testCardCount);
-            }
-        }*/
-
-        // if (passed) {
-        //     testCardCount += testG.deckCount[currentPlayer];
-        //     testCardCount += testG.discardCount[currentPlayer];
-        //
-        //     cardCount += G.deckCount[currentPlayer];
-        //     cardCount += G.discardCount[currentPlayer];
-        //
-        //     passed = assertInt(cardCount - 2, testCardCount);
-        // }
 
         if (passed) numTestPassed++;
 

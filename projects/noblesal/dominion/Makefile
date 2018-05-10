@@ -92,9 +92,10 @@ randomtestresults: dominion.o interface.o randomTestResultsCompile
 	rm -f randomtestcard1.out randomtestcard2.out randomtestcardadventurer.out
 
 	./randomtestcard1 > randomtestcard1.out
-	./randomtestcard2 > randomtestcard2.out
-	./randomtestcardadventurer > randomtestcardadventurer.out
-	gcov -f dominion.c >> randomtestcardadventurer.out
+	#./randomtestcard2 > randomtestcard2.out
+	#./randomtestcardadventurer > randomtestcardadventurer.out
+	#gcov -f dominion.c >> randomtestcardadventurer.out
+	gcov -f dominion.c >> randomtestcard1.out
 
 
 player: player.c interface.o
