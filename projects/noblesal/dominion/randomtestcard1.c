@@ -11,7 +11,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define NUM_TEST 1
+#define NUM_TEST 5
+
+const int HAND_CHANGE = 3 - 1;
+const int PLAYED_CARDS_CHANGE = 1; 
 
 int main (int argc, char *argv[])
 {
@@ -48,7 +51,7 @@ int main (int argc, char *argv[])
             retVal = 0;
             testG.whoseTurn = currentPlayer;
             handPos = j % 2;
-            printf("handPos: %i\n", handPos);
+            // printf("handPos: %i\n", handPos);
 
 
             // RUN FUNCTION
@@ -58,17 +61,20 @@ int main (int argc, char *argv[])
             passed = assertInt(retVal, retValTest);
 
             if (passed) {
-                passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+2-1);
-            }
+                passed = assertInt(testG.handCount[currentPlayer], G.handCount[currentPlayer]+HAND_CHANGE);
+			}
 
             if (passed) {
-                passed = assertInt(testG.discardCount[currentPlayer], G.discardCount[currentPlayer]+1);
+                passed = assertInt(testG.discardCount[currentPlayer], G.discardCount[currentPlayer]+PLAYED_CARDS_CHANGE);
             }
 
             if (passed) numTestPassed++;
 
             else {
-                printf("\nFAILED: i: %i\tcurrentPlayer: %i\n", i, currentPlayer);
+                printf("\nFAILED: i: %i\tj: %i\tcurrentPlayer: %i\thandPos: %i\n", i, j, currentPlayer, handPos);
+				
+				printf("handCount - G: %i\ttestG: %i\n", G.handCount[currentPlayer]+HAND_CHANGE,testG.handCount[currentPlayer]);
+				printf("playedCount - G: %i\ttestG: %i\n", G.playedCards+PLAYED_CARDS_CHANGE,testG.playedCards);
             }
 
             numTest++;
@@ -76,4 +82,6 @@ int main (int argc, char *argv[])
     }
 
     printf("numTest: %i\tnumTestPassed: %i\n\n", numTest, numTestPassed);
+
+	return 0;
 }

@@ -1330,8 +1330,7 @@ int smithyRefactor(int card, int choice1, int choice2, int choice3,
 		//+2 Cards
 
     // BUG ADDED
-        for (i = 0; i < 2; i++)  // DELETE ME
-        // for (i = 0; i < 3; i++)  // ORIGINAL IMPLEMENTATION
+         for (i = 0; i < 3; i++)  // ORIGINAL IMPLEMENTATION
 		  // for (i = 0; i <= 3; i++)  // BUGGY IMPLEMENTATION
 		{
             drawCard(currentPlayer, state);

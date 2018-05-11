@@ -62,4 +62,6 @@ int main (int argc, char *argv[])
     }
 
     printf("numTest: %i\tnumTestPassed: %i\n\n", numTest, numTestPassed);
+
+	return 0;
 }
