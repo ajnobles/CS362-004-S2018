@@ -30,8 +30,6 @@ int main (int argc, char *argv[])
         seed = 1000,
         retVal,
         retValTest,
-        cardCount,
-        testCardCount,
         passed;
 
     int i, j, numTest = 0, numTestPassed = 0;
@@ -65,7 +63,7 @@ int main (int argc, char *argv[])
 			}
 
             if (passed) {
-                passed = assertInt(testG.discardCount[currentPlayer], G.discardCount[currentPlayer]+PLAYED_CARDS_CHANGE);
+                passed = assertInt(testG.playedCardCount, G.playedCardCount+PLAYED_CARDS_CHANGE);
             }
 
             if (passed) numTestPassed++;
@@ -74,7 +72,7 @@ int main (int argc, char *argv[])
                 printf("\nFAILED: i: %i\tj: %i\tcurrentPlayer: %i\thandPos: %i\n", i, j, currentPlayer, handPos);
 				
 				printf("handCount - G: %i\ttestG: %i\n", G.handCount[currentPlayer]+HAND_CHANGE,testG.handCount[currentPlayer]);
-				printf("playedCount - G: %i\ttestG: %i\n", G.playedCards+PLAYED_CARDS_CHANGE,testG.playedCards);
+				printf("playedCardCount - G: %i\ttestG: %i\n", G.playedCardCount+PLAYED_CARDS_CHANGE,testG.playedCardCount);
             }
 
             numTest++;

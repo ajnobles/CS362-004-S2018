@@ -1351,8 +1351,8 @@ int villageRefactor(int card, int choice1, int choice2, int choice3,
 
     // BUG ADDED
     //+2 Actions
-    // state->numActions = state->numActions + 2;
-    state->numActions = state->numActions + 1;
+    state->numActions = state->numActions + 2; // ORIGINAL 
+    // state->numActions = state->numActions + 1; // BUGGY
 
     //discard played card from hand
     discardCard(handPos, currentPlayer, state, 0);

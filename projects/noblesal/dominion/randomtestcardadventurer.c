@@ -13,6 +13,9 @@
 
 #define SET_DECK_TO_ZERO 10
 #define SET_HAND_TO_ZERO 15
+#define NUM_TEST 100
+
+int testHelper(struct gameState *g, struct gameState *test);
 
 int main (int argc, char *argv[])
 {
@@ -42,7 +45,7 @@ int main (int argc, char *argv[])
 
     srand(seed);
 
-    for (i = 0; i < 1000; i++) {
+    for (i = 0; i < NUM_TEST; i++) {
         memcpy(&testG, &G, sizeof(struct gameState));
         currentPlayer = rand() % numPlayers;
         retVal = 0;
@@ -50,7 +53,7 @@ int main (int argc, char *argv[])
 
 
         if (i % SET_DECK_TO_ZERO == 0) {
-            // testG.deckCount[currentPlayer] = 0;
+            testG.deckCount[currentPlayer] = 0;
         }
 
         if (i % SET_HAND_TO_ZERO == 0) {
@@ -76,4 +79,27 @@ int main (int argc, char *argv[])
     printf("numTest: %i\tnumTestPassed: %i\n\n", numTest, numTestPassed);
 
     return 0;
+}
+
+
+int testHelper(struct gameState *G, struct gameState *testG)
+{
+	int passed = 0, handCount, testHandCount;
+
+	int currentPlayer = whoseTurn(G);
+	if (passed) {
+	    handCount = 0;
+		handCount += G->handCount[currentPlayer];
+		handCount += G->deckCount[currentPlayer];
+		handCount += G->discardCount[currentPlayer];
+ 
+		testHandCount = 0;
+		testHandCount += testG->handCount[currentPlayer];
+		testHandCount += testG->deckCount[currentPlayer];
+		testHandCount += testG->discardCount[currentPlayer];
+		
+		passed = assertInt(handCount, testHandCount);
+
+	}
+    return 1;
 }
