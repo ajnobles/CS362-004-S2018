@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define NUM_TEST 100
+#define NUM_TEST 10000
 
 const int HAND_COUNT_CHANGE = 1 - 1;
 const int NUM_ACTIONS_CHANGE = 2;

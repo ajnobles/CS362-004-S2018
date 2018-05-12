@@ -11,10 +11,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define NUM_TEST 5
+#define NUM_TEST 1000
 
 const int HAND_CHANGE = 3 - 1;
 const int PLAYED_CARDS_CHANGE = 1; 
+const int DECK_CHANGE = -2;
 
 int main (int argc, char *argv[])
 {
@@ -30,6 +31,8 @@ int main (int argc, char *argv[])
         seed = 1000,
         retVal,
         retValTest,
+		cardCount,
+		testCardCount,
         passed;
 
     int i, j, numTest = 0, numTestPassed = 0;
@@ -66,6 +69,10 @@ int main (int argc, char *argv[])
                 passed = assertInt(testG.playedCardCount, G.playedCardCount+PLAYED_CARDS_CHANGE);
             }
 
+            if (passed) {
+                passed = assertInt(testG.deckCount[currentPlayer], G.deckCount[currentPlayer] + DECK_CHANGE);
+            }
+
             if (passed) numTestPassed++;
 
             else {
@@ -73,6 +80,7 @@ int main (int argc, char *argv[])
 				
 				printf("handCount - G: %i\ttestG: %i\n", G.handCount[currentPlayer]+HAND_CHANGE,testG.handCount[currentPlayer]);
 				printf("playedCardCount - G: %i\ttestG: %i\n", G.playedCardCount+PLAYED_CARDS_CHANGE,testG.playedCardCount);
+				printf("deckCount - G: %i\ttestG: %i\n", G.deckCount[currentPlayer]+DECK_CHANGE,testG.deckCount[currentPlayer]);
             }
 
             numTest++;

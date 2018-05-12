@@ -1294,8 +1294,8 @@ int adventurerRefactor(int card, int choice1, int choice2, int choice3, struct g
     int currentPlayer = whoseTurn(state);
 
     // BUG ADDED
-      while(drawntreasure<2){  // ORIGINAL IMPLEMENTATION
-      //while(drawntreasure <= 2){ // BUG IMPLEMENTATION
+      // while(drawntreasure<2){  // ORIGINAL IMPLEMENTATION
+      while(drawntreasure <= 2){ // BUG IMPLEMENTATION
 
         if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
             shuffle(currentPlayer, state);
@@ -1330,8 +1330,8 @@ int smithyRefactor(int card, int choice1, int choice2, int choice3,
 		//+2 Cards
 
     // BUG ADDED
-         for (i = 0; i < 3; i++)  // ORIGINAL IMPLEMENTATION
-		  // for (i = 0; i <= 3; i++)  // BUGGY IMPLEMENTATION
+        //for (i = 0; i < 3; i++)  // ORIGINAL IMPLEMENTATION
+		for (i = 0; i <= 3; i++)  // BUGGY IMPLEMENTATION
 		{
             drawCard(currentPlayer, state);
 		}
@@ -1351,8 +1351,8 @@ int villageRefactor(int card, int choice1, int choice2, int choice3,
 
     // BUG ADDED
     //+2 Actions
-    state->numActions = state->numActions + 2; // ORIGINAL 
-    // state->numActions = state->numActions + 1; // BUGGY
+    //state->numActions = state->numActions + 2; // ORIGINAL 
+    state->numActions = state->numActions + 1; // BUGGY
 
     //discard played card from hand
     discardCard(handPos, currentPlayer, state, 0);

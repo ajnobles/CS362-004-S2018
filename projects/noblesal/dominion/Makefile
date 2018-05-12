@@ -88,16 +88,46 @@ randomTestResultsCompile: randomtest*.c assertTest.c assertTest.h
 		gcc -o randomtestcard2 randomtestcard2.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
 		gcc -o randomtestcardadventurer randomtestcardadventurer.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
 
-randomtestresults: dominion.o interface.o randomTestResultsCompile
+randomtestresults: clean dominion.o interface.o randomTestResultsCompile
 	rm -f randomtestcard1.out randomtestcard2.out randomtestcardadventurer.out
 
+	gcc -o randomtestcard1 randomtestcard1.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
 	./randomtestcard1 > randomtestcard1.out
-	./randomtestcard2 > randomtestcard2.out
-	./randomtestcardadventurer > randomtestcardadventurer.out
 	gcov -f dominion.c >> randomtestcard1.out
+	
+	gcc -o randomtestcard2 randomtestcard2.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
+	./randomtestcard2 > randomtestcard2.out
 	gcov -f dominion.c >> randomtestcard2.out
+
+	gcc -o randomtestcardadventurer randomtestcardadventurer.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
+	./randomtestcardadventurer > randomtestcardadventurer.out
 	gcov -f dominion.c >> randomtestcardadventurer.out
-	gcov dominion.c
+
+	rm -f *.gcov *.gcda *.gcno dominion.o
+	make dominion.o
+	gcc -o randomtestcard1 randomtestcard1.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
+	gcc -o randomtestcard2 randomtestcard2.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
+	gcc -o randomtestcardadventurer randomtestcardadventurer.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
+	
+	echo "randomtestcard1" > randomresults.out
+	tail -n 87 randomtestcard1.out | head -n 1 >> randomresults.out
+	echo >> randomresults.out
+
+	echo "randomtestcard2" >> randomresults.out
+	tail -n 87 randomtestcard2.out | head -n 1 >> randomresults.out
+	echo >> randomresults.out
+
+	echo "randomtestcardadventurer" >> randomresults.out
+	tail -n 87 randomtestcardadventurer.out | head -n 1 >> randomresults.out
+	echo >> randomresults.out
+
+	./randomtestcard1 > tmp
+	./randomtestcard2 >> tmp
+	./randomtestcardadventurer >> tmp
+	rm -f tmp
+
+	gcov dominion.c >> randomresults.out
+
 
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)

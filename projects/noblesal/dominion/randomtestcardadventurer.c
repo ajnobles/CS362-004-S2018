@@ -13,7 +13,10 @@
 
 #define SET_DECK_TO_ZERO 10
 #define SET_HAND_TO_ZERO 15
-#define NUM_TEST 100
+#define NUM_TEST 1000000
+
+const int HAND_COUNT_CHANGE = 2;
+const int DECK_COUNT_CHANGE = 0;
 
 int testHelper(struct gameState *g, struct gameState *test);
 
@@ -26,7 +29,7 @@ int main (int argc, char *argv[])
         choice3 = 0,
         handPos = 0,
         bonus = 0,
-        numPlayers = 3,
+        numPlayers = 2,
         currentPlayer,
         seed = 1000,
         retVal,
@@ -39,30 +42,56 @@ int main (int argc, char *argv[])
 
     int kingdomCards[10] = {adventurer, smithy, gardens, village, council_room, minion, steward, great_hall, tribute, ambassador};
 
-    struct gameState G, testG;
-    initializeGame(numPlayers, kingdomCards, seed, &G);
-    // memcpy(&testG, &G, sizeof(struct gameState));
+    struct gameState BASE, G, testG;
+    initializeGame(numPlayers, kingdomCards, seed, &BASE);
+    //initializeGame(numPlayers, kingdomCards, seed, &G);
+    //memcpy(&testG, &G, sizeof(struct gameState));
 
     srand(seed);
 
     for (i = 0; i < NUM_TEST; i++) {
-        memcpy(&testG, &G, sizeof(struct gameState));
-        currentPlayer = rand() % numPlayers;
-        retVal = 0;
-        testG.whoseTurn = currentPlayer;
-
+        memcpy(&G, &BASE, sizeof(struct gameState));
 
         if (i % SET_DECK_TO_ZERO == 0) {
-            testG.deckCount[currentPlayer] = 0;
+            G.deckCount[currentPlayer] = 0;
+			G.discardCount[currentPlayer] = 5;
+			G.discard[currentPlayer][0] = copper;
+			G.discard[currentPlayer][1] = copper;
+			G.discard[currentPlayer][2] = kingdomCards[rand() % 10];
+			G.discard[currentPlayer][3] = kingdomCards[rand() % 10];
+			G.discard[currentPlayer][4] = kingdomCards[rand() % 10];
         }
 
         if (i % SET_HAND_TO_ZERO == 0) {
-            // testG.handCount[currentPlayer] = 0;
+            G.handCount[currentPlayer] = 0;
         }
+
+        currentPlayer = rand() % numPlayers;
+        retVal = 0;
+        G.whoseTurn = currentPlayer;
+        memcpy(&testG, &G, sizeof(struct gameState));
 
         retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
 
         passed = assertInt(retVal, retValTest);
+       
+		// TEST HAND COUNT
+		if (passed) {
+		    passed = assertInt(G.handCount[currentPlayer] + HAND_COUNT_CHANGE, testG.handCount[currentPlayer]);
+		}
+
+		// TEST TOTAL CARD COUNT
+		if (passed) {
+		    cardCount = 0;
+			cardCount += G.handCount[currentPlayer];
+			cardCount += G.deckCount[currentPlayer];
+			cardCount += G.discardCount[currentPlayer];
+
+			testCardCount = 0;
+			testCardCount += testG.handCount[currentPlayer];
+			testCardCount += testG.deckCount[currentPlayer];
+			testCardCount += testG.discardCount[currentPlayer];
+		}
 
         if (passed) numTestPassed++;
 
@@ -71,7 +100,8 @@ int main (int argc, char *argv[])
             printf("FAILED: testG.handCount: %i\tG.handCount: %i\n", testG.handCount[currentPlayer], G.handCount[currentPlayer]);
             printf("FAILED: testG.deckCount: %i\tG.deckCount: %i\n", testG.deckCount[currentPlayer], G.deckCount[currentPlayer]);
             printf("FAILED: testG.discardCount: %i\tG.discardCount: %i\n", testG.discardCount[currentPlayer], G.discardCount[currentPlayer]);
-        }
+            printf("FAILED: testG.playedCardCount: %i\tG.playedCardCount: %i\n", testG.playedCardCount, G.playedCardCount);
+   	    }
 
         numTest++;
     }
