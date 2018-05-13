@@ -115,6 +115,77 @@ int main (int argc, char *argv[])
         numTest++;
     }
 
+
+
+
+    for (i = 0; i < NUM_TEST; i++) {
+        memcpy(&G, &BASE, sizeof(struct gameState));
+
+        if (i % SET_DECK_TO_ZERO == 0) {
+            G.deckCount[currentPlayer] = 0;
+			G.discardCount[currentPlayer] = 5;
+			G.discard[currentPlayer][0] = copper;
+			G.discard[currentPlayer][1] = copper;
+			G.discard[currentPlayer][2] = kingdomCards[rand() % 10];
+			G.discard[currentPlayer][3] = kingdomCards[rand() % 10];
+			G.discard[currentPlayer][4] = kingdomCards[rand() % 10];
+        }
+
+        if (i % SET_HAND_TO_ZERO == 0) {
+            G.handCount[currentPlayer] = 0;
+        }
+
+        currentPlayer = rand() % numPlayers;
+        retVal = 0;
+        G.whoseTurn = currentPlayer;
+        memcpy(&testG, &G, sizeof(struct gameState));
+
+        retValTest = cardEffect(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+
+        passed = assertInt(retVal, retValTest);
+       
+		// TEST HAND COUNT
+		if (passed) {
+		    passed = assertInt(G.handCount[currentPlayer] + HAND_COUNT_CHANGE, testG.handCount[currentPlayer]);
+		}
+
+		// TEST TOTAL CARD COUNT
+		if (passed) {
+		    cardCount = 0;
+			cardCount += G.handCount[currentPlayer];
+			cardCount += G.deckCount[currentPlayer];
+			cardCount += G.discardCount[currentPlayer];
+
+			testCardCount = 0;
+			testCardCount += testG.handCount[currentPlayer];
+			testCardCount += testG.deckCount[currentPlayer];
+			testCardCount += testG.discardCount[currentPlayer];
+		}
+
+        if (passed) numTestPassed++;
+
+        if (!passed) {
+            printf("\nFAILED: i: %i\tcurrentPlayer: %i\n", i, currentPlayer);
+            printf("FAILED: retVal: %i\tretValTest: %i\n", retVal, retValTest);
+            printf("FAILED: testG.handCount: %i\tG.handCount: %i\n", testG.handCount[currentPlayer], G.handCount[currentPlayer]);
+
+
+    		cardCount = G.handCount[currentPlayer];
+			cardCount += G.deckCount[currentPlayer];
+			cardCount += G.discardCount[currentPlayer];
+
+			testCardCount = testG.handCount[currentPlayer];
+			testCardCount += testG.deckCount[currentPlayer];
+			testCardCount += testG.discardCount[currentPlayer];
+			
+			printf("FAILED: testG Card Count: %i\tG Card Count: %i\n", cardCount, testCardCount);
+   	    }
+
+        numTest++;
+    }
+
+
+
     printf("numTest: %i\tnumTestPassed: %i\n\n", numTest, numTestPassed);
 
     return 0;
