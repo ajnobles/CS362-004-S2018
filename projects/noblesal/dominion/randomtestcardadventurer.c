@@ -1,4 +1,4 @@
-
+/// 1288
 #include "dominion.h"
 #include "dominion_helpers.h"
 #include "interface.h"
@@ -13,7 +13,7 @@
 
 #define SET_DECK_TO_ZERO 10
 #define SET_HAND_TO_ZERO 15
-#define NUM_TEST 1000000
+#define NUM_TEST 10000
 
 const int HAND_COUNT_CHANGE = 2;
 const int DECK_COUNT_CHANGE = 0;
@@ -97,10 +97,19 @@ int main (int argc, char *argv[])
 
         if (!passed) {
             printf("\nFAILED: i: %i\tcurrentPlayer: %i\n", i, currentPlayer);
+            printf("FAILED: retVal: %i\tretValTest: %i\n", retVal, retValTest);
             printf("FAILED: testG.handCount: %i\tG.handCount: %i\n", testG.handCount[currentPlayer], G.handCount[currentPlayer]);
-            printf("FAILED: testG.deckCount: %i\tG.deckCount: %i\n", testG.deckCount[currentPlayer], G.deckCount[currentPlayer]);
-            printf("FAILED: testG.discardCount: %i\tG.discardCount: %i\n", testG.discardCount[currentPlayer], G.discardCount[currentPlayer]);
-            printf("FAILED: testG.playedCardCount: %i\tG.playedCardCount: %i\n", testG.playedCardCount, G.playedCardCount);
+
+
+    		cardCount = G.handCount[currentPlayer];
+			cardCount += G.deckCount[currentPlayer];
+			cardCount += G.discardCount[currentPlayer];
+
+			testCardCount = testG.handCount[currentPlayer];
+			testCardCount += testG.deckCount[currentPlayer];
+			testCardCount += testG.discardCount[currentPlayer];
+			
+			printf("FAILED: testG Card Count: %i\tG Card Count: %i\n", cardCount, testCardCount);
    	    }
 
         numTest++;

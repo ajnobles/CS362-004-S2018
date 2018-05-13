@@ -33,7 +33,7 @@ int main (int argc, char *argv[])
         retValTest,
         passed;
 
-    int i, j, numTest = 0, numTestPassed = 0;
+    int i, numTest = 0, numTestPassed = 0;
 
     int kingdomCards[10] = {adventurer, smithy, gardens, village, council_room, minion, steward, great_hall, tribute, ambassador};
 
@@ -44,7 +44,6 @@ int main (int argc, char *argv[])
     srand(seed);
 
     for (i = 0; i < NUM_TEST; i++) {
-		for (j = 0; j < NUM_TEST; j++) {
         memcpy(&testG, &G, sizeof(struct gameState));
         currentPlayer = rand() % numPlayers;
         retVal = 0;
@@ -73,13 +72,13 @@ int main (int argc, char *argv[])
         if (passed) numTestPassed++;
 
         if (!passed) {
-            printf("\nFAILED: i: %i\tj: %i\tcurrentPlayer: %i\thandPos: %i\n", i, j, currentPlayer, handPos);
-			printf("handCount - G: %i]ttestG: %i\n", G.handCount[currentPlayer] + HAND_COUNT_CHANGE, testG.handCount[currentPlayer]);
-			printf("playedCardsCount - G: %i]ttestG: %i\n", G.playedCardCount + PLAYED_CARDS_CHANGE, testG.playedCardCount);
+            printf("\nFAILED: i: %i\tcurrentPlayer: %i\thandPos: %i\n", i,  currentPlayer, handPos);
+			printf("handCount - G: %i/ttestG: %i\n", G.handCount[currentPlayer] + HAND_COUNT_CHANGE, testG.handCount[currentPlayer]);
+			printf("playedCardsCount - G: %i/ttestG: %i\n", G.playedCardCount + PLAYED_CARDS_CHANGE, testG.playedCardCount);
+			printf("numActions - G: %i/ttestG: %i\n", G.numActions + NUM_ACTIONS_CHANGE, testG.numActions);
         }
 
         numTest++;
-		}
     }
 
     printf("numTest: %i\tnumTestPassed: %i\n\n", numTest, numTestPassed);

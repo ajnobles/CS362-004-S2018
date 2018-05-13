@@ -103,13 +103,26 @@ randomtestresults: clean dominion.o interface.o randomTestResultsCompile
 	./randomtestcardadventurer > randomtestcardadventurer.out
 	gcov -f dominion.c >> randomtestcardadventurer.out
 
+	echo "Unit Test (from Assignment 3)" > randomresults.out
+	rm -f *.gcov *.gcda *.gcno dominion.o
+	make dominion.o
+	gcc -o cardtest1 cardtest1.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
+	gcc -o cardtest2 cardtest2.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
+	gcc -o cardtest3 cardtest3.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
+	./cardtest1 >> tmp
+	./cardtest2 >> tmp
+	./cardtest3 >> tmp
+	rm -f tmp
+	gcov dominion.c >> randomresults.out
+
 	rm -f *.gcov *.gcda *.gcno dominion.o
 	make dominion.o
 	gcc -o randomtestcard1 randomtestcard1.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
 	gcc -o randomtestcard2 randomtestcard2.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
 	gcc -o randomtestcardadventurer randomtestcardadventurer.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
 	
-	echo "randomtestcard1" > randomresults.out
+	echo "Random Test" >> randomresults.out
+	echo "randomtestcard1" >> randomresults.out
 	tail -n 87 randomtestcard1.out | head -n 1 >> randomresults.out
 	echo >> randomresults.out
 
@@ -125,8 +138,8 @@ randomtestresults: clean dominion.o interface.o randomTestResultsCompile
 	./randomtestcard2 >> tmp
 	./randomtestcardadventurer >> tmp
 	rm -f tmp
-
 	gcov dominion.c >> randomresults.out
+
 
 
 player: player.c interface.o

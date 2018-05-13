@@ -1294,8 +1294,8 @@ int adventurerRefactor(int card, int choice1, int choice2, int choice3, struct g
     int currentPlayer = whoseTurn(state);
 
     // BUG ADDED
-      // while(drawntreasure<2){  // ORIGINAL IMPLEMENTATION
-      while(drawntreasure <= 2){ // BUG IMPLEMENTATION
+        //while(drawntreasure<1){  // ORIGINAL IMPLEMENTATION
+        while(drawntreasure <= 2){ // BUG IMPLEMENTATION
 
         if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
             shuffle(currentPlayer, state);
