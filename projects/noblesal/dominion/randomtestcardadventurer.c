@@ -68,7 +68,7 @@ int main (int argc, char *argv[])
         retVal = 0;
         G.whoseTurn = currentPlayer;
 		handPos = 0;
-		G.hand[currentPlayer][handPos];
+		G.hand[currentPlayer][handPos] = card;
         memcpy(&testG, &G, sizeof(struct gameState));
 
         retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
