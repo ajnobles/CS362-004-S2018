@@ -45,11 +45,12 @@ int main (int argc, char *argv[])
 
     for (i = 0; i < NUM_TEST; i++) {
         currentPlayer = rand() % numPlayers;
+        handPos = 0;
+        G.whoseTurn = currentPlayer;
+		G.hand[currentPlayer][handPos] = smithy;
         memcpy(&testG, &G, sizeof(struct gameState));
         retVal = 0;
-        testG.whoseTurn = currentPlayer;
-        handPos = rand() % 2;
-        // printf("handPos: %i\n", handPos);
+        //printf("testG: %i\n", testG.hand[currentPlayer][handPos]);
 
         // RUN FUNCTION
         retValTest = smithyRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
@@ -66,16 +67,21 @@ int main (int argc, char *argv[])
         }
 
         if (passed) {
+            passed = assertInt(testG.playedCards[testG.playedCardCount - 1], smithy);
+        }
+
+        if (passed) {
             passed = assertInt(testG.deckCount[currentPlayer], G.deckCount[currentPlayer] + DECK_CHANGE);
         }
 
         if (passed) numTestPassed++;
 
         else {
-            printf("\nFAILED: i: %i\tcurrentPlayer: %i\thandPos: %i\n", i, currentPlayer, handPos);
+            printf("\nFAILED: i: %i\tcurrentPlayer: %i\thandPos: %i\tseed: %i\n", i, currentPlayer, handPos, seed);
 				
 			printf("handCount - G: %i\ttestG: %i\n", G.handCount[currentPlayer]+HAND_CHANGE,testG.handCount[currentPlayer]);
 			printf("playedCardCount - G: %i\ttestG: %i\n", G.playedCardCount+PLAYED_CARDS_CHANGE,testG.playedCardCount);
+			printf("playedCard - %i\tsmithy - %i\n", testG.playedCards[testG.playedCardCount-1], smithy);
 			printf("deckCount - G: %i\ttestG: %i\n", G.deckCount[currentPlayer]+DECK_CHANGE,testG.deckCount[currentPlayer]);
         }
 
@@ -85,11 +91,12 @@ int main (int argc, char *argv[])
 
     for (i = 0; i < NUM_TEST; i++) {
         currentPlayer = rand() % numPlayers;
+        handPos = 0; 
+        G.whoseTurn = currentPlayer;
+		G.hand[currentPlayer][handPos] = smithy;
         memcpy(&testG, &G, sizeof(struct gameState));
         retVal = 0;
-        testG.whoseTurn = currentPlayer;
-        handPos = rand() % 2;
-        // printf("handPos: %i\n", handPos);
+        //printf("testG: %i\n", testG.hand[currentPlayer][handPos]);
 
         // RUN FUNCTION
         retValTest = cardEffect(card, choice1, choice2, choice3, &testG, handPos, &bonus);
@@ -106,16 +113,21 @@ int main (int argc, char *argv[])
         }
 
         if (passed) {
+            passed = assertInt(testG.playedCards[testG.playedCardCount - 1], smithy);
+        }
+
+        if (passed) {
             passed = assertInt(testG.deckCount[currentPlayer], G.deckCount[currentPlayer] + DECK_CHANGE);
         }
 
         if (passed) numTestPassed++;
 
         else {
-            printf("\nFAILED: i: %i\tcurrentPlayer: %i\thandPos: %i\n", i, currentPlayer, handPos);
+            printf("\nFAILED: i: %i\tcurrentPlayer: %i\thandPos: %i\tseed: %i\n", i, currentPlayer, handPos, seed);
 				
 			printf("handCount - G: %i\ttestG: %i\n", G.handCount[currentPlayer]+HAND_CHANGE,testG.handCount[currentPlayer]);
 			printf("playedCardCount - G: %i\ttestG: %i\n", G.playedCardCount+PLAYED_CARDS_CHANGE,testG.playedCardCount);
+			printf("playedCard - %i\tsmithy - %i\n", testG.playedCards[testG.playedCardCount - 1], smithy);
 			printf("deckCount - G: %i\ttestG: %i\n", G.deckCount[currentPlayer]+DECK_CHANGE,testG.deckCount[currentPlayer]);
         }
 
@@ -124,8 +136,7 @@ int main (int argc, char *argv[])
 
 
 
-
-    printf("numTest: %i\tnumTestPassed: %i\n\n", numTest, numTestPassed);
+    printf("\nnumTest: %i\tnumTestPassed: %i\n\n", numTest, numTestPassed);
 
 	return 0;
 }

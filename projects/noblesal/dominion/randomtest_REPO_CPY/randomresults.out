@@ -1,0 +1,19 @@
+Unit Test (from Assignment 3)
+File 'dominion.c'
+Lines executed:28.83% of 562
+Creating 'dominion.c.gcov'
+
+Random Test
+randomtestcard1
+numTest: 20000	numTestPassed: 6708
+
+randomtestcard2
+numTest: 20000	numTestPassed: 0
+
+randomtestcardadventurer
+numTest: 20000	numTestPassed: 1029
+
+File 'dominion.c'
+Lines executed:29.36% of 562
+Creating 'dominion.c.gcov'
+

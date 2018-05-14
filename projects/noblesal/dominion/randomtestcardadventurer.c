@@ -44,8 +44,6 @@ int main (int argc, char *argv[])
 
     struct gameState BASE, G, testG;
     initializeGame(numPlayers, kingdomCards, seed, &BASE);
-    //initializeGame(numPlayers, kingdomCards, seed, &G);
-    //memcpy(&testG, &G, sizeof(struct gameState));
 
     srand(seed);
 
@@ -69,6 +67,8 @@ int main (int argc, char *argv[])
         currentPlayer = rand() % numPlayers;
         retVal = 0;
         G.whoseTurn = currentPlayer;
+		handPos = 0;
+		G.hand[currentPlayer][handPos];
         memcpy(&testG, &G, sizeof(struct gameState));
 
         retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
