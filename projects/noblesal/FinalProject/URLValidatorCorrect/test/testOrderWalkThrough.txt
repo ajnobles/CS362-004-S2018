@@ -1,0 +1,70 @@
+DO-WHILE ITERATION 1
+	testPartsIndex = 0
+
+	testBuffer=""
+
+		forLoop // testPartsIndexIndex = 0
+			index=testPartsIndex[testPartsIndexIndex]=testPartsIndex[0]=0
+			part=testObjects[testPartsIndexIndex]=testUrlParts[0]=testUrlScheme
+			testBuffer+=part[index].item OR "http://"
+			expected &= part[index].valid -RESULTS IN- true
+	
+		forLoop // testPartsIndexIndex = 1
+			index=testPartsIndex[testPartsIndexIndex]=testPartsIndex[1]=0
+			part=testObjects[testPartsIndexIndex]=testUrlParts[0]=testUrlAthority
+			testBuffer+=part[index].item OR "http://www.google.com"
+			expected &= part[index].valid -RESULTS IN- true
+	
+		forLoop // testPartsIndexIndex = 2
+			index=testPartsIndex[testPartsIndexIndex]=testPartsIndex[2]=0
+			part=testObjects[testPartsIndexIndex]=testUrlParts[0]=testUrlPort
+			testBuffer+=part[index].item OR "http://www.google.com:80"
+			expected &= part[index].valid -RESULTS IN- true
+	
+		forLoop // testPartsIndexIndex = 3
+			index=testPartsIndex[testPartsIndexIndex]=testPartsIndex[3]=0
+			part=testObjects[testPartsIndexIndex]=testUrlParts[0]=testUrlPath
+			testBuffer+=part[index].item OR "http://www.google.com:80/test1"
+			expected &= part[index].valid -RESULTS IN- true
+	
+		forLoop // testPartsIndexIndex = 4
+			index=testPartsIndex[testPartsIndexIndex]=testPartsIndex[4]=0
+			part=testObjects[testPartsIndexIndex]=testUrlParts[0]=testUrlQuery
+			testBuffer+=part[index].item OR
+				"http://www.google.com:80/test1/?action=view"
+			expected &= part[index].valid -RESULTS IN- true
+
+		url = "http://www.google.com:80/test1/?action=view"
+		result - should equal valid
+		Should print out  url
+		printStatus currently equal false
+
+		incrementTestPartsIndex(testPartsIndex, testObjects) // 0, testObjects
+				// iTPI returns false when the carry flag	
+			forLoop // testPartsIndexIndex = 4
+				index = testPartsIndex[testPartsIndexIndex] = 0
+				part = testParts[testPartsIndexIndex] = testUrlQuery
+
+				if (index < part.length) // 0 < 3(testUrlQuery.length) // true
+					index++ // 1
+					testPartsIndex[testPartsIndexIndex]=index=1
+					carry = false
+				
+				maxIndex &= (index == (part.length - 1)) // maxIndex &= (1 == 3)
+					// false
+
+           forLoop // testPartsIndexIndex = 3
+				index = testPartsIndex[testPartsIndexIndex] = 0
+				part = testParts[testPartsIndexIndex] = testPath
+
+				if (index < part.length) // 0 < 10(testUrlPath.length) // true
+					index++ // 1
+					testPartsIndex[testPartsIndexIndex]=index=1
+				
+				maxIndex &= (index == (part.length - 1)) // maxIndex &= (1 == 10)
+					// false
+
+
+			return true
+
+DO-WHILE ITERATION 2
