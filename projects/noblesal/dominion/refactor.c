@@ -1,3 +1,5 @@
+// ALLEN NOBLES - DOMINION REFACTORED
+
 #include "dominion.h"
 #include "dominion_helpers.h"
 
