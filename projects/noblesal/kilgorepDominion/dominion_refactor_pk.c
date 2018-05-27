@@ -1,5 +1,6 @@
 #include "dominion.h"
 #include "dominion_helpers.h"
+#include "dominion_refactor_pk.h"
 #include "rngs.h"
 #include <stdio.h>
 #include <math.h>
@@ -915,7 +916,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       return 0;
 		
     case steward:
-      effectOfSteward(state, currentPlayer, choice1, choice2, choice3);
+      effectOfSteward(state, currentPlayer, handPos, choice1, choice2, choice3);
 		
     case tribute:
       if ((state->discardCount[nextPlayer] + state->deckCount[nextPlayer]) <= 1){
@@ -1371,7 +1372,7 @@ int effectOfCouncilRoom(struct gameState *state, int currentPlayer, int handPos)
   return 0;
 }
 
-int effectOfSteward(struct gameState *state, int currentPlayer, int choice1, int choice2, int choice3)
+int effectOfSteward(struct gameState *state, int currentPlayer, int handPos, int choice1, int choice2, int choice3)
 {
   if (choice1 == 1)
   {
@@ -1412,3 +1413,27 @@ int effectOfSteward(struct gameState *state, int currentPlayer, int choice1, int
 
 //end of dominion.c
 
+
+// NOBLES REFACTORED
+int gardensRefactor(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus)
+{
+	return -1;
+}
+
+
+int villageRefactor(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus)
+{
+	int currentPlayer  = whoseTurn(state);
+
+	//+1 Card
+	drawCard(currentPlayer, state);
+
+	// BUG ADDED
+	// +2 ACTIONS
+	// state->numActions = state->numActions + 2
+	state->numActions = state->numActions + 1;
+
+	//discard played card from hand
+	discardCard(handPos, currentPlayer, state, 0);
+	return 0;
+}

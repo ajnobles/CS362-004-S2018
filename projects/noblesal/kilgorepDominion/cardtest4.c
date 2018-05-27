@@ -1,6 +1,7 @@
 // COUNCIL ROOM
 #include "dominion.h"
 #include "dominion_helpers.h"
+#include "dominion_refactor_pk.h"
 #include "interface.h"
 #include "rngs.h"
 
@@ -201,7 +202,7 @@ int main (int argc, char *argv[])
     // STAGE HAND/DECK
 
     memcpy(&testG, &G, sizeof(struct gameState));
-    retValTest = council_roomRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+    retValTest = effectOfCouncilRoom(&testG, currentPlayer, handPos);
 
     printf("return value: %i, expected: %i...\t\t\t", retValTest, retVal);
     passed = assertInt(retVal, retValTest);
@@ -236,7 +237,7 @@ int main (int argc, char *argv[])
     G.deckCount[currentPlayer] = 0;
 
     memcpy(&testG, &G, sizeof(struct gameState));
-    retValTest = council_roomRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+    retValTest = effectOfCouncilRoom(&testG, currentPlayer, handPos);
 
     printf("return value: %i, expected: %i...\t\t\t", retValTest, retVal);
     passed = assertInt(retVal, retValTest);
@@ -273,7 +274,7 @@ int main (int argc, char *argv[])
     G.discardCount[currentPlayer] = 0;
 
     memcpy(&testG, &G, sizeof(struct gameState));
-    retValTest = council_roomRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+    retValTest = effectOfCouncilRoom(&testG, currentPlayer, handPos);
 
     printf("return value: %i, expected: %i...\t\t\t", retValTest, retVal);
     passed = assertInt(retVal, retValTest);
@@ -311,7 +312,7 @@ int main (int argc, char *argv[])
     G.handCount[currentPlayer] = 0;
 
     memcpy(&testG, &G, sizeof(struct gameState));
-    retValTest = council_roomRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+    retValTest = effectOfCouncilRoom(&testG, currentPlayer, handPos);
 
     printf("return value: %i, expected: %i...\t\t\t", retValTest, retVal);
     passed = assertInt(retVal, retValTest);

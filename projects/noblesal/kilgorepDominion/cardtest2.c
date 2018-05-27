@@ -1,6 +1,7 @@
 // SMITHY
 #include "dominion.h"
 #include "dominion_helpers.h"
+#include "dominion_refactor_pk.h"
 #include "interface.h"
 #include "rngs.h"
 
@@ -189,7 +190,7 @@ int main (int argc, char *argv[])
         // STAGE HAND/DECK
 
         memcpy(&testG, &G, sizeof(struct gameState));
-        retValTest = smithyRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+        retValTest = effectOfSmithy(&testG, currentPlayer, handPos);
 
         printf("return value: %i, expected: %i\t\t", retVal, retVal);
         passed = assertInt(retVal, retValTest);
@@ -223,7 +224,7 @@ int main (int argc, char *argv[])
 
         memcpy(&testG, &G, sizeof(struct gameState));
         // printHand(testG.whoseTurn, &testG);
-        retValTest = smithyRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+        retValTest = effectOfSmithy(&testG, currentPlayer, handPos);
         // printHand(testG.whoseTurn, &testG);
 
         printf("return value: %i, expected: %i\t\t", retVal, retVal);
@@ -259,7 +260,7 @@ int main (int argc, char *argv[])
         handPos = G.handCount[currentPlayer]-1;
 
         memcpy(&testG, &G, sizeof(struct gameState));
-        retValTest = smithyRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+        retValTest = effectOfSmithy(&testG, currentPlayer, handPos);
 
         printf("return value: %i, expected: %i\t\t", retVal, retVal);
         passed = assertInt(retVal, retValTest);
@@ -295,7 +296,7 @@ int main (int argc, char *argv[])
         handPos = G.handCount[currentPlayer]-1;
 
         memcpy(&testG, &G, sizeof(struct gameState));
-        retValTest = smithyRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+        retValTest = effectOfSmithy(&testG, currentPlayer, handPos);
 
         printf("return value: %i, expected: %i\t\t", retVal, retVal);
         passed = assertInt(retVal, retValTest);

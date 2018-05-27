@@ -3,6 +3,7 @@
 //      PUT THOSE THREASURE CARDS INTO YOUR HAND AND DISCARD THE OTHER REVEALED CARDS.
 #include "dominion.h"
 #include "dominion_helpers.h"
+#include "dominion_refactor_pk.h"
 #include "interface.h"
 #include "rngs.h"
 
@@ -159,7 +160,7 @@ int main (int argc, char *argv[])
     G.deckCount[currentPlayer] = 0;
 
     memcpy(&testG, &G, sizeof(struct gameState));
-    retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+    retValTest = effectOfAdventurer(&testG, currentPlayer);
 
     printf("return value: %i, expected: %i\t\t", retVal, retVal);
     passed = assertInt(retVal, retValTest);
@@ -228,7 +229,7 @@ int main (int argc, char *argv[])
     G.discardCount[currentPlayer] = 0;
 
     memcpy(&testG, &G, sizeof(struct gameState));
-    retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+    retValTest = effectOfAdventurer(&testG, currentPlayer);
 
     // printHand(G.whoseTurn, &G);
     // printDeck(G.whoseTurn, &G);
@@ -262,7 +263,7 @@ card = adventurer;
 currentPlayer = whoseTurn(&G);
 
 memcpy(&testG, &G, sizeof(struct gameState));
-retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+retValTest = effectOfAdventurer(&testG, currentPlayer);
 
 
 printf("return value: %i, expected: %i\t\t", retVal, retVal);
@@ -299,7 +300,7 @@ G.deck[currentPlayer][3] = copper;
 G.deck[currentPlayer][4] = estate;
 
 memcpy(&testG, &G, sizeof(struct gameState));
-retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+retValTest = effectOfAdventurer(&testG, currentPlayer);
 
 // printHand(G.whoseTurn, &G);
 // printDeck(G.whoseTurn, &G);
@@ -340,7 +341,7 @@ G.deck[currentPlayer][3] = estate;
 G.deck[currentPlayer][4] = estate;
 
 memcpy(&testG, &G, sizeof(struct gameState));
-retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+retValTest = effectOfAdventurer(&testG, currentPlayer);
 
 
 printf("return value: %i, expected: %i\t\t", retVal, retVal);
@@ -370,7 +371,7 @@ currentPlayer = whoseTurn(&G);
 G.deckCount[currentPlayer] = 0;
 
 memcpy(&testG, &G, sizeof(struct gameState));
-retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+retValTest = effectOfAdventurer(&testG, currentPlayer);
 
 printf("return value: %i, expected: %i\t\t", retVal, retVal);
 passed = assertInt(retVal, retValTest);
@@ -401,7 +402,7 @@ G.deckCount[currentPlayer] = 0;
 G.discardCount[currentPlayer] = 0;
 
 memcpy(&testG, &G, sizeof(struct gameState));
-retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+retValTest = effectOfAdventurer(&testG, currentPlayer);
 
 // printHand(G.whoseTurn, &G);
 // printDeck(G.whoseTurn, &G);
@@ -439,7 +440,7 @@ G.handCount[currentPlayer] = 0;
 G.discardCount[currentPlayer] = 0;
 
 memcpy(&testG, &G, sizeof(struct gameState));
-retValTest = adventurerRefactor(card, choice1, choice2, choice3, &testG, handPos, &bonus);
+retValTest = effectOfAdventurer(&testG, currentPlayer);
 
 // printHand(G.whoseTurn, &G);
 // printDeck(G.whoseTurn, &G);
