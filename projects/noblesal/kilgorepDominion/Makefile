@@ -80,8 +80,8 @@ unittestresult.out: dominion.o interface.o unitTestResultsCompile
 	./cardtest4 >> $(RESULTS)
 
 	echo >> $(RESULTS)
-	gcov dominion_refactor_pk.c >> unittestresult.out
-	gcov dominion_refactor_pk.c
+	gcov dominion.c >> unittestresult.out
+	gcov dominion.c
 
 randomTestResultsCompile: randomtest*.c assertTest.c asserTest.h
 	gcc -o randomtestcard1 randomtestcard1.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
