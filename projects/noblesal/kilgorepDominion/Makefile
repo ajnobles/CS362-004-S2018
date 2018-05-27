@@ -123,17 +123,17 @@ randomtestresults: clean dominion.o interface.o randomTestResultsCompile
 
 	echo "Random Test" >> randomresults.out
 	echo "randomtestcard1" >> randomresults.out
-	tail -n 87 randomtestcard1.out | head -n 1 >> randomresults.out
+	tail -n 75 randomtestcard1.out | head -n 1 >> randomresults.out
 	echo >> randomresults.out
 
 	echo "Random Test" >> randomresults.out
 	echo "randomtestcard2" >> randomresults.out
-	tail -n 87 randomtestcard2.out | head -n 1 >> randomresults.out
+	tail -n 90 randomtestcard2.out | head -n 1 >> randomresults.out
 	echo >> randomresults.out
 
 	echo "Random Test" >> randomresults.out
 	echo "randomtestcardadventurer" >> randomresults.out
-	tail -n 87 randomtestcardadventurer.out | head -n 1 >> randomresults.out
+	tail -n 72 randomtestcardadventurer.out | head -n 1 >> randomresults.out
 	echo >> randomresults.out
 
 	./randomtestcard1 > tmp
