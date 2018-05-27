@@ -83,7 +83,7 @@ unittestresult.out: dominion.o interface.o unitTestResultsCompile
 	gcov dominion.c >> unittestresult.out
 	gcov dominion.c
 
-randomTestResultsCompile: randomtest*.c assertTest.c asserTest.h
+randomTestResultsCompile: randomtest*.c assertTest.c assertTest.h
 	gcc -o randomtestcard1 randomtestcard1.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
 	gcc -o randomtestcard2 randomtestcard2.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
 	gcc -o randomtestcardadventurer randomtestcardadventurer.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
@@ -117,23 +117,23 @@ randomtestresults: clean dominion.o interface.o randomTestResultsCompile
 
 	gcov -f *.gcov *.gcda *.gcno dominion.o
 	make dominion.o
-	gcc -o randomtestcard1 randomtestcard1.c asserTest dominion.o interface.o rngs.o -g $(CFLAGS)
-	gcc -o randomtestcard2 randomtestcard2.c asserTest dominion.o interface.o rngs.o -g $(CFLAGS)
-	gcc -o randomtestcardadventurer randomtestcardadventurer.c asserTest dominion.o interface.o rngs.o -g $(CFLAGS)
+	gcc -o randomtestcard1 randomtestcard1.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
+	gcc -o randomtestcard2 randomtestcard2.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
+	gcc -o randomtestcardadventurer randomtestcardadventurer.c assertTest.c dominion.o interface.o rngs.o -g $(CFLAGS)
 
 	echo "Random Test" >> randomresults.out
 	echo "randomtestcard1" >> randomresults.out
-	tail -n 87 randomtestcard1.out | head -n 1>> randomresults.out
+	tail -n 87 randomtestcard1.out | head -n 1 >> randomresults.out
 	echo >> randomresults.out
 
 	echo "Random Test" >> randomresults.out
 	echo "randomtestcard2" >> randomresults.out
-	tail -n 87 randomtestcard2.out | head -n 2>> randomresults.out
+	tail -n 87 randomtestcard2.out | head -n 1 >> randomresults.out
 	echo >> randomresults.out
 
 	echo "Random Test" >> randomresults.out
 	echo "randomtestcardadventurer" >> randomresults.out
-	tail -n 87 randomtestcardadventurer.out | head -n adventurer>> randomresults.out
+	tail -n 87 randomtestcardadventurer.out | head -n 1 >> randomresults.out
 	echo >> randomresults.out
 
 	./randomtestcard1 > tmp
