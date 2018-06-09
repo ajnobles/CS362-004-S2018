@@ -47,8 +47,9 @@ public class UrlValidatorTest extends TestCase {
 	   //boolean test = urlVal.isValid("http://ww.google.com");
 	   //System.out.print(test + "\n");
 	   
-	   boolean expectedResult;
-	   boolean actualResult; 
+	   boolean expectedResult,
+	           actualResult,
+	           testRunFail; 
 	   /*
 	   String[] trueURL = {"http://www.google.com:80?action=view", 
 			   "https://www.google.com:80?action=view",
@@ -87,7 +88,10 @@ public class UrlValidatorTest extends TestCase {
 	   String[] scheme = {
 			   "http://", 
 			   "http??",
-			   "http://"
+			   "ftp://",
+			   "ftp:/",
+			   "https://",
+			   "https:/"
 			   };
 	   
 	   String[] authority = {
@@ -100,15 +104,17 @@ public class UrlValidatorTest extends TestCase {
 			   };
 	   
 	   String[] port = {
+			   "",
+			   "80",
 			   ":80", 
 			   ":-1"
 			   };
 	   
 	   String[] path = {
-			   "/test1", 
-			   "/..",
 			   "",
-			   "//.."			   
+			   "//..",
+			   "/test1", 
+			   "/.."		   
 			   };
 	      
 	   int sCase = 0;
@@ -128,6 +134,7 @@ public class UrlValidatorTest extends TestCase {
 
 				   for (String pa : path) {
 
+					   testRunFail = false;
 
 					   expectedResult = (sCase % 2 == 0 && aCase % 2 == 0 
 							   && poCase % 2 == 0 && paCase % 2 == 0) 
@@ -142,10 +149,25 @@ public class UrlValidatorTest extends TestCase {
 					   
 					   String url = testUrl.toString();
 
-					   actualResult = urlVal.isValid(url);
-
-					   if (expectedResult != actualResult) {
-						   System.out.print(url + "\tTEST FAILED"+ "\tExpected " + expectedResult + "\tReturned " + actualResult + "\n");
+					   try {
+					       actualResult = urlVal.isValid(url);
+					   }
+					   catch (ExceptionInInitializerError e) {
+						   testRunFail = true;
+						   actualResult = expectedResult;
+					   }
+					   catch (NoClassDefFoundError e) {
+						   testRunFail = true;
+						   actualResult = expectedResult;
+					   }
+					   
+					   
+					   if (testRunFail) {
+						   System.out.print("TEST RUN FAILED\t" + url + "\n");
+					   }
+					   
+					   else if (expectedResult != actualResult) {
+						   System.out.print("TEST RESULT FAILED"+ "\tExpected " + expectedResult + "\tReturned " + actualResult + "\t" + url + "\n");
 					   }
 					   
 					   //System.out.print(url + "\tExpected " + expectedResult + "\tReturned " + actualResult + "\n");
