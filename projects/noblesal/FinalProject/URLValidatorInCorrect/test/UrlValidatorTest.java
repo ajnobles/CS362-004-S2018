@@ -41,104 +41,90 @@ public class UrlValidatorTest extends TestCase {
    public void testIsValid()
    {
 	   //You can use this function for programming based testing
-	   
+	   System.out.print("\n\n*********PROGRAMMING BASED TESTING*********\n");
+
 	   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
 	   
-	   //boolean test = urlVal.isValid("http://ww.google.com");
-	   //System.out.print(test + "\n");
+	   assertTrue(urlVal.isValid("http://www.google.com"));
+	   assertTrue(urlVal.isValid("http:"));
+	   
 	   
 	   boolean expectedResult,
 	           actualResult,
 	           testRunFail; 
-	   /*
-	   String[] trueURL = {"http://www.google.com:80?action=view", 
-			   "https://www.google.com:80?action=view",
-			   "http://www.google.com:80?action=view",
-			   "http://www.google.com?action=view"};
 	   
-	   String[] falseURL = {"http:///aaa.google.com:80?action=view",
-			   "http://www.google.com:-1?action=view",
-			   "http://www.google.m:80?action=view",
-			   "http:///www.google.com:-1?action=view",
-			   "http://www.google.com?80?action=view"};
-	   
-	   
-	   // TRUE TEST LOOP
-	   expectedResult = true;
-	   for (String s: trueURL) {
-		   actualResult = urlVal.isValid(s);
-		   
-		   if (expectedResult != actualResult) {
-			   System.out.print(s + "\tTEST FAILED\n");
-		   }
-	   }
-	  
-	   // FALSE TEST LOOP
-	   expectedResult = false;
-	   for (String s: falseURL) {
-		   actualResult = urlVal.isValid(s);
-		   
-		   if (expectedResult != actualResult) {
-			   System.out.print(s + "\tTEST FAILED\n");
-		   }
-	   }
-	   */
-	   
-	   // ftp;// causing error
+	   // TEST CASES FOR EACH OF scheme, authority, port, and path ALTERNATE FROM TRUE TO FALSE
+	   // <TEST STRING ELEMENT NUMBER(ZERO BASED)> % 2 IS USED TO DETERMINE EXPECTED OUTCOME 
+	   // EXAMPLE: scheme[0] is a passing case and scheme[1] is a failing test case
+	   // 
+
 	   String[] scheme = {
-			   "http://", 
-			   "http??",
-			   "ftp://",
-			   "ftp:/",
-			   "https://",
-			   "https:/"
+			   "http://",	// TRUE
+			   "http??",	// FALSE
+			   "ftp://",	// TRUE
+			   "ftp:/",		// FALSE
+			   "https://",	// TRUE
+			   "https:/",	// FALSE
+			   ""			// TRUE
 			   };
 	   
 	   String[] authority = {
-			   "www.google.com",
-			   "ww.google.com",
-			   "go.au",
-			   "go.a",
-			   "255.255.255.255",
-			   "255.255.256.256"
+			   "www.google.com",	// TRUE
+			   "ww.google.com",		// FALSE
+			   "go.au",				// TRUE
+			   "go.a",				// FALSE
+			   "255.255.255.255",	// TRUE
+			   "256.256.256.256",	// FALSE
+			   "255.com",			// TRUE
+			   "go.a1a"				// FALSE
 			   };
 	   
 	   String[] port = {
-			   "",
-			   "80",
-			   ":80", 
-			   ":-1"
+			   ":80", 	// TRUE
+			   ":-1",	// FALSE
+			   ""		// TRUE
 			   };
 	   
 	   String[] path = {
-			   "",
-			   "//..",
-			   "/test1", 
-			   "/.."		   
+			   "/path",	// TRUE
+			   "//..",		// FALSE
+			   "/path/to/some/page", 	// TRUE
+			   "/..",		// FALSE
+			   ""
+			   };
+	   
+	   String[] query = {
+			   ""	// TRUE
 			   };
 	      
-	   int sCase = 0;
-	   int aCase = 0;	   
-	   int poCase = 0;
-	   int paCase = 0;
-	   int numTest = 0;
+	   // TEST PARTITION COUNT VARIABLES
+	   int sCase = 0,
+	       aCase = 0,   
+	   	   poCase = 0,
+	       paCase = 0,
+	       quCase = 0,
+	       numTest = 0,
+	       failedTest = 0,
+	       failedRun = 0;
 
 	   for (String s : scheme) {
-		   
-		   
-		   for (String a : authority) {
 
+		   for (String a : authority) {
 			   
 			   for (String po : port) {
-
 
 				   for (String pa : path) {
 
 					   testRunFail = false;
 
-					   expectedResult = (sCase % 2 == 0 && aCase % 2 == 0 
-							   && poCase % 2 == 0 && paCase % 2 == 0) 
-							   ? true : false;
+					   
+					   expectedResult = (
+							   (sCase % 2 == 0) 
+							   && (aCase % 2 == 0)
+							   && (poCase % 2 == 0) 
+							   && (paCase % 2 == 0) 
+							   && (quCase % 2 == 0)
+							   ) ? true : false;
 
 					   
 					   StringBuilder testUrl = new StringBuilder();
@@ -146,32 +132,29 @@ public class UrlValidatorTest extends TestCase {
 					   testUrl.append(a);
 					   testUrl.append(po);
 					   testUrl.append(pa);
+					   testUrl.append(query[quCase]);
 					   
 					   String url = testUrl.toString();
 
 					   try {
 					       actualResult = urlVal.isValid(url);
 					   }
-					   catch (ExceptionInInitializerError e) {
+					   catch (ExceptionInInitializerError | NoClassDefFoundError e) {
 						   testRunFail = true;
 						   actualResult = expectedResult;
+						   System.out.print(e + "\t");
 					   }
-					   catch (NoClassDefFoundError e) {
-						   testRunFail = true;
-						   actualResult = expectedResult;
-					   }
-					   
-					   
+
 					   if (testRunFail) {
-						   System.out.print("TEST RUN FAILED\t" + url + "\n");
+						   failedRun++;
+						   System.out.print(url + "\n");
 					   }
 					   
 					   else if (expectedResult != actualResult) {
+						   failedTest++;
 						   System.out.print("TEST RESULT FAILED"+ "\tExpected " + expectedResult + "\tReturned " + actualResult + "\t" + url + "\n");
 					   }
 					   
-					   //System.out.print(url + "\tExpected " + expectedResult + "\tReturned " + actualResult + "\n");
-
 					   numTest++;
 					   paCase++;
 				   }
@@ -184,8 +167,9 @@ public class UrlValidatorTest extends TestCase {
 		   
 		   sCase++;
 	   }
-	   
 	   System.out.print("numTest: " + numTest + "\n");
+	   System.out.print("failedTest: " + failedTest + "\n");
+	   System.out.print("failedRuns: " + failedRun + "\n");
    }
 }
    
