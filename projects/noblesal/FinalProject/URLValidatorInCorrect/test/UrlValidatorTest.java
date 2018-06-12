@@ -155,7 +155,7 @@ public class UrlValidatorTest extends TestCase {
    }
 
    public void testYourFirstPartition() {
-     System.out.println("FIRST PARTITION: Testing Schemes + Authorities");
+     System.out.println("\nFIRST PARTITION: Testing Schemes + Authorities");
      printPartitionTestResult("http://www.google.com", true);
      printPartitionTestResult("https://amazon.com", true);
      printPartitionTestResult("ftp://youtube.com", true);
@@ -171,7 +171,7 @@ public class UrlValidatorTest extends TestCase {
    }
 
    public void testYourSecondPartition() {
-     System.out.println("SECOND PARTITION: Testing Schemes + Authorities + Ports");
+     System.out.println("\nSECOND PARTITION: Testing Schemes + Authorities + Ports");
      printPartitionTestResult("http://www.google.com:80", true);
      printPartitionTestResult("http://www.google.com:0", true);
      printPartitionTestResult("http://www.google.com:100000", false);
@@ -179,7 +179,7 @@ public class UrlValidatorTest extends TestCase {
    }
 
    public void testYourThirdPartition() {
-     System.out.println("THIRD PARTITION: Testing Schemes + Authorities + Ports + Paths");
+     System.out.println("\nTHIRD PARTITION: Testing Schemes + Authorities + Ports + Paths");
      printPartitionTestResult("http://www.google.com:80/search", true);
      printPartitionTestResult("http://www.google.com:80/maps/", true);
      printPartitionTestResult("http://www.google.com:80/..", false);
@@ -187,7 +187,7 @@ public class UrlValidatorTest extends TestCase {
    }
 
    public void testYourFourthPartition() {
-      System.out.println("FOURTH PARTITION: Testing Schemes + Authorities + Ports + Paths + Queries");
+      System.out.println("\nFOURTH PARTITION: Testing Schemes + Authorities + Ports + Paths + Queries");
       printPartitionTestResult("http://www.google.com:80/search?q=text", true);
       printPartitionTestResult("http://www.google.com:80/search?q=text&sourceid=chrome", true);
    }
