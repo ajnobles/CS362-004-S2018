@@ -129,19 +129,68 @@ public class UrlValidatorTest extends TestCase {
 //   }
    
 
+
    // PARTITION TEST
-   
-   public void testYourFirstPartition()
-   {
-	 //You can use this function to implement your First Partition testing	   
 
-   }
-   
-   public void testYourSecondPartition(){
-		 //You can use this function to implement your Second Partition testing	   
+   public void printPartitionTestResult(String url, boolean expectedResult) {
+      boolean actualResult = false;
+      UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
 
+      try {
+         actualResult = urlVal.isValid(url);
+      }
+      catch (ExceptionInInitializerError e) {
+         actualResult = expectedResult;
+      }
+      catch (NoClassDefFoundError e) {
+         actualResult = expectedResult;
+      }
+
+      if (actualResult == expectedResult) {
+         System.out.println(url + ": TEST PASSED");
+      }
+      else {
+         System.out.println(url + ": TEST FAILED");
+      }
    }
-   //You need to create more test cases for your Partitions if you need to 
+
+   public void testYourFirstPartition() {
+     System.out.println("FIRST PARTITION: Testing Schemes + Authorities");
+     printPartitionTestResult("http://www.google.com", true);
+     printPartitionTestResult("https://amazon.com", true);
+     printPartitionTestResult("ftp://youtube.com", true);
+     printPartitionTestResult("http://0.0.0.0", true);
+     printPartitionTestResult("http://255.255.255.255", true);
+     printPartitionTestResult("ftp://1.2.3.4.5", false);
+     printPartitionTestResult("https://1.2.3.4.", false);
+     printPartitionTestResult("http://256.256.256.256", false);
+     printPartitionTestResult("http://google.", false);
+     printPartitionTestResult("http:/google.com", false);
+     printPartitionTestResult("http://google.", false);
+     printPartitionTestResult("http://google", false);
+   }
+
+   public void testYourSecondPartition() {
+     System.out.println("SECOND PARTITION: Testing Schemes + Authorities + Ports");
+     printPartitionTestResult("http://www.google.com:80", true);
+     printPartitionTestResult("http://www.google.com:0", true);
+     printPartitionTestResult("http://www.google.com:100000", false);
+     printPartitionTestResult("http://www.google.com:-1", false);
+   }
+
+   public void testYourThirdPartition() {
+     System.out.println("THIRD PARTITION: Testing Schemes + Authorities + Ports + Paths");
+     printPartitionTestResult("http://www.google.com:80/search", true);
+     printPartitionTestResult("http://www.google.com:80/maps/", true);
+     printPartitionTestResult("http://www.google.com:80/..", false);
+     printPartitionTestResult("http://www.google.com:80/../file", false);
+   }
+
+   public void testYourFourthPartition() {
+      System.out.println("FOURTH PARTITION: Testing Schemes + Authorities + Ports + Paths + Queries");
+      printPartitionTestResult("http://www.google.com:80/search?q=text", true);
+      printPartitionTestResult("http://www.google.com:80/search?q=text&sourceid=chrome", true);
+   }
    
 
    // PROGRAMMING BASED TESTING
