@@ -18,11 +18,10 @@ public class UrlValidatorTest extends TestCase {
    }
 
 
-
-   public ProjectBTest(String testName) {
-      super(testName);
-   }
-   
+//   public ProjectBTest(String testName) {
+//      super(testName);
+//   }
+//   
    public boolean trueTestResult(String urlString) {
 	   boolean actualResult;
 	   
@@ -65,7 +64,6 @@ public class UrlValidatorTest extends TestCase {
 	   return !actualResult;
    }
    
-   @Test
    public void testManualTest()
    {
 	   boolean allTestsPassed = true;
@@ -125,10 +123,10 @@ public class UrlValidatorTest extends TestCase {
 
    }
 */
-   public static void main(String[] argv) {
-	   ProjectBTest fct = new ProjectBTest("url test");
-	   fct.testManualTest();
-   }
+//   public static void main(String[] argv) {
+//	   ProjectBTest fct = new ProjectBTest("url test");
+//	   fct.testManualTest();
+//   }
    
 
    // PARTITION TEST

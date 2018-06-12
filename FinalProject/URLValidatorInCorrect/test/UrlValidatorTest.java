@@ -21,7 +21,7 @@ public class UrlValidatorTest extends TestCase {
    
    public void testManualTest()
    {
-//You can use this function to implement your manual testing	   
+//You can use this function to implement y our manual testing	   
 	   
    }
    
@@ -41,9 +41,41 @@ public class UrlValidatorTest extends TestCase {
    public void testIsValid()
    {
 	   //You can use this function for programming based testing
-
+	   
+	   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+	   
+	   boolean expectedResult;
+	   boolean actualResult = true; 
+	   
+	   String[] trueURL = {"http://www.google.com:80?action=view", 
+			   "http://www.google.com:80?action=view"};
+	   String[] falseURL = {"http:///aaa.google.com:80?action=view",
+			   "http://www.google.com:-1?action=view",
+			   "http://www.google.com:80?action=view",
+			   "http:///www.google.com:-1?action=view"};
+	   
+	   
+	   // TRUE TEST LOOP
+	   expectedResult = true;
+	   for (String s: trueURL) {
+		   actualResult = urlVal.isValid(s);
+		   
+		   if (expectedResult != actualResult) {
+			   System.out.print(s);
+		   }
+	   }
+	  
+	   // FALSE TEST LOOP
+	   expectedResult = false;
+	   for (String s: falseURL) {
+		   actualResult = urlVal.isValid(s);
+		   
+		   if (expectedResult != actualResult) {
+			   System.out.print(s);
+		   }
+	   }
    }
    
-
+   
 
 }
