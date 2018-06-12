@@ -17,14 +17,121 @@ public class UrlValidatorTest extends TestCase {
       super(testName);
    }
 
-   
-   
-   public void testManualTest()
-   {
-//You can use this function to implement your manual testing	   
-	   
+
+
+   public ProjectBTest(String testName) {
+      super(testName);
    }
    
+   public boolean trueTestResult(String urlString) {
+	   boolean actualResult;
+	   
+	   // Declare a new UrlValidator object to use for running tests
+	   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+	   
+	   try {
+		   actualResult = urlVal.isValid(urlString);
+	   }
+	   catch (ExceptionInInitializerError | NoClassDefFoundError e) {
+		   System.out.println("Exception thown for URL " + urlString + ": " + e);
+		   actualResult = false;
+	   }
+	   
+	   if (!actualResult) {
+		   System.out.println("Test failed for URL " + urlString);
+	   }
+	   
+	   return actualResult;
+   }
+   
+   public boolean falseTestResult(String urlString) {
+	   boolean actualResult;
+	   
+	   // Declare a new UrlValidator object to use for running tests
+	   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+	   
+	   try {
+		   actualResult = urlVal.isValid(urlString);
+	   }
+	   catch (ExceptionInInitializerError | NoClassDefFoundError e) {
+		   System.out.println("Exception thown for URL " + urlString + ": " + e);
+		   actualResult = false;
+	   }
+	   
+	   if (actualResult) {
+		   System.out.println("Test failed for URL " + urlString);
+	   }
+	   
+	   return !actualResult;
+   }
+   
+   @Test
+   public void testManualTest()
+   {
+	   boolean allTestsPassed = true;
+	   
+	   // Try known good URLs
+	   allTestsPassed &= trueTestResult("http://www.google.com");
+	   allTestsPassed &= trueTestResult("http://www.google.com/");
+	   allTestsPassed &= trueTestResult("http://192.168.1.1");
+	   allTestsPassed &= trueTestResult("http://255.255.255.255");
+	   allTestsPassed &= trueTestResult("http://www.yahoo.com");
+	   allTestsPassed &= trueTestResult("http://www.google.com/somepath");
+	   allTestsPassed &= trueTestResult("http://access.engr.oregonstate.edu");
+	   allTestsPassed &= trueTestResult("http://access.engr.oregonstate.edu:40000");
+	   allTestsPassed &= trueTestResult("ftp://access.engr.oregonstate.edu");
+	   allTestsPassed &= trueTestResult("ssh://access.engr.oregonstate.edu");
+	   allTestsPassed &= trueTestResult("https://www.google.com");
+	   allTestsPassed &= trueTestResult("http://access.engr.oregonstate.edu/path?query=42");
+	   allTestsPassed &= trueTestResult("http://access.engr.oregonstate.edu/path?query=42&foo=bar");
+	   
+	   allTestsPassed &= trueTestResult("http://zombo.com");
+	   allTestsPassed &= trueTestResult("http://zombo.com/path");
+	   allTestsPassed &= trueTestResult("http://zombo.com/path/");
+	   allTestsPassed &= trueTestResult("http://zombo.com/path/to/some/page");
+	   
+	   // Try known bad URLs
+	   allTestsPassed &= falseTestResult("google");
+	   allTestsPassed &= falseTestResult("http");
+	   allTestsPassed &= falseTestResult("http:");
+	   allTestsPassed &= falseTestResult("http://");
+	   allTestsPassed &= falseTestResult("http:google.com");
+	   allTestsPassed &= falseTestResult("http://google");
+	   allTestsPassed &= falseTestResult("http://google/path");
+	   allTestsPassed &= falseTestResult("http://256.256.256.256");
+	   allTestsPassed &= falseTestResult("http://www.google.com:65636");
+	   
+	   if (!allTestsPassed) {
+		   System.out.println("One or more manual tests failed.");
+	   }
+   }
+   
+ /*  
+   public void testYourFirstPartition()
+   {
+	 //You can use this function to implement your First Partition testing	   
+
+   }
+   
+   public void testYourSecondPartition(){
+		 //You can use this function to implement your Second Partition testing	   
+
+   }
+   //You need to create more test cases for your Partitions if you need to 
+   
+   public void testIsValid()
+   {
+	   //You can use this function for programming based testing
+
+   }
+*/
+   public static void main(String[] argv) {
+	   ProjectBTest fct = new ProjectBTest("url test");
+	   fct.testManualTest();
+   }
+   
+
+   // PARTITION TEST
    
    public void testYourFirstPartition()
    {
@@ -38,6 +145,9 @@ public class UrlValidatorTest extends TestCase {
    }
    //You need to create more test cases for your Partitions if you need to 
    
+
+   // PROGRAMMING BASED TESTING
+
    public void testIsValid()
    {
 	   //You can use this function for programming based testing
